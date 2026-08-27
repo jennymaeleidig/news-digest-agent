@@ -27,11 +27,11 @@ dropped here. This is the rationale for the run-log redesign, whose shape
 (duration / item counts / prompt size / errors) is built by the run-log
 redesign ticket — not here.
 
-Input is bounded because copilot's argv handling degrades sharply (and
-ultimately crashes with a V8 boot error) on very large prompts: the item count
-is capped to CURATION_MAX_ITEMS and the assembled prompt to
-CURATION_PROMPT_MAX_CHARS, with full-text enrichments dropped before items and
-the most-relevant items (tier, then recency) kept first. See `_build_prompt`.
+Input is bounded because the prompt is one argv element and Linux rejects a
+single argument over 128 KiB (E2BIG). The item count is capped to
+CURATION_MAX_ITEMS and the assembled prompt to CURATION_PROMPT_MAX_BYTES (UTF-8
+bytes), with full-text enrichments dropped before items and the most-relevant
+items (tier, then recency) kept first. See `_build_prompt`.
 
 This is a thin wrapper around an external dependency (real Copilot auth +
 model); per the spec's Testing Decisions, the subprocess itself is accepted as
@@ -50,7 +50,7 @@ from config import (
     COPILOT_TIMEOUT_SECONDS,
     CURATION_MAX_ITEMS,
     CURATION_MAX_ITEMS_PER_SOURCE,
-    CURATION_PROMPT_MAX_CHARS,
+    CURATION_PROMPT_MAX_BYTES,
 )
 from fetchers.common import Item
 from prefetch import PrefetchResult, prefetch
@@ -72,9 +72,19 @@ COPILOT_ALLOW_TOOLS: tuple[str, ...] = ()
 # Conservative estimate of the fixed message banner overhead inside the prompt
 # (``Today is <date>.`` + ``There are N items below…`` + ``Items:`` + the
 # separator blank lines), used to keep the greedy budget-fitter safely under
-# CURATION_PROMPT_MAX_CHARS. Over-estimating by ~200 chars is intentional: it
+# CURATION_PROMPT_MAX_BYTES. Over-estimating by ~200 bytes is intentional: it
 # only makes the assembled prompt a little smaller than the cap.
 _BANNER_OVERHEAD = 700
+
+
+def _prompt_bytes(s: str) -> int:
+    """UTF-8 byte length of a prompt fragment.
+
+    The budget is measured in bytes, not characters, because the binding limit
+    is the per-argv OS cap (E2BIG at 128 KiB on Linux): a multibyte string of
+    N characters can need up to 4N bytes.
+    """
+    return len(s.encode("utf-8"))
 
 
 class CopilotError(RuntimeError):
@@ -303,11 +313,12 @@ def _build_prompt(
     material to summarize. Prompt text only — no tool definition, no network
     role for Copilot.
 
-    Input is bounded because copilot's argv handling degrades sharply (and
-    ultimately crashes with a V8 boot error) on very large prompts:
+    Input is bounded because the prompt is passed as a single `-p` argv
+    element, and Linux refuses any one argv string over 128 KiB (E2BIG:
+    "Argument list too long"). So the budget is measured in UTF-8 bytes:
       - the item count is capped to CURATION_MAX_ITEMS (most-relevant first —
         the caller orders items via _order_by_relevance);
-      - when the assembled prompt would exceed CURATION_PROMPT_MAX_CHARS, the
+      - when the assembled prompt would exceed CURATION_PROMPT_MAX_BYTES, the
         cheapest material is dropped first — an item's full-text enrichment
         goes before the item itself, and the lowest-priority (trailing) items
         go last.
@@ -321,7 +332,7 @@ def _build_prompt(
     section_by_source = section_by_source or {}
     items = items[:CURATION_MAX_ITEMS]
 
-    budget = CURATION_PROMPT_MAX_CHARS - len(prompt_text) - _BANNER_OVERHEAD
+    budget = CURATION_PROMPT_MAX_BYTES - _prompt_bytes(prompt_text) - _BANNER_OVERHEAD
     chosen: list[tuple[Item, str | None]] = []   # (item, enrichment or None)
     used = 0
     index = 1
@@ -329,8 +340,8 @@ def _build_prompt(
         enr = _enrichment_for(it, enrichments)
         tier = tier_by_source.get(it.source_name)
         section = section_by_source.get(it.source_name)
-        with_len = len("\n".join(_item_lines(it, index, enr, tier, section)))
-        bare_len = len("\n".join(_item_lines(it, index, None, tier, section)))
+        with_len = _prompt_bytes("\n".join(_item_lines(it, index, enr, tier, section)))
+        bare_len = _prompt_bytes("\n".join(_item_lines(it, index, None, tier, section)))
         if used + with_len <= budget:
             chosen.append((it, enr))
             used += with_len

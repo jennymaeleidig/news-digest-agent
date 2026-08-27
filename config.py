@@ -19,20 +19,24 @@ SNIPPET_CHARS = 1500
 # Copilot CLI orchestrator (thin wrapper driving the external Copilot CLI)
 COPILOT_TIMEOUT_SECONDS = 900   # process-level cap; the workflow also times out
 
-# Curation input budget. Copilot's argv handling degrades sharply as the `-p`
-# prompt grows and ultimately crashes with a V8 boot error (`exited -5`, an
-# "Empty MaybeLocal" during its own startup) somewhere past ~1 MB. Curation is
-# therefore bounded to keep the assembled prompt well under that failure region:
-#   CURATION_MAX_ITEMS        hard cap on items fed to curate() (most-relevant
-#                             first; see curator._order_by_relevance)
-#   CURATION_PROMPT_MAX_CHARS hard cap on the assembled `-p` prompt; when over,
-#                             full-text enrichments are dropped first, then the
-#                             lowest-priority (trailing) items, until it fits.
+# Curation input budget. The assembled prompt is passed to Copilot as a single
+# `-p <prompt>` argv element, and Linux caps any one argv string at
+# MAX_ARG_STRLEN (128 KiB = 131,072 bytes): a longer argument makes execve()
+# fail with E2BIG — "OSError: [Errno 7] Argument list too long" — before
+# Copilot even starts. (A separate, higher-up failure — a V8 boot crash past
+# ~1 MB — sits above this, so this byte cap is the binding limit.)
+# Curation is therefore bounded in bytes to stay well under 131,072:
+#   CURATION_MAX_ITEMS         hard cap on items fed to curate() (most-relevant
+#                              first; see curator._order_by_relevance)
+#   CURATION_PROMPT_MAX_BYTES  hard cap on the assembled `-p` prompt, measured
+#                              in UTF-8 bytes; when over, full-text enrichments
+#                              are dropped first, then the lowest-priority
+#                              (trailing) items, until it fits.
 # A normal day (~8-25 items, snippet-only) never approaches these bounds; they
 # exist to make a pathological first-run (hundreds of unseen items + pre-fetch
 # enrichments) fit in a prompt Copilot can actually ingest.
 CURATION_MAX_ITEMS = 200
-CURATION_PROMPT_MAX_CHARS = 150_000
+CURATION_PROMPT_MAX_BYTES = 110_000
 
 # Curation input balancing: cap how many items any single source contributes
 # to the input. A busy arXiv day produces far more items than every other
