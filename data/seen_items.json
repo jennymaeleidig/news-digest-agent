@@ -1055,6 +1055,11 @@
       "section": "Research",
       "source": "Hugging Face Daily Papers"
     },
+    "https://huggingface.co/papers/2608.19583": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
     "https://huggingface.co/papers/2608.19741": {
       "date": "2026-08-27T02:33:44.574538+00:00",
       "section": "Research",
@@ -1185,6 +1190,11 @@
       "section": "Research",
       "source": "Hugging Face Daily Papers"
     },
+    "https://huggingface.co/papers/2608.24099": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
     "https://huggingface.co/papers/2608.24189": {
       "date": "2026-08-27T02:33:44.574538+00:00",
       "section": "Research",
@@ -1245,8 +1255,23 @@
       "section": "Research",
       "source": "Hugging Face Daily Papers"
     },
+    "https://huggingface.co/papers/2608.24909": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
     "https://huggingface.co/papers/2608.24979": {
       "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24987": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25512": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
       "section": "Research",
       "source": "Hugging Face Daily Papers"
     },
@@ -1490,6 +1515,11 @@
       "section": "General news",
       "source": "Reddit r/LocalLLaMA"
     },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzg84e/local_llm_harness_for_reverse_engineering_software/": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
     "https://www.reddit.com/r/LocalLLaMA/comments/1vzgtqf/ngram_vs_experts_explained/": {
       "date": "2026-08-27T02:33:44.574538+00:00",
       "section": "General news",
@@ -1497,6 +1527,11 @@
     },
     "https://www.reddit.com/r/LocalLLaMA/comments/1vzh2zm/nvidia_agrees_to_buy_open_source_model_repository/": {
       "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzhwxl/this_is_a_friendly_reminder_you_can_legally_seed/": {
+      "date": "2026-08-27T02:58:00.612814+00:00",
       "section": "General news",
       "source": "Reddit r/LocalLLaMA"
     },
