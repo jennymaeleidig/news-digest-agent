@@ -518,7 +518,12 @@ def _reassemble_by_section(
         return " ".join(t.split()).lower()
     by_title_norm = {_norm_title(it.title): it for it in items}
 
-    item_heading = re.compile(r"^#{1,4}\s+\[(.+)\]\(([^)]*)\)\s*$")
+    def _strip_lead_sep(t: str) -> str:
+        return re.sub(r"^[\u2014\u2013-]\s*", "", t).strip()
+
+    # Captures an optional tail after the link: Copilot often glues the first
+    # summary sentence onto the heading line ("### [T](url) — summary").
+    item_heading = re.compile(r"^#{1,4}\s+\[(.+)\]\(([^)]*)\)\s*(.*)$")
     source_line = re.compile(r"^\s*\*Source:")
     section_heading = re.compile(r"^#{1,4}\s+(?!\[)")
 
@@ -534,6 +539,9 @@ def _reassemble_by_section(
             title, url = m.group(1), m.group(2)
             current = by_title.get(title) or by_url.get(url) or by_title_norm.get(_norm_title(title))
             body = []
+            trailing = _strip_lead_sep(m.group(3) or "")
+            if trailing:
+                body.append(trailing)
         elif current is not None and not section_heading.match(line):
             if not source_line.match(line):
                 body.append(line)
