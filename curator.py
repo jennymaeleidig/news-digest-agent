@@ -42,6 +42,7 @@ from __future__ import annotations
 
 import re
 import subprocess
+import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
@@ -507,6 +508,15 @@ def _reassemble_by_section(
     """
     by_title = {it.title: it for it in items}
     by_url = {it.url: it for it in items}
+    # Normalized-title index: the model is told to copy titles verbatim, but
+    # in practice it often normalizes whitespace or casing — and arXiv titles
+    # in particular are long enough to drift. Fall back to a whitespace-
+    # collapsed, lowercased key so a mildly-drifted title still reconciles
+    # (the digest still renders the canonical input title/URL, never the
+    # model's).
+    def _norm_title(t: str) -> str:
+        return " ".join(t.split()).lower()
+    by_title_norm = {_norm_title(it.title): it for it in items}
 
     item_heading = re.compile(r"^#{1,4}\s+\[(.+)\]\(([^)]*)\)\s*$")
     source_line = re.compile(r"^\s*\*Source:")
@@ -522,7 +532,7 @@ def _reassemble_by_section(
             if current is not None:
                 parsed.append((current, _trim_summary_lines(body)))
             title, url = m.group(1), m.group(2)
-            current = by_title.get(title) or by_url.get(url)
+            current = by_title.get(title) or by_url.get(url) or by_title_norm.get(_norm_title(title))
             body = []
         elif current is not None and not section_heading.match(line):
             if not source_line.match(line):
@@ -684,12 +694,27 @@ def curate(
             section_items, today, prefetch_result.enrichments,
             tier_by_source, section_by_source,
         )
+        raw_md = _run_copilot(prompt)
         section_md = _postprocess(
-            _run_copilot(prompt), section_items, tier_by_source, section_by_source,
+            raw_md, section_items, tier_by_source, section_by_source,
             section_order,
         )
         if section_md:
             digest_parts.append(section_md)
+        elif raw_md.strip():
+            sample = " ".join(raw_md.split())[:400]
+            print(
+                f"warn: [{category.id}] section {section!r}: Copilot returned "
+                f"{len(raw_md)} chars but none matched an input item; dropped. "
+                f"sample head: {sample!r}",
+                file=sys.stderr,
+            )
+        else:
+            print(
+                f"warn: [{category.id}] section {section!r}: Copilot returned "
+                f"nothing for {len(section_items)} items; section skipped.",
+                file=sys.stderr,
+            )
         total_sent += items_sent
         total_chars += len(prompt)
 
