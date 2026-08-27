@@ -10,6 +10,7 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+.pytest_cache/
 
 # IDE
 .idea/
@@ -17,6 +18,12 @@ venv/
 
 # Local agent instructions
 CLAUDE.md
+
+# Local issue-tracker scratch space (ephemeral; not for the repo)
+.scratch/
+
+# pi local tool state (sandbox boundary)
+.pi/
 
 # OS
 .DS_Store
