@@ -1,4 +1,4 @@
-name: Daily AI/ML digest
+name: Daily digest
 
 on:
   schedule:
@@ -11,7 +11,8 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write   # required so we can commit data/ files back to the repo
+  contents: write            # required so we can commit data/ files back to the repo
+  copilot-requests: write    # required for Copilot CLI requests via GITHUB_TOKEN
 
 # Prevent overlapping runs (manual trigger during a scheduled run, etc.)
 # from racing on the git push at the end.
@@ -34,21 +35,37 @@ jobs:
           python-version: "3.13"
           cache: pip
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+
+      - name: Install Copilot CLI
+        # Pin a known-good version once verified; @latest tracks releases that
+        # can change the -p/--no-ask-user/--yolo flag surface underneath us.
+        run: npm install -g @github/copilot
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run digest
-        # Only the key for the active config.LLM_PROVIDER is required at
-        # runtime; the others can be unset/empty.
+        # Curation runs through the Copilot CLI (a flat seat; the old provider
+        # API-key secrets were removed with the provider swap). Copilot
+        # authenticates via the workflow's GITHUB_TOKEN (no PAT), billed to
+        # the account/organization with Copilot CLI enabled; the
+        # `copilot-requests: write` permission on the job enables it. To bill
+        # a specific user's Copilot seat instead, swap GITHUB_TOKEN for a
+        # fine-grained PAT with the "Copilot Requests" permission:
+        #   COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        # The same Copilot path is used locally, which works locally too
+        # (one-time interactive login: run `copilot`, then `/login`, or
+        # `gh auth login`).
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: python main.py
 
       # Always commit state changes, even if the digest run failed:
-      # source_health.json and token_usage.jsonl are most useful when
+      # source_health.json and run_log.jsonl are most useful when
       # something went wrong, so we want them captured either way.
       - name: Commit state changes
         if: always()
@@ -57,9 +74,9 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Add only files that exist; on the very first run token_usage.jsonl
+          # Add only files that exist; on the very first run run_log.jsonl
           # may not yet exist if main.py crashed before its first append.
-          for f in data/seen_items.json data/source_health.json data/token_usage.jsonl; do
+          for f in data/seen_items.json data/source_health.json data/run_log.jsonl; do
             if [ -f "$f" ]; then
               git add "$f"
             fi
