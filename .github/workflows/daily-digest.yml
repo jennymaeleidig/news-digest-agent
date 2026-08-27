@@ -115,4 +115,6 @@ jobs:
         # Exits non-zero if any of the three network-backed fetchers fails or
         # returns an empty body from this environment, so a scrape that only
         # works locally fails here and blocks claiming the effort complete.
-        run: python scripts/smoke_test_fetchers.py
+        # Run as a module (not `python scripts/…`) so the repo root lands on
+        # sys.path and the top-level `categories` / `fetchers` imports resolve.
+        run: python -m scripts.smoke_test_fetchers
