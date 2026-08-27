@@ -1,6 +1,8 @@
 # Deployment plan: Copilot CLI in GitHub Actions
 
-Status: **implemented** in `.github/workflows/daily-digest.yml` (commit on `main`).
+Status: **implemented** in `.github/workflows/daily-digest.yml` — auth via a
+fine-grained **personal access token** (route B), billed to the owner's own
+Copilot seat.
 
 Curation in this repo runs through GitHub Copilot CLI, invoked non-interactively
 from `curator.py` as a pure summarizer:
@@ -20,41 +22,45 @@ against the `ubuntu-24.04` runner manifest). The workflow previously set Copilot
 auth but never installed the CLI, so every curation subprocess failed with
 `copilot CLI not found on PATH` and only broken-agent emails could be produced.
 
-Three edits landed in `run-digest` (and the top-level `permissions` block):
+Three edits landed in `run-digest`:
 
 1. **Install the CLI** — `actions/setup-node@v7` + `npm install -g @github/copilot`.
-2. **Permission** — added `copilot-requests: write` (required for Copilot
-   requests over `GITHUB_TOKEN`).
-3. **Auth** — authenticate with the workflow's `GITHUB_TOKEN`
-   (`${{ github.token }}`), replacing the `COPILOT_GITHUB_TOKEN` PAT.
+2. **Authenticate via PAT** — `COPILOT_GITHUB_TOKEN` env, a fine-grained PAT
+   with the **Copilot Requests** permission. This bills the token owner's own
+   Copilot seat, which suits a single-owner repo; no org policy toggle needed.
+3. **Permissions** — left as `contents: write` only (the PAT route does not
+   require the `copilot-requests: write` permission).
 
 `smoke-test-fetchers` is unchanged; it does not invoke Copilot.
 
 ## 2. Auth: the two routes
 
-| | Route A — `GITHUB_TOKEN` (implemented) | Route B — fine-grained PAT (fallback) |
+| | Route B — fine-grained PAT (**implemented**) | Route A — `GITHUB_TOKEN` (fallback) |
 |---|---|---|
-| Secret needed | none | `COPILOT_GITHUB_TOKEN` (PAT + "Copilot Requests" scope) |
-| Billing | account/organization with Copilot CLI enabled | a specific user's Copilot seat |
-| Prerequisite | org policy "Allow use of Copilot CLI billed to the organization" enabled | none beyond the PAT |
-| Workflow env | `GITHUB_TOKEN: ${{ github.token }}` | `COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}` |
-| Permission | `copilot-requests: write` required | not required |
+| Secret needed | `COPILOT_GITHUB_TOKEN` (PAT + "Copilot Requests" scope) | none |
+| Billing | the token owner's Copilot seat | account/organization with Copilot CLI enabled |
+| Prerequisite | create the PAT + store the secret | org policy "Allow use of Copilot CLI billed to the organization" enabled |
+| Workflow env | `COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}` | `GITHUB_TOKEN: ${{ github.token }}` |
+| Permission | not required | `copilot-requests: write` required |
 
-**Route A** is the current implementation and matches current GitHub guidance.
-To fall back to **Route B**, replace the `GITHUB_TOKEN` env line in
-`run-digest` with the commented `COPILOT_GITHUB_TOKEN` line and create the
-secret (a fine-grained PAT with the **Copilot Requests** permission).
+**Route B** is the current implementation (chosen because this is a
+single-owner repo — "it's just me"). To switch to **Route A**, replace the
+`COPILOT_GITHUB_TOKEN` env line with `GITHUB_TOKEN: ${{ github.token }}`, add
+`copilot-requests: write` to the `permissions` block, and enable the org policy.
 
 ## 3. Human prerequisites
 
 Do these before the first real run (they cannot be automated):
 
-1. **Confirm the policy** for Route A: in the account/org Copilot policy
-   settings, under "Copilot CLI", confirm **Allow use of Copilot CLI billed to
-   the organization** is selected.
-2. **Secrets**: `RESEND_API_KEY` and `RECIPIENT_EMAIL` must exist. Route A
-   needs no Copilot secret; Route B needs `COPILOT_GITHUB_TOKEN`.
-3. **Pin the CLI version** once a known-good release is verified
+1. **Create the PAT**:
+   1. Go to <https://github.com/settings/personal-access-tokens/new>.
+   2. Create a **fine-grained** PAT with the **Copilot Requests** permission.
+   3. Repository access: select `news-digest-agent`.
+   4. Copy the token value.
+2. **Store it**: repo → **Settings → Secrets and variables → Actions → New
+   repository secret**, name it `COPILOT_GITHUB_TOKEN`, paste the token.
+3. **Secrets**: `RESEND_API_KEY` and `RECIPIENT_EMAIL` must already exist.
+4. **Pin the CLI version** once a known-good release is verified
    (`npm install -g @github/copilot@<version>`). `@latest` tracks releases that
    can change the `-p` / `--no-ask-user` / `--yolo` flag surface underneath us.
 
@@ -77,9 +83,8 @@ Do these before the first real run (they cannot be automated):
 ## 6. Rollback
 
 - **CLI install regression** → revert the install step diff.
-- **GITHUB_TOKEN auth fails** (policy off, billing error) → switch to Route B
-  (uncomment the `COPILOT_GITHUB_TOKEN` line, create the PAT, remove
-  `copilot-requests: write` if desired).
+- **PAT auth fails** (expired/revoked token, wrong scope) → rotate the
+  `COPILOT_GITHUB_TOKEN` secret, or switch to Route A (GITHUB_TOKEN) as above.
 - No code rollback is needed; `curator.py` is unchanged by this plan.
 
 ## 7. Risks to know
@@ -94,6 +99,9 @@ Do these before the first real run (they cannot be automated):
   `schedule` + `workflow_dispatch` (no `pull_request`), so fork-triggered abuse
   is not a realistic vector. Keep it that way — don't add a `pull_request`
   trigger later without reconsidering this warning.
+- **PAT secret hygiene.** The token grants Copilot request authority and is not
+  printed by the workflow, but rotate it if it ever leaks or the account's
+  Copilot plan changes.
 - **Prompt size.** Copilot's argv handling degrades on very large prompts and
   can crash (V8 boot error). Already bounded in `config.py`
   (`CURATION_MAX_ITEMS`, `CURATION_PROMPT_MAX_CHARS`); do not raise those caps

@@ -11,8 +11,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write            # required so we can commit data/ files back to the repo
-  copilot-requests: write    # required for Copilot CLI requests via GITHUB_TOKEN
+  contents: write   # required so we can commit data/ files back to the repo
 
 # Prevent overlapping runs (manual trigger during a scheduled run, etc.)
 # from racing on the git push at the end.
@@ -48,20 +47,18 @@ jobs:
 
       - name: Run digest
         # Curation runs through the Copilot CLI (a flat seat; the old provider
-        # API-key secrets were removed with the provider swap). Copilot
-        # authenticates via the workflow's GITHUB_TOKEN (no PAT), billed to
-        # the account/organization with Copilot CLI enabled; the
-        # `copilot-requests: write` permission on the job enables it. To bill
-        # a specific user's Copilot seat instead, swap GITHUB_TOKEN for a
-        # fine-grained PAT with the "Copilot Requests" permission:
-        #   COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
-        # The same Copilot path is used locally, which works locally too
-        # (one-time interactive login: run `copilot`, then `/login`, or
-        # `gh auth login`).
+        # API-key secrets were removed with the provider swap). Auth is a
+        # fine-grained PAT with the "Copilot Requests" permission, stored as
+        # the COPILOT_GITHUB_TOKEN secret — billed to the requesting user's
+        # own Copilot seat, which suits a single-owner repo. (For org-billed
+        # usage you could instead grant `copilot-requests: write` and pass
+        # GITHUB_TOKEN: ${{ github.token }}.)
+        # Local runs use the same Copilot path (one-time interactive login:
+        # run `copilot`, then `/login`, or `gh auth login`).
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
-          GITHUB_TOKEN: ${{ github.token }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: python main.py
 
       # Always commit state changes, even if the digest run failed:
