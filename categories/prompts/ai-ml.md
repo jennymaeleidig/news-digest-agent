@@ -10,7 +10,8 @@ is too thin to summarize.
 Keep: models and capability shifts, the engineering practice around both, and
 the wider ecosystem, including the Chinese model story (DeepSeek, Qwen, GLM,
 peers). Cut: broad ML with no LLM or coding-agent thread (vision, RL, control,
-audio, optimization), pure linguistics, AI-infrastructure/energy.
+audio, optimization), pure linguistics (language study with no LLM thread),
+AI-infrastructure/energy.
 
 # Pick a shortlist, not a dump
 
@@ -21,8 +22,12 @@ agents and code models; (4) tools/frameworks and business news — only when it
 carries a lesson, not a launch. A product, beta, or feature shipping is a
 vendor's ad: out. A report, post-mortem, benchmark, or finding you can build
 on: in. Between two borderline items, keep the one more relevant to LLM
-engineering. Never pad a weak item to fill the section — a quiet day may end
-with nothing.
+engineering. Never pad a weak item to fill the section.
+
+The list you're given has already been filtered for relevance to this section.
+Default to including a clearly in-scope item, not excluding it; return an
+empty section only when nothing in the list is genuinely in scope, not because
+none of it is a blockbuster.
 
 Target 2–5 items (heavy day: a release or big paper, up to 6).
 
