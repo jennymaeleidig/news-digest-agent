@@ -14,8 +14,8 @@ and reports health independently:
                         Last 14 entries kept per source, within each category.
   run_log.jsonl         append-only, one JSON object per run; each row carries
                         a `category` field and records duration, item counts,
-                        prompt size, and errors — NO token columns. (Copilot is
-                        a flat seat and reports no token counts.)
+                        prompt size, the model chosen, token counts, and errors.
+                        (OpenRouter reports per-request token usage.)
 
 Dedup is strictly per category: a source shared across categories may resurface
 an item in each, with no cross-category suppression. This is safe because runs
@@ -149,7 +149,7 @@ def append_run_log_row(row: dict) -> None:
 
     Always called, success or failure, so post-mortem data survives a failed
     run. The row is a run_log.jsonl record: duration, item counts, prompt size,
-    and errors — NO token columns.
+    model, token counts, and errors.
     """
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     with RUN_LOG_PATH.open("a") as f:

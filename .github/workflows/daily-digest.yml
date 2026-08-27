@@ -34,31 +34,20 @@ jobs:
           python-version: "3.13"
           cache: pip
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-
-      - name: Install Copilot CLI
-        # Pin a known-good version once verified; @latest tracks releases that
-        # can change the -p/--no-ask-user/--yolo flag surface underneath us.
-        run: npm install -g @github/copilot
-
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run digest
-        # Curation runs through the Copilot CLI (a flat seat; the old provider
-        # API-key secrets were removed with the provider swap). Auth is a
-        # fine-grained PAT with the "Copilot Requests" permission, stored as
-        # the COPILOT_GITHUB_TOKEN secret — billed to the requesting user's
-        # own Copilot seat, which suits a single-owner repo. (For org-billed
-        # usage you could instead grant `copilot-requests: write` and pass
-        # GITHUB_TOKEN: ${{ github.token }}.)
-        # Local runs use the same Copilot path (one-time interactive login:
-        # run `copilot`, then `/login`, or `gh auth login`).
+        # Curation runs through the OpenRouter chat-completions API. The
+        # OPENROUTER_API_KEY secret is a bearer key; the curation model is
+        # pinned via the OPENROUTER_MODEL env var (here from an optional repo
+        # variable, defaulting to config.OPENROUTER_MODEL when unset/empty).
+        # Local runs use the same values via .env.
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
-          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
         run: python main.py
 
       # Always commit state changes, even if the digest run failed:

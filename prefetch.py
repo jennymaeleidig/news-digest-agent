@@ -1,8 +1,9 @@
-"""Pre-fetch enrichment stage — the deterministic read boundary under Copilot.
+"""Pre-fetch enrichment stage — the deterministic read boundary under curation.
 
-Copilot is a pure summarizer that never touches the network. Everything it
-needs must already be in the prompt text it receives. This stage runs *before*
-Copilot: it deterministically fetches and extracts the full plain text of the
+The curation model is a pure summarizer that never touches the network.
+Everything it needs must already be in the prompt text it receives. This stage
+runs *before* the model: it deterministically fetches and extracts the full plain
+text of the
 articles the day's items warrant deep-reading, gated by an allowlist built from
 each source's homepage (static) plus the items' linked URLs (runtime), and it
 re-checks redirects so a fetch that ends at a non-allowlisted host is rejected.
@@ -10,18 +11,18 @@ re-checks redirects so a fetch that ends at a non-allowlisted host is rejected.
 The allowlist + fetch / extract / redirect-recheck logic is lifted unchanged
 from the original in-loop `fetch_full_article` tool in curator.py; it has moved
 out of curation and into this Python pre-fetch stage so that no in-process or
-in-Copilot fetch tool remains. The capped budget survives as the pre-fetch
-limits: at most `TOOL_CALL_CAP` fetches per run, `MAX_RETURN_CHARS` characters
-returned per fetch, and a `MAX_BYTES` response cap. Exceeding any cap fails
-that one item's enrichment without crashing the run.
+in-model fetch tool remains. The capped budget survives as the pre-fetch
+limits: at most `TOOL_CALL_CAP` fetches per pre-fetch call, `MAX_RETURN_CHARS`
+characters returned per fetch, and a `MAX_BYTES` response cap. Exceeding any
+cap fails that one item's enrichment without crashing the run.
 
 ## Deep-read policy (thin-snippet)
 
 Which items get deep-read:
 
-  - HN-style linked items **always** (an item with a `linked_url` is an HN
-    story pointing at an external article; the linked article, not the
-    discussion page, is what has the substance) — the `linked_url` is fetched.
+  - External-linked items **always** (a feed item with a `linked_url` points
+    at an article on another site; that article, not the feed teaser, is what
+    has the substance) — the `linked_url` is fetched.
   - Any item whose snippet is below `DEEP_READ_SNIPPET_CHARS` — its own `url`
     is fetched.
 
@@ -38,6 +39,7 @@ One bad item never crashes the run.
 from __future__ import annotations
 
 import re
+import sys
 from dataclasses import dataclass, field
 from typing import Iterable
 from urllib.parse import urlparse
@@ -73,9 +75,9 @@ class PrefetchResult:
     fetches_used: int = 0
 
 
-# The static allowlist is built from `homepage` only (not `url`). The `url`
-# field is the feed/API endpoint; for HN it resolves to hn.algolia.com which
-# there is no reason to fetch as an article. Homepage hosts are what appear in
+# The static allowlist is built from `homepage` only (not `url`): the `url`
+# field is the feed/API endpoint, which there is no reason to fetch as an
+# article the way a homepage host is. Homepage hosts are what appear in
 # Item.url values.
 def build_static_allowlist(sources: Iterable[Source]) -> set[str]:
     """Extract exact hostnames from each source's `homepage`.
@@ -94,10 +96,11 @@ def build_static_allowlist(sources: Iterable[Source]) -> set[str]:
 
 
 def build_runtime_allowlist(items: Iterable[Item]) -> set[str]:
-    """Extract exact hostnames from each item's linked URL (HN external links).
+    """Extract exact hostnames from each item's linked URL.
 
-    These hosts are only allowed for this run, so a HN story's external article
-    is fetchable without opening up the whole internet.
+    Aggregator feeds carry a `linked_url` for items whose link resolves to an
+    external article. These hosts are only allowed for this run, so the
+    external article is fetchable without opening up the whole internet.
     """
     hosts: set[str] = set()
     for it in items:
@@ -112,7 +115,7 @@ def select_deep_read_urls(items: list[Item], allowlist: set[str]) -> list[str]:
     """Return the ordered list of URLs to deep-read this run.
 
     Thin-snippet policy:
-      - HN-style linked items always: their `linked_url` is the target (the
+      - External-linked items always: their `linked_url` is the target (the
         linked host was added to the allowlist by the caller).
       - Any item whose snippet is below DEEP_READ_SNIPPET_CHARS: its own `url`.
 
@@ -138,7 +141,7 @@ def select_deep_read_urls(items: list[Item], allowlist: set[str]) -> list[str]:
         if not host or host not in allowlist:
             continue
         seen.add(target)
-        # HN linked items are always deep-read; rank them by the same
+        # External-linked items are always deep-read; rank them by the same
         # thin-snippet urgency so ordering stays stable across both kinds.
         snippet_len = len(it.content_snippet or "")
         targets.append((snippet_len, order, target))
@@ -238,7 +241,8 @@ def prefetch(items: list[Item], sources: Iterable[Source]) -> PrefetchResult:
 
     Builds the static allowlist from source homepages plus the runtime
     allowlist from item linked URLs, selects the deep-read targets via the
-    thin-snippet policy, and fetches each within the per-run budget. Exceeding
+    thin-snippet policy, and fetches each within the per-call fetch budget.
+    Exceeding
     the fetch cap simply stops deep-reading; a per-fetch failure or disallowed
     host leaves that item's enrichment empty (isolate-and-continue). Returns a
     PrefetchResult mapping URLs to extracted text alongside per-URL errors.
@@ -251,11 +255,21 @@ def prefetch(items: list[Item], sources: Iterable[Source]) -> PrefetchResult:
     errors: dict[str, str] = {}
     fetches_used = 0
 
-    for url in select_deep_read_urls(items, allowlist):
+    deep_read_urls = list(select_deep_read_urls(items, allowlist))
+    total = len(deep_read_urls)
+    print(
+        f"[prefetch] {total} deep-read target(s) (cap {TOOL_CALL_CAP})",
+        file=sys.stderr, flush=True,
+    )
+    for url in deep_read_urls:
         if fetches_used >= TOOL_CALL_CAP:
             errors[url] = f"Error: fetch cap reached ({TOOL_CALL_CAP} per run)"
             continue
         fetches_used += 1
+        print(
+            f"[prefetch]   {fetches_used}/{total} {url[:90]}",
+            file=sys.stderr, flush=True,
+        )
         text = fetch_full_article(url, allowlist)
         if text.startswith("Error:"):
             errors[url] = text

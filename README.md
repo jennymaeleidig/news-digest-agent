@@ -16,9 +16,12 @@ any subject is just another category. Runs on GitHub Actions at 16:17 UTC.
   `airelease_tracker`). Source failures are isolated, never fatal.
 - **Filter** — drop items outside the age window, off-topic items (per-source
   allow-list), and already-seen items (14-day dedup).
-- **Curate** — GitHub Copilot CLI as a pure summarizer (no network tools), one
-  call per non-empty section, re-stitched in the category's declared order. A
-  pre-fetch stage deep-reads thin-snippet items first.
+- **Curate** — the OpenRouter chat-completions API as a pure summarizer (no
+  network tools), two stages per section: a cheap title-only pass picks which
+  items earn a place, then a second pass summarizes and formats just those
+  picks. Sections are re-stitched in the category's declared order. A single
+  pinned model runs every call. A pre-fetch stage deep-reads thin-snippet
+  items first.
 - **Email** — markdown → HTML via Resend.
 
 ## Categories
@@ -58,12 +61,13 @@ git clone <repo>
 cd news-digest-agent
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # RESEND_API_KEY, RECIPIENT_EMAIL
+cp .env.example .env   # OPENROUTER_API_KEY, RESEND_API_KEY, RECIPIENT_EMAIL
 python main.py
 ```
 
-Curation runs through Copilot CLI (a flat seat — no provider keys). One-time
-interactive login: `copilot`, then `/login` (or `gh auth login`).
+Curation runs through OpenRouter with a bearer key (`OPENROUTER_API_KEY`).
+The model is pinned in `.env` as `OPENROUTER_MODEL` (default
+`z-ai/glm-5.3-flash`) — there is no per-run dynamic selection.
 
 ## Example digest
 

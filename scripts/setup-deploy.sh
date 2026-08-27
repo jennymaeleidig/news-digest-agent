@@ -183,9 +183,9 @@ finish() {
 # STAGES: author this section. One stage() per step the human takes.
 # ──────────────────────────────────────────────────────────────────────────
 
-TOTAL_STAGES=5
+TOTAL_STAGES=6
 
-banner "News digest — Copilot CI deployment"
+banner "News digest — OpenRouter deployment"
 
 # ── Stage 1: Resend API key ──────────────────────────────────────────────
 stage "Resend API key"
@@ -203,24 +203,33 @@ ask RECIPIENT_EMAIL "Digest recipient email:"
 write_env RECIPIENT_EMAIL "$RECIPIENT_EMAIL"
 set_secret RECIPIENT_EMAIL "$RECIPIENT_EMAIL"
 
-# ── Stage 3: Copilot CLI PAT ─────────────────────────────────────────────
-stage "Copilot CLI token (PAT)"
-say "Copilot CLI in CI authenticates with a fine-grained PAT carrying the"
-say "'Copilot Requests' permission, billed to your own Copilot seat."
-say "CI-only: local runs log in interactively instead, so this is set as a"
-say "GitHub secret but NOT written to .env."
-open_url "https://github.com/settings/personal-access-tokens/new?ref_product=copilot&ref_type=engagement&ref_style=text"
-step "Name it (e.g. copilot-ci); Resource owner: your account."
-step "Repository access: Only select repositories → news-digest-agent."
-step "Permissions: grant 'Copilot Requests' (Repository permissions)."
-step "Generate the token, then copy it (value starts with ghp_)."
-ask_secret COPILOT_GITHUB_TOKEN "Paste the Copilot token:"
-set_secret COPILOT_GITHUB_TOKEN "$COPILOT_GITHUB_TOKEN"
+# ── Stage 3: OpenRouter API key ──────────────────────────────────────────
+stage "OpenRouter API key"
+say "Curation now runs through the OpenRouter chat-completions API with a"
+say "bearer key; the model is pinned (currently z-ai/glm-5.3-flash)."
+say "Written to .env (local runs) AND set as a GitHub secret (CI)."
+open_url "https://openrouter.ai/settings/keys"
+step "Sign in to OpenRouter, then create a key (value starts with sk-or-v1-)."
+step "New account? Add credits first: openrouter.ai → Billing."
+ask_secret OPENROUTER_API_KEY "Paste the OpenRouter API key:"
+write_env OPENROUTER_API_KEY "$OPENROUTER_API_KEY"
+set_secret OPENROUTER_API_KEY "$OPENROUTER_API_KEY"
 
-# ── Stage 4: push the CI wiring ──────────────────────────────────────────
+# ── Stage 4: pinned curation model (optional) ─────────────────────────────
+stage "Curation model (optional)"
+say "The curation model is pinned. Leave it blank to keep the default"
+say "z-ai/glm-5.3-flash (config.OPENROUTER_MODEL)."
+ask OPENROUTER_MODEL "Pinned model id [Enter = z-ai/glm-5.3-flash]:"
+if [[ -n "$OPENROUTER_MODEL" ]]; then
+  write_env OPENROUTER_MODEL "$OPENROUTER_MODEL"
+  set_var OPENROUTER_MODEL "$OPENROUTER_MODEL"
+else
+  note "kept default z-ai/glm-5.3-flash"
+fi
+
+# ── Stage 5: push the CI wiring ──────────────────────────────────────────
 stage "Deploy: push main"
-say "Secrets are in place. Next, push the CI commits that install Copilot"
-say "CLI and wire the PAT auth."
+say "Secrets are in place. Next, push the curation changes to CI."
 step "This runs: git push origin main"
 if confirm "Push main to origin now?"; then
   git push origin main
@@ -228,12 +237,13 @@ else
   SKIPPED+=("git push origin main")
 fi
 
-# ── Stage 5: trigger a manual run to verify ──────────────────────────────
+# ── Stage 6: trigger a manual run to verify ──────────────────────────────
 stage "Verify: trigger a manual run"
 open_url "https://github.com/jennymaeleidig/news-digest-agent/actions/workflows/daily-digest.yml"
 step "On the Daily digest workflow, click Run workflow → Run workflow."
 say "When it finishes, check data/run_log.jsonl: the row should show"
-say "curate_error: null and a non-empty digest (or a clean empty digest)."
+say "curate_error: null, a non-empty digest (or a clean empty digest), and a"
+say "populated 'model' field equal to the pinned model id (z-ai/glm-5.3-flash)."
 pause "Press Enter once you've queued the run."
 
 finish

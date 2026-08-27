@@ -19,6 +19,10 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
         name          str    display name / digest heading (required, unique)
         description   str    what belongs in the section; rendered into the
                              curation prompt (optional, defaults to "")
+        max_items     int|null per-section selection ceiling (optional): stage 1
+                             is asked to pick at most this many items and its
+                             result is hard-clipped to it. Omitted/null => the
+                             global CURATION_SELECT_MAX_ITEMS applies.
     sources[]   list  non-empty; each source has:
         name        str    (required)
         tier        int    Kagi trust tier 1-4 (required, static)
@@ -72,15 +76,19 @@ class CategoryError(ValueError):
 
 @dataclass(frozen=True)
 class Section:
-    """One digest section: its display name and (optional) description.
+    """One digest section: display name, optional description, and (optional)
+    per-section selection ceiling.
 
     Sections are category-specific and defined in the category JSON, which is
     the single source of truth: the loader validates each source's ``section``
     against these names, the curator emits sections in this order, and the
     curation prompt's section definitions are rendered from these descriptions.
+    ``max_items`` overrides the global CURATION_SELECT_MAX_ITEMS for the
+    section's stage-1 selection; None means use the global default.
     """
     name: str
     description: str = ""
+    max_items: int | None = None
 
 
 @dataclass(frozen=True)
@@ -175,7 +183,17 @@ class Category:
             sec_description = sec.get("description", "") or ""
             if not isinstance(sec_description, str):
                 raise err(f"{sec_label}: 'description' must be a string")
-            parsed_sections.append(Section(sec_name, sec_description.strip()))
+            sec_max_items = None
+            mi = sec.get("max_items")
+            if mi is not None:
+                if not isinstance(mi, int) or isinstance(mi, bool) or mi < 1:
+                    raise err(
+                        f"{sec_label}: 'max_items' must be a positive integer or null"
+                    )
+                sec_max_items = mi
+            parsed_sections.append(
+                Section(sec_name, sec_description.strip(), sec_max_items)
+            )
         section_names = tuple(sec.name for sec in parsed_sections)
 
         # ---- sources ----------------------------------------------------

@@ -1,74 +1,72 @@
-"""Curation step — thin wrapper that drives GitHub Copilot CLI.
+"""Curation step — thin wrapper that drives the OpenRouter chat-completions API.
 
-Curation no longer runs an in-process model tool-use loop against raw provider
-SDKs (providers/anthropic.py, providers/gemini.py — deleted). Instead the
-curator shells out to GitHub Copilot CLI in programmatic mode:
+Curation no longer shells out to GitHub Copilot CLI (superseded after the
+Copilot seat hit its monthly request quota); it POSTs to OpenRouter's
+OpenAI-compatible `/api/v1/chat/completions` endpoint over HTTPS.
 
-    copilot -p "PROMPT" -s --no-ask-user --allow-tool=...
+The model is pinned, not selected per run: an ``OPENROUTER_MODEL``
+environment variable overrides ``config.OPENROUTER_MODEL`` (default
+`z-ai/glm-5.3-flash`). Dynamic selection was removed — the discount ranking
+had no stable public API and drifted between models, and a sloppy sale-priced
+pick regressed digest quality.
 
-The prompt reaches Copilot as text only: the category's curation prompt file
+The prompt reaches the model as text only: the category's curation prompt file
 (categories/prompts/<id>.md) is read for the driving instructions, the day's
-items are formatted into the user message, and the two are combined into the
-`-p` prompt. Curation runs **one Copilot call per digest section**: items are
-partitioned by their source's assigned section and each non-empty section is
-curated separately, so section coverage is an orchestration guarantee rather
-than a model balancing judgment. No tool definition is passed, and no
-network-capable tool is granted (COPILOT_ALLOW_TOOLS is empty by default), so
-Copilot is a pure summarizer that never touches the network — an untrusted
-article's text cannot cause it to fetch arbitrary hosts.
+items are formatted into the user message, and the two are combined into a
+single chat `user` message. Curation runs **one API call per digest section**:
+items are partitioned by their source's assigned section and each non-empty
+section is curated separately, so section coverage is an orchestration
+guarantee rather than a model balancing judgment. No tools or plugins are
+requested, so the model is a pure summarizer that never touches the network —
+an untrusted article's text cannot cause it to fetch arbitrary hosts.
+Authentication is the `OPENROUTER_API_KEY` bearer token.
 
-Local runs need a one-time interactive Copilot login: run `copilot`, then the
-`/login` command (or `gh auth login`). CI authenticates via the
-`COPILOT_GITHUB_TOKEN` env var (auth-in-CI wiring lands with the run seam,
-ticket 07).
+OpenRouter reports per-request token usage, so token accounting returns here:
+prompt/completion totals ride on CurateResult into the run log.
 
-Copilot is a flat seat: it reports no token counts, so token accounting is
-dropped here. This is the rationale for the run-log redesign, whose shape
-(duration / item counts / prompt size / errors) is built by the run-log
-redesign ticket — not here.
-
-Input is bounded because the prompt is one argv element and Linux rejects a
-single argument over 128 KiB (E2BIG). The item count is capped to
+Input is bounded so a day's items plus full-text enrichments fit a model
+context window and the owner's budget. The item count is capped to
 CURATION_MAX_ITEMS and the assembled prompt to CURATION_PROMPT_MAX_BYTES (UTF-8
 bytes), with full-text enrichments dropped before items and the most-relevant
 items (tier, then recency) kept first. See `_build_prompt`.
 
-This is a thin wrapper around an external dependency (real Copilot auth +
-model); per the spec's Testing Decisions, the subprocess itself is accepted as
+This is a thin wrapper around an external dependency (real OpenRouter auth +
+model); per the spec's Testing Decisions, the HTTP call itself is accepted as
 untested and is exercised manually/CI instead.
 """
 
 from __future__ import annotations
 
+import os
 import re
-import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
+import requests
+
 from categories import Category, Section
 from config import (
-    COPILOT_TIMEOUT_SECONDS,
     CURATION_MAX_ITEMS,
-    CURATION_MAX_ITEMS_PER_SOURCE,
     CURATION_PROMPT_MAX_BYTES,
+    CURATION_SELECT_MAX_ITEMS,
+    OPENROUTER_BASE_URL,
+    OPENROUTER_MODEL,
+    OPENROUTER_TIMEOUT_SECONDS,
 )
 from fetchers.common import Item
-from prefetch import PrefetchResult, prefetch
+from prefetch import prefetch
 
 
-# The Copilot CLI binary. Local runs need a one-time interactive login (run
-# `copilot`, then `/login`, or `gh auth login`); the
-# same path is what CI uses.
-COPILOT_BIN = "copilot"
-
-# Tools Copilot may use. Empty by default: a *pure summarizer* that never
-# touches the network. The tool gates that matter (the article allowlist) are
-# supplied by the deterministic Python pre-fetch stage, not by Copilot, so no
-# network-capable tool is ever granted here. (If a future operator wants to
-# grant a harmless read-only tool, add its name to this tuple — the invocation
-# always renders `--allow-tool=` accordingly.)
-COPILOT_ALLOW_TOOLS: tuple[str, ...] = ()
+# Curation requests carry a single user message and request no tools/plugins,
+# so the model stays a *pure summarizer* that never touches the network. The
+# network-capable reads (the article allowlist) are supplied by the
+# deterministic Python pre-fetch stage, not by the model.
+#
+# App-attribution headers OpenRouter asks for so this app shows up under its
+# own name (optional; harmless).
+_APP_TITLE = "news-digest-agent"
+_APP_REFERER = "https://github.com/jennymaeleidig/news-digest-agent"
 
 # Conservative estimate of the fixed message banner overhead inside the prompt
 # (``Today is <date>.`` + ``There are N items below…`` + ``Items:`` + the
@@ -81,15 +79,16 @@ _BANNER_OVERHEAD = 700
 def _prompt_bytes(s: str) -> int:
     """UTF-8 byte length of a prompt fragment.
 
-    The budget is measured in bytes, not characters, because the binding limit
-    is the per-argv OS cap (E2BIG at 128 KiB on Linux): a multibyte string of
-    N characters can need up to 4N bytes.
+    The budget is measured in bytes, not characters, because a multibyte
+    string of N characters can need up to 4N bytes in UTF-8 — and bytes are
+    the honest measure of how close an assembled prompt gets to a fixed token
+    budget on a worst-case (multibyte-heavy) day.
     """
     return len(s.encode("utf-8"))
 
 
-class CopilotError(RuntimeError):
-    """Raised when the Copilot CLI subprocess fails to produce a digest.
+class OpenRouterError(RuntimeError):
+    """Raised when an OpenRouter API call fails to produce a digest.
 
     Propagates to main.py's curate_error handling, which turns it into the
     broken-agent email rather than a silent gap.
@@ -101,26 +100,42 @@ class CurateResult:
     digest_markdown: str
     items_input: int
     items_output: int
-    prompt_size: int = 0   # chars of the assembled `-p` prompt Copilot received
+    prompt_size: int = 0         # chars of the assembled prompt the model received
+    model: str = ""              # the model id curation actually ran against
+    prompt_tokens: int = 0       # sum of usage.prompt_tokens across section calls
+    completion_tokens: int = 0   # sum of usage.completion_tokens across section calls
 
 
-def _copilot_command(prompt: str) -> list[str]:
-    """Build the programmatic-mode Copilot CLI invocation.
+def _request_headers(api_key: str) -> dict[str, str]:
+    """Headers shared by every OpenRouter call (auth + app attribution)."""
+    headers = {
+        "Content-Type": "application/json",
+        "X-Title": _APP_TITLE,
+        "HTTP-Referer": _APP_REFERER,
+    }
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+    return headers
 
-    `-p` carries the full assembled prompt text; `-s` (session/stream flag),
-    `--no-ask-user`, and `--allow-tool=<csv>` keep it non-interactive and
-    bound to the granted tool set (empty by default).
+
+def _pick_model() -> str:
+    """Return the pinned curation model.
+
+    The model is fixed rather than chosen per run: dynamic selection was
+    removed after the discount ranking drifted between models and a sloppy
+    sale-priced pick regressed digest quality. `OPENROUTER_MODEL` in the
+    environment overrides the config default (config.OPENROUTER_MODEL), so the
+    .env / repo secret is the single place the operator pins it.
     """
-    args = [COPILOT_BIN, "-p", prompt, "-s", "--no-ask-user"]
-    args.append("--allow-tool=" + ",".join(COPILOT_ALLOW_TOOLS))
-    return args
+    return os.environ.get("OPENROUTER_MODEL") or OPENROUTER_MODEL
+
 
 
 def _enrichment_for(it: Item, enrichments: dict[str, str]) -> str | None:
     """Return the pre-fetched full text attached to an item, if any.
 
     Enrichments are keyed by the URL that was actually fetched: an ordinary
-    item by its own `url`, an HN-style linked item by its `linked_url` (the
+    item by its own `url`, an external-linked item by its `linked_url` (the
     external article that was deep-read).
     """
     return enrichments.get(it.url) or (
@@ -171,7 +186,7 @@ def build_user_message(
     Each item's snippet, source (tagged with its trust tier), and URL are
     always included. When the pre-fetch stage has attached full article text
     to an item (keyed by URL / linked URL), that plain text is pasted into the
-    prompt after the snippet, so Copilot's only textual context comes from the
+    prompt after the snippet, so the model's only textual context comes from the
     pre-fetched plain text.
     """
     enrichments = enrichments or {}
@@ -215,12 +230,12 @@ def _section_by_source(category: Category) -> dict[str, str]:
 
 
 def _order_by_relevance(items: list[Item], category: Category) -> list[Item]:
-    """Order items most-relevant-first so the budget fitter keeps the best N.
+    """Order items most-relevant-first for a stable numbered selection list.
 
     Relevance = Kagi trust tier first (lower tier number = stronger primary
     signal; an item's source maps to its category tier), then recency within a
-    tier (newest first). Items from an unknown source default to tier 4, so a
-    misconfigured source's items are dropped before real ones when capped.
+    tier (newest first). Ordering no longer drops anything — stage-1 selection
+    sees every item — it just gives the numbered list a sensible order.
     """
     tier_by_source = _tier_by_source(category)
 
@@ -236,27 +251,6 @@ def _order_by_relevance(items: list[Item], category: Category) -> list[Item]:
         return (tier, -ts)
 
     return sorted(items, key=key)
-
-
-def _cap_per_source(items: list[Item], max_per_source: int) -> list[Item]:
-    """Bound how many items any single source contributes to the prompt.
-
-    A busy arXiv day produces far more items than every other source combined,
-    and the flat most-relevant-first order then lets arXiv fill the entire
-    prompt while the release and news sources are pushed past the item cap and
-    never curated. Capping each source here — in the incoming relevance order,
-    so the strongest items per source survive — keeps every source (hence every
-    digest section) represented, deterministically.
-    """
-    kept: list[Item] = []
-    counts: dict[str, int] = {}
-    for it in items:
-        n = counts.get(it.source_name, 0)
-        if n >= max_per_source:
-            continue
-        kept.append(it)
-        counts[it.source_name] = n + 1
-    return kept
 
 
 def _group_by_section(
@@ -280,23 +274,88 @@ def _group_by_section(
     return groups
 
 
-def _section_prompt(prompt_text: str, section: str) -> str:
+def _section_prompt(prompt_text: str, section: Section) -> str:
     """Scope the shared curation prompt to one digest section.
 
-    Each Copilot call curates exactly one section: it sees only that section's
+    Each section call curates exactly one section: it sees only that section's
     items and is told to return only that section's content as a flat list, so
     section coverage is an orchestration guarantee rather than a model's
-    cross-section balancing judgment. Written positively (what to produce),
-    because the curation prompt file already fixes the per-entry format.
+    cross-section balancing judgment. The section's own definition (name +
+    description) is appended so the model knows what belongs in it, but no
+    other section's definition — each call only curates one section. Written
+    positively (what to produce), because the curation prompt file already
+    fixes the per-entry format.
     """
     return (
-        f"You are curating the **{section}** section. Produce {section}"
+        f"You are curating the **{section.name}** section. Produce {section.name}"
         f" entries as a flat list (each an H3 title link plus its summary),"
         f" in rough importance order. The pipeline adds the section heading"
         f" and the source line. Return entries only for items that earn a"
-        f" place in {section}.\n\n"
+        f" place in {section.name}.\n\n"
         + prompt_text
+        + "\n\n"
+        + "# Sections\n\n"
+        + _section_blurb(section)
     )
+
+
+def _selection_prompt(
+    section: Section,
+    items: list[Item],
+    tier_by_source: dict[str, int],
+    today: str,
+    max_items: int,
+) -> str:
+    """Stage 1: ask the model to choose items by title alone.
+
+    Every candidate's title + source + tier is listed (numbered); the model
+    returns the numbers that earn a place, one per line. `max_items` is the
+    per-section ceiling (section.max_items, or the global default) named in the
+    instruction and hard-clipped by the caller after parsing. Titles-only keeps
+    this call cheap and lets every candidate be seen — deterministic per-source
+    cuts are gone, so a busy feed can no longer starve the others.
+    """
+    lines = [
+        f"Today is {today}.",
+        "",
+        f"You are selecting the **{section.name}** section. Below are "
+        f"{len(items)} items, numbered. Choose the items that genuinely earn "
+        f"a place in **{section.name}** and return their numbers, one per "
+        f"line, in importance order. At most {max_items}. "
+        f"Return bare numbers only — no prose, no title text, no explanation.",
+        "",
+        "# Sections",
+        "",
+        _section_blurb(section),
+        "",
+        "Items:",
+        "",
+    ]
+    for i, it in enumerate(items, start=1):
+        tier = tier_by_source.get(it.source_name)
+        tier_text = f" (tier {tier})" if tier is not None else ""
+        lines.append(f"{i}. {it.title} — {it.source_name}{tier_text}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _parse_selection(text: str, candidate_count: int) -> list[int]:
+    """Extract the model's stage-1 picks, in order, from a free-text reply.
+
+    The model is asked for bare numbers, one per line; this tolerates bullets,
+    commas, and light prose on each line, keeps the numbers in order and
+    de-duplicated, and drops out-of-range values. A parsed-empty result means
+    the model decided nothing earns a place (an empty section), not an error.
+    """
+    picked: list[int] = []
+    seen: set[int] = set()
+    for line in text.splitlines():
+        for tok in re.findall(r"\d+", line):
+            n = int(tok)
+            if 1 <= n <= candidate_count and n not in seen:
+                seen.add(n)
+                picked.append(n)
+    return picked
 
 
 def _build_prompt(
@@ -307,16 +366,15 @@ def _build_prompt(
     tier_by_source: dict[str, int] | None = None,
     section_by_source: dict[str, str] | None = None,
 ) -> tuple[str, int]:
-    """Assemble the single `-p` prompt Copilot receives, bounded to the budget.
+    """Assemble the single user message the model receives, bounded to the budget.
 
     The category's curation prompt file provides the driving instructions; the
     day's items (with any pre-fetched full text attached) are appended as the
     material to summarize. Prompt text only — no tool definition, no network
-    role for Copilot.
+    role for the model.
 
-    Input is bounded because the prompt is passed as a single `-p` argv
-    element, and Linux refuses any one argv string over 128 KiB (E2BIG:
-    "Argument list too long"). So the budget is measured in UTF-8 bytes:
+    Input is bounded so one curation call stays inside a model's context
+    window and a sane daily budget. The budget is measured in UTF-8 bytes:
       - the item count is capped to CURATION_MAX_ITEMS (most-relevant first —
         the caller orders items via _order_by_relevance);
       - when the assembled prompt would exceed CURATION_PROMPT_MAX_BYTES, the
@@ -325,7 +383,7 @@ def _build_prompt(
         go last.
 
     Returns ``(prompt, items_sent)`` where ``items_sent`` is the number of
-    items actually fed to Copilot (≤ CURATION_MAX_ITEMS), so the caller can
+    items actually fed to the model (≤ CURATION_MAX_ITEMS), so the caller can
     report the true fed count in the run log.
     """
     enrichments = enrichments or {}
@@ -455,20 +513,33 @@ def _insert_source_lines(
     return "\n".join(out)
 
 
+def _section_blurb(sec: Section) -> str:
+    """Render one section's definition for the curation prompt.
+
+    Section name and description are injected from the category config rather
+    than hardcoded in the prompt file, so the JSON stays the single source of
+    truth for what belongs in each section.
+    """
+    if sec.description:
+        return f"- **{sec.name}** \u2014 {sec.description}"
+    return f"- **{sec.name}**"
+
+
 def _sections_blurb(sections: tuple[Section, ...]) -> str:
     """Render the category's section definitions for the curation prompt.
 
     Section names, descriptions, and order are injected here from the category
     config rather than hardcoded in the prompt file, so the JSON stays the
     single source of truth for what sections exist, what belongs in each, and
-    their digest order.
+    their digest order. This renders every section at once; the curator uses
+    ``_section_blurb`` to pass only the current section to each per-section
+    call. Kept as the single entry on the assumption a future caller may want
+    the full set (e.g. an overview section); do not reintroduce it into the
+    per-section path.
     """
     lines = ["# Sections", ""]
     for sec in sections:
-        if sec.description:
-            lines.append(f"- **{sec.name}** \u2014 {sec.description}")
-        else:
-            lines.append(f"- **{sec.name}**")
+        lines.append(_section_blurb(sec))
     return "\n".join(lines)
 
 
@@ -495,7 +566,7 @@ def _reassemble_by_section(
 ) -> str:
     """Deterministically regroup digest items into their assigned sections.
 
-    Section placement is a pipeline guarantee, not a model choice: Copilot's
+    Section placement is a pipeline guarantee, not a model choice: the model's
     job is to *select* items and write their summaries; the pipeline owns the
     structure. This parses the model's markdown for item headings, matches each
     back to its input item (verbatim title first, then URL), keeps the model's
@@ -517,34 +588,107 @@ def _reassemble_by_section(
     def _norm_title(t: str) -> str:
         return " ".join(t.split()).lower()
     by_title_norm = {_norm_title(it.title): it for it in items}
+    # Section names double as the model's `## <Section>` headers, which are not
+    # items — an unreconciled heading that matches one is ignored, not treated
+    # as a dropped item.
+    section_names = {name.strip().lower() for name in section_order}
 
     def _strip_lead_sep(t: str) -> str:
         return re.sub(r"^[\u2014\u2013-]\s*", "", t).strip()
 
-    # Captures an optional tail after the link: Copilot often glues the first
+    # Resolve a model-emitted (title, url) to an input item. `url` is empty for
+    # link-less headings. Matching falls back exact -> URL -> whitespace/case-
+    # normalized, then to "the title part before the first colon/em/en dash"
+    # (the common `### Title: summary` drift). Rendering is always the canonical
+    # input title/URL — a fuzzy match can never leak model text into the digest.
+    def _resolve_title(title: str, url: str) -> Item | None:
+        it = by_title.get(title) or by_url.get(url) or by_title_norm.get(_norm_title(title))
+        if it is not None:
+            return it
+        head = re.split(r"\s*[:\u2014\u2013]\s*", title, maxsplit=1)[0].strip()
+        if head and head != title:
+            return by_title_norm.get(_norm_title(head))
+        return None
+
+    # Reconcile a link-less heading (the model dropped the markdown link and
+    # wrote `### Title summary…` instead of `### [Title](url) summary…`). Only a
+    # heading that names one input item becomes an item: exact/normalized title,
+    # a `Title` prefix before one colon/dash, or — as a last resort — a heading
+    # whose text prepends a summary to a verbatim input title. The remainder
+    # glued onto the title is returned as the leading summary. Anything else (a
+    # `##` sub-header the model invented) is ignored.
+    def _resolve_bare_heading(text: str) -> tuple[Item, str] | None:
+        text = text.strip()
+        if len(text) >= 2 and text[0] == "[" and text[-1] == "]":
+            text = text[1:-1].strip()
+        it = _resolve_title(text, "")
+        if it is not None:
+            return it, ""
+        ntext = _norm_title(text)
+        if not ntext:
+            return None
+        # Last resort: the model glued a summary onto a verbatim title without
+        # any separator. Prefer the longest (most specific) input title that
+        # prefixes the heading — "GLM-5.3-Flash" beats "GLM-5.3" — so a
+        # summary-glued heading still lands on the right item.
+        matches = [
+            it for it in items
+            if ntext.startswith(_norm_title(it.title))
+            and _norm_title(it.title) != ntext
+        ]
+        if not matches:
+            return None
+        it = max(matches, key=lambda it: len(it.title))
+        return it, _strip_lead_sep(text[len(it.title):].strip())
+
+    # Captures an optional tail after the link: the model often glues the first
     # summary sentence onto the heading line ("### [T](url) — summary").
-    item_heading = re.compile(r"^#{1,4}\s+\[(.+)\]\(([^)]*)\)\s*(.*)$")
+    link_heading = re.compile(r"^#{1,4}\s+\[(.+)\]\(([^)]*)\)\s*(.*)$")
+    # Any other heading (the model's `##` sub-headers, or a link-dropped item
+    # heading) — captured for item reconciliation, then either matched or ignored.
+    bare_heading = re.compile(r"^#{1,4}\s+(.*?)\s*$")
     source_line = re.compile(r"^\s*\*Source:")
-    section_heading = re.compile(r"^#{1,4}\s+(?!\[)")
 
     # (input item, model-written summary) pairs, in the model's output order.
     parsed: list[tuple[Item, str]] = []
     current: Item | None = None
     body: list[str] = []
     for line in markdown.splitlines():
-        m = item_heading.match(line)
+        m = link_heading.match(line)
         if m:
             if current is not None:
                 parsed.append((current, _trim_summary_lines(body)))
-            title, url = m.group(1), m.group(2)
-            current = by_title.get(title) or by_url.get(url) or by_title_norm.get(_norm_title(title))
+            current = _resolve_title(m.group(1), m.group(2))
             body = []
             trailing = _strip_lead_sep(m.group(3) or "")
             if trailing:
                 body.append(trailing)
-        elif current is not None and not section_heading.match(line):
-            if not source_line.match(line):
-                body.append(line)
+            continue
+
+        b = bare_heading.match(line)
+        if b:
+            heading_text = b.group(1)
+            resolved = _resolve_bare_heading(heading_text)
+            if resolved is not None:
+                if current is not None:
+                    parsed.append((current, _trim_summary_lines(body)))
+                current, trailing = resolved
+                body = []
+                if trailing:
+                    body.append(trailing)
+            elif heading_text.strip().lower() not in section_names:
+                # An item heading whose title doesn't reconcile (non-verbatim or
+                # invented): close the item above so the orphan body doesn't
+                # bleed into it, and drop it rather than fabricating a title.
+                if current is not None:
+                    parsed.append((current, _trim_summary_lines(body)))
+                current = None
+                body = []
+            # else: a section header — ignored, the open item stays open.
+            continue
+
+        if current is not None and not source_line.match(line):
+            body.append(line)
     if current is not None:
         parsed.append((current, _trim_summary_lines(body)))
 
@@ -566,8 +710,10 @@ def _reassemble_by_section(
         out.append("")
         for it, summary in entries:
             out.append(f"### [{it.title}]({it.url})")
+            out.append("")
             if summary:
                 out.append(summary)
+                out.append("")
             tier = tier_by_source.get(it.source_name)
             if tier is not None:
                 out.append(f"*Source: {it.source_name} — tier {tier}*")
@@ -594,38 +740,64 @@ def _empty_result() -> CurateResult:
     )
 
 
-def _run_copilot(prompt: str) -> str:
-    """Run one Copilot CLI call and return its stdout as markdown.
+def _snippet(text: str, limit: int = 500) -> str:
+    """Collapse whitespace and trim an error body for the run log."""
+    text = " ".join((text or "").split())
+    return text[:limit] + ("…" if len(text) > limit else "")
 
-    Raises CopilotError on a missing binary, a timeout, or a non-zero exit,
-    isolating this one section call's failure to the caller.
+
+def _run_model(prompt: str, model: str) -> tuple[str, dict]:
+    """Run one OpenRouter chat completion per section; return (content, usage).
+
+    Raises OpenRouterError on a missing key, a timeout, a non-200 status, or a
+    malformed response, isolating this one section call's failure to the
+    caller. The response `usage` block is returned alongside the content so
+    the caller can sum token accounting across sections.
     """
-    command = _copilot_command(prompt)
-    try:
-        proc = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            timeout=COPILOT_TIMEOUT_SECONDS,
-        )
-    except FileNotFoundError:
-        raise CopilotError(
-            f"copilot CLI not found on PATH ({COPILOT_BIN!r}). "
-            "Install GitHub Copilot CLI and log in once (run `copilot`, then "
-            "the `/login` command, or `gh auth login`)."
-        ) from None
-    except subprocess.TimeoutExpired:
-        raise CopilotError(
-            f"copilot CLI timed out after {COPILOT_TIMEOUT_SECONDS}s"
-        ) from None
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise OpenRouterError("OPENROUTER_API_KEY is not set")
 
-    if proc.returncode != 0:
-        stderr = (proc.stderr or "").strip()
-        raise CopilotError(
-            f"copilot CLI exited {proc.returncode}"
-            + (f": {stderr}" if stderr else "")
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+    }
+    try:
+        resp = requests.post(
+            f"{OPENROUTER_BASE_URL}/chat/completions",
+            headers=_request_headers(api_key),
+            json=payload,
+            timeout=OPENROUTER_TIMEOUT_SECONDS,
         )
-    return proc.stdout
+    except requests.exceptions.Timeout:
+        raise OpenRouterError(
+            f"OpenRouter timed out after {OPENROUTER_TIMEOUT_SECONDS}s"
+        ) from None
+    except requests.RequestException as e:
+        raise OpenRouterError(f"OpenRouter request failed: {e}") from None
+
+    if resp.status_code != 200:
+        body = _snippet(resp.text)
+        hint = {
+            401: "check OPENROUTER_API_KEY",
+            402: "add credits to the OpenRouter account",
+            404: "unknown model id",
+            429: "rate-limited or out of provider credits",
+        }.get(resp.status_code)
+        msg = f"OpenRouter HTTP {resp.status_code}"
+        if hint:
+            msg += f" ({hint})"
+        if body:
+            msg += f": {body}"
+        raise OpenRouterError(msg)
+
+    try:
+        data = resp.json()
+        content = data["choices"][0]["message"]["content"]
+        usage = data.get("usage") or {}
+    except (ValueError, KeyError, IndexError, TypeError):
+        raise OpenRouterError("OpenRouter returned a malformed response") from None
+    return content or "", usage
 
 
 def _postprocess(
@@ -656,15 +828,19 @@ def curate(
     *,
     today: str | None = None,
 ) -> CurateResult:
-    """Run curation for one category by driving the Copilot CLI once per section.
+    """Run curation for one category via a two-stage, per-section OpenRouter pass.
 
-    Section coverage is an orchestration guarantee, not a model balancing
-    judgment: the day's items are grouped by their source's assigned section
-    and each non-empty section gets its own Copilot call over only that
-    section's items. The per-section outputs are post-processed deterministically
-    (verbatim titles, canonical source/tier lines, canonical section order) and
-    concatenated into the final digest. Raises CopilotError if any section's
-    subprocess fails; main.py turns that into the broken-agent email.
+    One pinned model (config.OPENROUTER_MODEL, overridden by OPENROUTER_MODEL)
+    is used for every call. Section coverage is an orchestration guarantee: the
+    day's items are grouped by their source's assigned section, and each
+    non-empty section is curated in two stages — stage 1 selects the items that
+    earn a place from titles alone (so every candidate is seen and no source is
+    starved), the selected subset is then deep-read (pre-fetch), and stage 2
+    summarizes and formats those enriched items. The
+    per-section outputs are post-processed deterministically (verbatim titles,
+    canonical source/tier lines, canonical section order) and concatenated.
+    Raises OpenRouterError if any call fails; main.py turns that into the
+    broken-agent email.
     """
     if today is None:
         today = datetime.now(timezone.utc).date().isoformat()
@@ -672,39 +848,92 @@ def curate(
     if not items:
         return _empty_result()
 
-    # Deterministic read boundary: the Python pre-fetch stage deep-reads the
-    # items that warrant it BEFORE any Copilot call, gated by the source-
-    # homepage + linked-URL allowlist, and pastes the plain text into the
-    # prompt. Items are relevance-ordered (tier, then recency) and capped per
-    # source once, then partitioned into sections — so each section call is
-    # both bounded and already contains only its own material.
+    # Items are relevance-ordered (tier, then recency) for a stable numbered
+    # list, but that ordering never drops anything — stage 1 sees every item,
+    # so a busy feed cannot starve another source. The pre-fetch (deep-read)
+    # runs between stage 1 and stage 2, over only the selected subset: stage 1
+    # selects from titles and needs no enrichment, so deep-reading every
+    # candidate would be wasted fetches on items that never reach stage 2.
     ordered = _order_by_relevance(items, category)
-    balanced = _cap_per_source(ordered, CURATION_MAX_ITEMS_PER_SOURCE)
-    prefetch_result: PrefetchResult = prefetch(balanced, category.sources)
     prompt_text = category.prompt_path.read_text(encoding="utf-8")
-    # Inject the category's section definitions from config (the single source
-    # of truth) so the prompt file never hardcodes section names.
-    prompt_text = prompt_text + "\n\n" + _sections_blurb(category.sections)
+    # No global section blurb here: each per-section call appends only its own
+    # section's definition (see _section_prompt) since a call curates exactly
+    # one section — other sections' descriptions would be noise.
     tier_by_source = _tier_by_source(category)
     section_by_source = _section_by_source(category)
     section_order = tuple(sec.name for sec in category.sections)
-    groups = _group_by_section(balanced, section_by_source, section_order)
+    groups = _group_by_section(ordered, section_by_source, section_order)
+
+    # One pinned model for every call so the digest reflects a single model's
+    # selection, not a rotating cast.
+    model = _pick_model()
+    print(f"[{category.id}] curating with {model} (two-stage)", file=sys.stderr, flush=True)
 
     digest_parts: list[str] = []
-    total_sent = 0
+    total_candidates = 0
     total_chars = 0
-    for section in section_order:
-        section_items = groups[section]
+    total_prompt_tokens = 0
+    total_completion_tokens = 0
+    for section in category.sections:
+        section_items = groups[section.name]
         if not section_items:
             continue
-        prompt, items_sent = _build_prompt(
+
+        # Stage 1 — select from titles alone. Every candidate is seen; the
+        # model's picks are mapped back to items by ordinal position and
+        # hard-clipped to the section's ceiling (section.max_items, or the
+        # global CURATION_SELECT_MAX_ITEMS fallback).
+        max_items = section.max_items or CURATION_SELECT_MAX_ITEMS
+        total_candidates += len(section_items)
+        print(
+            f"[{category.id}]   {section.name}: [stage 1] selecting from "
+            f"{len(section_items)} items (max {max_items})…",
+            file=sys.stderr, flush=True,
+        )
+        select_prompt = _selection_prompt(
+            section, section_items, tier_by_source, today, max_items,
+        )
+        select_raw, select_usage = _run_model(select_prompt, model)
+        total_prompt_tokens += int(select_usage.get("prompt_tokens") or 0)
+        total_completion_tokens += int(select_usage.get("completion_tokens") or 0)
+        total_chars += len(select_prompt)
+        picks = _parse_selection(select_raw, len(section_items))[:max_items]
+        selected = [section_items[i - 1] for i in picks]
+        print(
+            f"[{category.id}]   {section.name}: [stage 1] done — selected "
+            f"{len(selected)}/{len(section_items)}",
+            file=sys.stderr, flush=True,
+        )
+        if not selected:
+            print(
+                f"warn: [{category.id}] section {section!r}: stage 1 selected "
+                f"nothing from {len(section_items)} items; section skipped.",
+                file=sys.stderr,
+            )
+            continue
+
+        # Enrichment — deep-read full text for the selected subset only,
+        # between stage 1 and stage 2. Stage 1 picks from titles and needs no
+        # enrichment; deep-reading candidates stage 1 would drop is wasted.
+        section_prefetch = prefetch(selected, category.sources)
+
+        # Stage 2 — summarize + format only the selected subset.
+        print(
+            f"[{category.id}]   {section.name}: [stage 2] summarizing "
+            f"{len(selected)} items…",
+            file=sys.stderr, flush=True,
+        )
+        prompt, _ = _build_prompt(
             _section_prompt(prompt_text, section),
-            section_items, today, prefetch_result.enrichments,
+            selected, today, section_prefetch.enrichments,
             tier_by_source, section_by_source,
         )
-        raw_md = _run_copilot(prompt)
+        raw_md, usage = _run_model(prompt, model)
+        total_prompt_tokens += int(usage.get("prompt_tokens") or 0)
+        total_completion_tokens += int(usage.get("completion_tokens") or 0)
+        total_chars += len(prompt)
         section_md = _postprocess(
-            raw_md, section_items, tier_by_source, section_by_source,
+            raw_md, selected, tier_by_source, section_by_source,
             section_order,
         )
         if section_md:
@@ -712,24 +941,30 @@ def curate(
         elif raw_md.strip():
             sample = " ".join(raw_md.split())[:400]
             print(
-                f"warn: [{category.id}] section {section!r}: Copilot returned "
+                f"warn: [{category.id}] section {section!r}: the model returned "
                 f"{len(raw_md)} chars but none matched an input item; dropped. "
                 f"sample head: {sample!r}",
                 file=sys.stderr,
             )
         else:
             print(
-                f"warn: [{category.id}] section {section!r}: Copilot returned "
-                f"nothing for {len(section_items)} items; section skipped.",
+                f"warn: [{category.id}] section {section!r}: the model returned "
+                f"nothing for {len(selected)} selected items; section skipped.",
                 file=sys.stderr,
             )
-        total_sent += items_sent
-        total_chars += len(prompt)
+        print(
+            f"[{category.id}]   {section.name}: [stage 2] done — "
+            f"{_count_items_in_digest(section_md)} items in digest",
+            file=sys.stderr, flush=True,
+        )
 
     digest_markdown = "\n\n".join(digest_parts)
     return CurateResult(
         digest_markdown=digest_markdown,
-        items_input=total_sent,
+        items_input=total_candidates,
         items_output=_count_items_in_digest(digest_markdown),
         prompt_size=total_chars,
+        model=model,
+        prompt_tokens=total_prompt_tokens,
+        completion_tokens=total_completion_tokens,
     )

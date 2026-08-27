@@ -1,8 +1,8 @@
 """Shared types and helpers used by every fetcher.
 
 Each fetcher returns a FetchResult containing zero or more Items.
-strip_html lives here because both the RSS fetcher and the HN fetcher
-need plain-text snippet conversion with the same shape.
+strip_html lives here because every fetcher needs plain-text snippet
+conversion with the same shape.
 """
 
 from __future__ import annotations
@@ -21,7 +21,10 @@ class Item:
     url: str
     published: str                      # ISO 8601 if the feed gave us a parseable date, else raw string
     content_snippet: str                # plain text, capped at SNIPPET_CHARS by the caller
-    linked_url: Optional[str] = None    # populated only by HN: the external article the story points to
+    linked_url: Optional[str] = None    # the external article the item points to;
+                                         # set when a feed item's link resolves
+                                         # off the source's own host (aggregator
+                                         # feeds that link out to other sites)
 
 
 @dataclass

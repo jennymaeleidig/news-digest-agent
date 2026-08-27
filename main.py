@@ -8,14 +8,14 @@ halts the rest. One shared schedule (the workflow) fires all categories.
 Per-category run order (inside run_category):
   1. Fetch from every source (failures isolated, run continues)
   2. Filter items: time window, then dedup against that category's seen_items
-  3. Curate via Copilot CLI (timed), using the category's own prompt file
+  3. Curate via the OpenRouter API (timed), using the category's own prompt file
   4. Build digest body, append source-health footer
   5. Send email (always — quiet days look the same as broken agent days),
      routed to the category's own recipient
   6. Persist state and observability (all keyed by category id):
        - source_health.json   always
-       - run_log.jsonl        always (duration/item counts/prompt size/errors;
-                              no token columns — Copilot is a flat seat)
+       - run_log.jsonl        always (duration/item counts/prompt size/model/
+                              token counts/errors — OpenRouter reports usage)
        - seen_items.json      only if email sent AND curate succeeded
                               (a failed send must not lose items, and
                               an error email must not mark them seen)
@@ -52,8 +52,8 @@ from state import (
 )
 
 
-# Copilot / email exceptions routinely embed account identifiers (org UUIDs,
-# request IDs) and the recipient address back from the subprocess or API. Strip
+# OpenRouter / email exceptions routinely embed account identifiers (org UUIDs,
+# request IDs) and the recipient address back from the API. Strip
 # those before the message hits run_log.jsonl or the digest email body — the
 # repo is public, so anything written to disk is published.
 _EMAIL_RE = re.compile(r"[\w.+-]+@[\w.-]+\.\w+")
@@ -290,8 +290,17 @@ def run_category(
     # The time window is per-source: a source may override the global age limit
     # (a release tracker's "latest" list spans weeks, so it needs a longer
     # window than a 7-day news feed).
-    results = [fetcher_registry(s) for s in sources]
+    print(f"[{category.id}] fetching {len(sources)} sources…", file=sys.stderr, flush=True)
+    results = []
+    for s in sources:
+        print(f"[{category.id}]   {s.name} ({s.kind})…", file=sys.stderr, flush=True)
+        results.append(fetcher_registry(s))
     raw = collect_items(results)
+    ok = sum(1 for r in results if r.success)
+    print(
+        f"[{category.id}] fetched {ok}/{len(results)} sources ok, {len(raw)} items",
+        file=sys.stderr, flush=True,
+    )
     age_limit_by_source = {
         s.name: (s.age_limit_days if s.age_limit_days is not None else ITEM_AGE_LIMIT_DAYS)
         for s in sources
@@ -299,10 +308,15 @@ def run_category(
     fresh = filter_recent(raw, age_limit_by_source)
     relevant = filter_relevant(fresh, sources)
     unseen = filter_unseen(relevant, seen)
+    print(
+        f"[{category.id}] {len(unseen)} unseen items after filter",
+        file=sys.stderr, flush=True,
+    )
 
     curate_error: str | None = None
     curate_started = time.monotonic()
     if unseen:
+        print(f"[{category.id}] curating {len(unseen)} items…", file=sys.stderr, flush=True)
         try:
             result = curate_fn(unseen, category, today=today)
         except Exception as e:
@@ -311,6 +325,10 @@ def run_category(
     else:
         result = empty_curate_result()
     curate_duration = time.monotonic() - curate_started
+    print(
+        f"[{category.id}] curate finished in {curate_duration:.1f}s",
+        file=sys.stderr, flush=True,
+    )
 
     if curate_error:
         digest_md = (
@@ -328,6 +346,7 @@ def run_category(
     recipient = resolve_recipient(category)
     email_error: str | None = None
     message_id: str | None = None
+    print(f"[{category.id}] sending email to {recipient}…", file=sys.stderr, flush=True)
     try:
         message_id = emailer(digest_md, subject, recipient)
     except Exception as e:
@@ -340,9 +359,9 @@ def run_category(
     state.save_health(health)
 
     # Always: log the run row (written even on failure so post-mortem data
-    # survives). Copilot is a flat seat and reports no token counts, so the
-    # row records duration, item counts, prompt size, and errors, and carries
-    # the category field so each category's runs are attributable.
+    # survives). OpenRouter reports token usage, so the row records duration,
+    # item counts, prompt size, the model chosen, token counts, and errors,
+    # and carries the category field so each category's runs are attributable.
     run_log_row = {
         "category": category.id,
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -352,6 +371,9 @@ def run_category(
         "sources_failed": sum(1 for r in results if not r.success),
         "duration_seconds": round(curate_duration, 2),
         "prompt_size": result.prompt_size,
+        "model": result.model or None,
+        "prompt_tokens": result.prompt_tokens,
+        "completion_tokens": result.completion_tokens,
         "curate_error": curate_error,
         "email_error": email_error,
     }
@@ -419,6 +441,7 @@ def main() -> int:
     categories = discover_categories()
     exit_code = 0
     for category in categories:
+        print(f"[{category.id}] starting run…", file=sys.stderr, flush=True)
         try:
             outcome = run_category(category, today=today_date)
         except Exception as e:

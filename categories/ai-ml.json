@@ -7,15 +7,18 @@
   "sections": [
     {
       "name": "Releases",
-      "description": "Model releases, capability milestones, new tools and frameworks."
+      "description": "Model releases, capability milestones, new tools and frameworks.",
+      "max_items": 5
     },
     {
       "name": "Research",
-      "description": "Papers and technical deep-dives that change practice."
+      "description": "Papers and technical deep-dives that change practice.",
+      "max_items": 8
     },
     {
       "name": "General news",
-      "description": "Business, funding, partnerships, enterprise wins, ecosystem."
+      "description": "Broad LLM and tech ecosystem happenings — focus on engineering-relevant news, not business dealings.",
+      "max_items": 10
     }
   ],
   "sources": [

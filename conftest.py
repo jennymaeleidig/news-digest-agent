@@ -2,8 +2,8 @@
 
 The whole test suite runs fully offline: `requests`, `markdown`, `resend`,
 `feedparser`, `dotenv`, and `bs4` are stubbed in `sys.modules` *before* any
-application module is imported, so no real network, no real Copilot CLI
-subprocess, and no real Resend send are ever touched. This mirrors the repo's
+application module is imported, so no real network, no real OpenRouter HTTP
+call, and no real Resend send are ever touched. This mirrors the repo's
 existing `verify_*.py` scripts, which use the same in-memory stub pattern.
 
 Application modules are imported lazily (inside fixtures) so the stubs are
@@ -235,6 +235,7 @@ def _install_offline_stubs() -> None:
     # monkeypatch it.
     fake_req.RequestException = fake_req.exceptions.RequestException
     fake_req.get = None
+    fake_req.post = None
     sys.modules.setdefault("requests", fake_req)
 
     # markdown: map markdown -> a distinguishable HTML wrapper.
@@ -363,7 +364,7 @@ def make_fetch_results(items_by_source):
 
 
 class FakeCurator:
-    """Returns a fixed CurateResult without invoking Copilot/pre-fetch."""
+    """Returns a fixed CurateResult without invoking OpenRouter/pre-fetch."""
 
     def __init__(self, digest="## Digest\n\nitem A", fail=None):
         self._digest = digest

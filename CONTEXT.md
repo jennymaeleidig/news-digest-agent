@@ -1,8 +1,10 @@
 # News digest agent
 
-A daily AI/ML news digest: fetch curated sources, have an LLM pick and
-summarize the day's most relevant items, email the result. Each output is one
-self-contained **digest** per category.
+A topic-agnostic daily digest engine: fetch curated sources, have an LLM pick
+and summarize the day's most relevant items, email the result. Each output is
+one self-contained **digest** per category. It currently ships with an AI/ML
+news category, but the engine is not AI/ML-specific — future categories will
+add more general-subject digests.
 
 ## Language
 

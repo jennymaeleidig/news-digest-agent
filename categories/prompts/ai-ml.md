@@ -21,11 +21,11 @@ the list is genuinely in scope.
 
 Rank by importance: (1) model releases and infrastructure shifts; (2) research
 that changes practice — training/scaling, alignment, fine-tuning, context,
-agents and tool use, evals, retrieval, synthetic data, reasoning; (3) coding
-agents and code models; (4) tools/frameworks and business news — only when a
-report, post-mortem, benchmark, or finding carries a lesson you can build on,
-not a launch announcement. Between two borderline items, keep the one more
-relevant to LLM engineering.
+agents and tool use, evals, retrieval, synthetic data, reasoning; (3)
+tools/frameworks and business news — when a report, post-mortem,
+benchmark, or finding carries a lesson you can build on, not a launch
+announcement. Between two borderline items, keep the one more relevant to LLM
+engineering.
 
 Target 2–5 items (up to 6 on a heavy day: a release or a big paper).
 
@@ -46,5 +46,6 @@ Emit entries in rough importance order, most important first. Each entry:
   out or drop jargon.
 
 ### [Anthropic releases Claude Opus 4.7](https://www.anthropic.com/news/claude-opus-4-7)
+
 Stronger coding, agents, vision, and multi-step tasks. The agentic-coding gains
 matter for tool-use reliability in production loops.

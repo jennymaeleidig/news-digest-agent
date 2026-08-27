@@ -13,6 +13,7 @@ header sets that look stripped-down, even when the User-Agent is fine.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 import feedparser
 import requests
@@ -69,12 +70,27 @@ def fetch(source: Source) -> FetchResult:
     if parsed.bozo and not parsed.entries:
         return FetchResult(source.name, False, error=f"feed parse error: {parsed.bozo_exception}")
 
+    # The static allowlist is built from source homepages; an aggregator feed
+    # (e.g. radarai.top) links out to external articles, which would otherwise
+    # be unfetchable. When an item's link lands on a different host than the
+    # source's homepage, mark it as `linked_url` — "the item points at an
+    # external article" — so the pre-fetch stage
+    # allowlist-gates and deep-reads the actual article instead of the teaser.
+    homepage_host = None
+    if source.homepage:
+        homepage_host = (urlparse(source.homepage).hostname or "").lower()
+
     items: list[Item] = []
     for entry in parsed.entries:
         title = (entry.get("title") or "").strip()
         url = (entry.get("link") or "").strip()
         if not title or not url:
             continue
+        linked_url = None
+        if homepage_host:
+            host = (urlparse(url).hostname or "").lower()
+            if host and host != homepage_host:
+                linked_url = url
         snippet = strip_html(_entry_content(entry))[:SNIPPET_CHARS]
         items.append(Item(
             title=title,
@@ -82,6 +98,7 @@ def fetch(source: Source) -> FetchResult:
             url=url,
             published=_parse_published(entry),
             content_snippet=snippet,
+            linked_url=linked_url,
         ))
 
     return FetchResult(source.name, True, items)
