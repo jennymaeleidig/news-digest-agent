@@ -29,11 +29,15 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
         kind        str    "rss" at launch (required)
         url         str    feed URL (required)
         homepage    str    display link + static allowlist (optional)
-        section     str    digest section this source feeds — one of the names
-                           in the category's top-level ``sections`` (required).
-                           Delegates each source to exactly one section, so a
-                           prolific feed (arXiv) stays scoped to Research
-                           instead of crowding every section.
+        section     str    legacy singular form: the digest section this
+                           source feeds — one of the names in the category's
+                           top-level ``sections``. Normalized to a 1-element
+                           ``sections`` tuple. Use ``sections`` instead.
+        sections    [str]  list of digest section names this source feeds —
+                           each must be one of the names in the category's
+                           top-level ``sections``. Exactly one of
+                           ``section``/``sections`` is required (expanded
+                           form).
         age_limit_days int|null  per-source recency-window override (optional).
                            When set, this source's items stay eligible for that
                            many days instead of the global ITEM_AGE_LIMIT_DAYS.
@@ -98,7 +102,8 @@ class Source:
     kind: str          # "rss" at launch
     url: str           # the feed URL
     homepage: str | None = None   # display link + static allowlist
-    section: str | None = None    # digest section (see module docstring)
+    section: str | None = None    # legacy singular section (first of ``sections``)
+    sections: tuple[str, ...] = ()  # digest sections this source feeds (see docstring)
     topics: tuple[str, ...] = ()  # relevance allow-list (see module docstring)
     fetcher_config: FetcherConfig | None = None  # bespoke kinds only (see docstring)
     age_limit_days: int | None = None  # per-source recency override (see docstring)
@@ -244,13 +249,42 @@ class Category:
             else:
                 topics = tuple(t.strip() for t in topics)
 
-            section = src.get("section")
-            if not isinstance(section, str) or section.strip() not in section_names:
+            # A source feeds one or more declared Sections: the singular
+            # ``section`` is the legacy form (normalized to a 1-element
+            # ``sections`` tuple); ``sections`` is the expanded list form.
+            raw_section = src.get("section")
+            raw_sections = src.get("sections")
+            if raw_section is None and raw_sections is None:
                 raise err(
-                    f"{label} ({s_name!r}): 'section' is required and must "
-                    f"be one of: {', '.join(section_names)}"
+                    f"{label} ({s_name!r}): 'section' (or 'sections') is "
+                    f"required and must name one of: {', '.join(section_names)}"
                 )
-            section = section.strip()
+            if raw_sections is not None:
+                if not isinstance(raw_sections, list) or not raw_sections:
+                    raise err(
+                        f"{label} ({s_name!r}): 'sections' must be a non-empty list"
+                    )
+                for entry in raw_sections:
+                    if not isinstance(entry, str) or not entry.strip():
+                        raise err(
+                            f"{label} ({s_name!r}): 'sections' entries must "
+                            f"be non-empty strings"
+                        )
+                sections = tuple(entry.strip() for entry in raw_sections)
+            else:
+                if not isinstance(raw_section, str) or not raw_section.strip():
+                    raise err(
+                        f"{label} ({s_name!r}): 'section' must be a non-empty string"
+                    )
+                sections = (raw_section.strip(),)
+            unknown = [s for s in sections if s not in section_names]
+            if unknown:
+                raise err(
+                    f"{label} ({s_name!r}): 'sections' names undeclared "
+                    f"section(s) {', '.join(unknown)!r}; must be one of: "
+                    f"{', '.join(section_names)}"
+                )
+            section = sections[0]
 
             age_limit_days = src.get("age_limit_days")
             if age_limit_days is not None:
@@ -295,6 +329,7 @@ class Category:
                 url=url,
                 homepage=homepage,
                 section=section,
+                sections=sections,
                 topics=topics,
                 fetcher_config=fetcher_config,
                 age_limit_days=age_limit_days,
