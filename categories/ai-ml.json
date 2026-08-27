@@ -146,6 +146,19 @@
       "kind": "rss",
       "url": "https://www.reddit.com/r/LocalLLaMA.rss",
       "homepage": "https://www.reddit.com/r/LocalLLaMA"
+    },
+    {
+      "name": "AI Release Tracker",
+      "tier": 4,
+      "kind": "airelease_tracker",
+      "url": "https://aireleasetracker.com/latest",
+      "homepage": "https://aireleasetracker.com/latest",
+      "fetcher_config": {
+        "item": "a[href^=\"/model/\"]",
+        "title": "span.text-white.truncate",
+        "link": "a",
+        "date": "div"
+      }
     }
   ]
 }

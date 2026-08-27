@@ -130,6 +130,42 @@ def test_hf_papers_fetch_endpoint():
     assert src.url == HFPAPERS_URL
 
 
+# --- ticket 04: the AI Release Tracker bespoke HTML-scrape source -------------
+def test_ai_release_tracker_is_tier4_bespoke_with_homepage_unfiltered():
+    """The AI Release Tracker source is a tier-4 airelease_tracker bespoke
+    kind with its own homepage and NO topics allow-list — left unfiltered so
+    curation, not a keyword filter, ranks what matters."""
+    src = _source_named("AI Release Tracker")
+    assert src.kind == "airelease_tracker"
+    assert src.tier == 4
+    assert src.homepage and src.homepage.startswith("https:")
+    assert src.topics == ()          # unfiltered
+
+
+def test_ai_release_tracker_uses_html_selectors_distinct_from_hf_json():
+    """The source is configured through the shared fetcher-config schema with
+    url plus item/title/link/date CSS *selectors* — the HTML-selector
+    mechanism is deliberately distinct from HF's JSON field mapping."""
+    src = _source_named("AI Release Tracker")
+    fc = src.fetcher_config
+    assert fc is not None
+    assert fc.url == src.url
+    # All four shared fields are present (HTML selectors, not JSON dot-paths).
+    assert set((fc.item, fc.title, fc.link, fc.date)) == {
+        'a[href^="/model/"]', "span.text-white.truncate", "a", "div",
+    }
+    # Distinct from the HF JSON kind's dot-path field map.
+    hf = _source_named("Daily Papers").fetcher_config
+    assert fc.item != hf.item
+
+
+def test_ai_release_tracker_scrape_endpoint():
+    """The source points at the /latest HTML page (server-rendered scrape
+    target, no JSON API / no headless browser)."""
+    src = _source_named("AI Release Tracker")
+    assert src.url == "https:" + "//aireleasetracker.com/latest"
+
+
 # --- helpers ---------------------------------------------------------------
 def _source_named(name_fragment) -> object:
     cat = load_category(AI_ML)

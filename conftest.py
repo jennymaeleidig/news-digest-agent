@@ -35,6 +35,184 @@ HOST = "https://" + "example.com/"      # IANA-reserved test host; never fetched
 # ---------------------------------------------------------------------------
 # Offline stubs for third-party runtime deps (installed before app imports).
 # ---------------------------------------------------------------------------
+def _build_mini_bs4() -> types.ModuleType:
+    """A minimal but *real* BeautifulSoup stand-in built on stdlib
+    ``html.parser``.
+
+    The AI Release Tracker fetcher must genuinely parse a captured HTML string
+    offline (feed an HTML string, get mapped Items), so the bs4 stub can no
+    longer be a no-op that returns empty text. This builds a tiny DOM supporting
+    the CSS-subset selectors the bespoke HTML fetcher uses (``tag``,
+    ``.class``, ``[attr^="prefix"]``, and simple compounds like
+    ``span.text-white.truncate``), ``select``/``select_one`` scoped to
+    descendants, ``get_text``, and ``.get("href")``. It only needs to be
+    faithful enough for the offline suite; real deployments use real bs4 from
+    requirements.txt.
+    """
+    import html.parser as _hp
+    import re
+
+    class _Node:
+        __slots__ = ("name", "attrs", "children",)
+
+        def __init__(self, name=None, attrs=None):
+            self.name = name          # tag name, or None for a text node
+            self.attrs = attrs if attrs is not None else {}
+            self.children = []
+
+        def __repr__(self):
+            return "<Node %s children=%d>" % (self.name, len(self.children))
+
+        # -- text extraction ----------------------------------------------
+        def get_text(self, separator="", strip=False):
+            texts = []
+            stack = list(self.children)
+            while stack:
+                node = stack.pop()
+                if node.name is None:
+                    texts.append(node.attrs["_text"])
+                else:
+                    stack.extend(reversed(node.children))
+            text = separator.join(texts) if separator else "".join(texts)
+            if strip:
+                text = re.sub(r"\s+", " ", text).strip()
+            return text
+
+        # -- attributes -----------------------------------------------------
+        def get(self, key, default=None):
+            return self.attrs.get(key, default)
+
+        # -- element finders (descendants only, matching real bs4) ----------
+        def select(self, selector):
+            parsed = _parse_selector(selector)
+            found = []
+            stack = list(self.children)
+            while stack:
+                node = stack.pop()
+                if node.name is not None and _matches(node, parsed):
+                    found.append(node)
+                stack.extend(reversed(node.children))
+            return found
+
+        def select_one(self, selector):
+            for el in self.select(selector):
+                return el
+            return None
+
+        def __getitem__(self, names):
+            # ``soup(["script", "style"])`` from prefetch's full-article path.
+            wanted = set(names)
+            found = []
+            stack = list(self.children)
+            while stack:
+                node = stack.pop()
+                if node.name in wanted:
+                    found.append(node)
+                stack.extend(reversed(node.children))
+            return found
+
+        def decompose(self):
+            pass  # removing nodes is not needed by the offline-suite paths
+
+        def __str__(self):
+            return self.get_text()
+
+    # --- minimal CSS-subset selector support -------------------------------
+    # Supports the compound selectors the bespoke HTML fetcher uses: a tag,
+    # one or more ``.class`` parts, and a single ``[attr^="prefix"]`` /
+    # ``[attr="val"]`` / ``[attr]`` attribute clause (e.g.
+    # ``a[href^="/model/"]`` or ``span.text-white.truncate``). A manual
+    # scanner avoids embedding quote characters in a raw regex.
+    def _parse_selector(selector):
+        parsed = {"tag": None, "classes": [], "attrs": []}
+        i, n = 0, len(selector)
+        while i < n:
+            c = selector[i]
+            if c == ".":
+                j = i + 1
+                while j < n and re.match(r"[a-zA-Z0-9_-]", selector[j]):
+                    j += 1
+                parsed["classes"].append(selector[i + 1:j])
+                i = j
+            elif c == "[":
+                j = selector.find("]", i)
+                if j == -1:
+                    j = n
+                body = selector[i + 1:j].strip()
+                for op in ("^=", "="):
+                    if op in body:
+                        key, _, val = body.partition(op)
+                        parsed["attrs"].append((key.strip(), val.strip().strip('"').strip("'"), op))
+                        break
+                else:
+                    parsed["attrs"].append((body, None, None))
+                i = j + 1
+            elif re.match(r"[a-zA-Z]", c):
+                j = i + 1
+                while j < n and re.match(r"[a-zA-Z0-9-]", selector[j]):
+                    j += 1
+                parsed["tag"] = selector[i:j]
+                i = j
+            else:
+                i += 1
+        return parsed
+
+    def _matches(node, parsed):
+        if node.name is None:
+            return False
+        if parsed["tag"] and node.name != parsed["tag"]:
+            return False
+        classes = node.attrs.get("class") or []
+        for cls in parsed["classes"]:
+            if cls not in classes:
+                return False
+        for key, val, op in parsed["attrs"]:
+            if key not in node.attrs:
+                return False
+            actual = str(node.attrs[key])
+            if op == "^=" and not actual.startswith(val):
+                return False
+            if op == "=" and actual != val:
+                return False
+        return True
+
+    class _Parser(_hp.HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.root = _Node("__root__")
+            self.stack = [self.root]
+
+        def handle_starttag(self, tag, attrs):
+            node = _Node(tag.lower(), dict(attrs))
+            if "class" in node.attrs:
+                node.attrs["class"] = node.attrs["class"].split()
+            self.stack[-1].children.append(node)
+            self.stack.append(node)
+
+        def handle_startendtag(self, tag, attrs):
+            node = _Node(tag.lower(), dict(attrs))
+            if "class" in node.attrs:
+                node.attrs["class"] = node.attrs["class"].split()
+            self.stack[-1].children.append(node)
+
+        def handle_endtag(self, tag):
+            if len(self.stack) > 1:
+                self.stack.pop()
+
+        def handle_data(self, data):
+            self.stack[-1].children.append(_Node(None, {"_text": data}))
+
+    def BeautifulSoup(markup, *args, **kwargs):
+        p = _Parser()
+        p.feed(markup or "")
+        p.close()
+        return p.root
+
+    bs = types.ModuleType("bs4")
+    bs.BeautifulSoup = BeautifulSoup
+    return bs
+
+
 def _install_offline_stubs() -> None:
     """Stub third-party deps so app modules import and run with no network."""
 
@@ -77,13 +255,10 @@ def _install_offline_stubs() -> None:
     de.load_dotenv = lambda *a, **k: None
     sys.modules.setdefault("dotenv", de)
 
-    # bs4: extract used by prefetch's full-article path; the seam tests never
-    # serialize an enriched article, and the redirect test returns before it.
-    bs = types.ModuleType("bs4")
-    bs.BeautifulSoup = lambda *a, **k: types.SimpleNamespace(
-        get_text=lambda *a, **k: ""
-    )
-    sys.modules.setdefault("bs4", bs)
+    # bs4: a minimal but real parser (stdlib html.parser) so the offline suite
+    # can genuinely parse the captured HTML the AI Release Tracker fetcher test
+    # feeds it. Other paths (prefetch full-article) only need safe get_text.
+    sys.modules.setdefault("bs4", _build_mini_bs4())
 
 
 _install_offline_stubs()
