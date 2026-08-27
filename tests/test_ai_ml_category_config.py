@@ -29,6 +29,7 @@ PROMPT = REPO_ROOT / "categories" / "prompts" / "ai-ml.md"
 
 RADARAI_URL = "https:" + "//radarai.top/en/feed.xml"
 REDDIT_URL = "https:" + "//www.reddit.com/r/LocalLLaMA.rss"
+HFPAPERS_URL = "https:" + "//huggingface.co/api/daily_papers"
 
 
 # --- AC 1: display name "AI" with stable id "ai-ml" -------------------------
@@ -96,6 +97,37 @@ def test_new_sources_are_plain_rss_no_bespoke_config():
         src = _source_named(name)
         assert src.kind == "rss"
         assert src.fetcher_config is None
+
+
+# --- ticket 03: the HF Daily Papers bespoke source --------------------------
+def test_hf_papers_is_tier3_bespoke_with_homepage_and_topics():
+    """The HF Daily Papers source is a tier-3 huggingface_papers bespoke kind
+    with its own homepage, a topics allow-list scoping the broad feed to
+    on-focus LLM/agent items, and the shared fetcher-config (item/title/link/
+    date field paths)."""
+    src = _source_named("Daily Papers")
+    assert src.kind == "huggingface_papers"
+    assert src.tier == 3
+    assert src.homepage and src.homepage.startswith("https:")
+    assert src.homepage == "https:" + "//huggingface.co/papers"
+    # topics allow-list keeps only on-focus LLM/agent items.
+    assert src.topics
+    assert all(isinstance(t, str) and t for t in src.topics)
+    for on_focus in ("llm", "language model", "agent", "reasoning",
+                     "fine-tun", "chain-of-thought"):
+        assert on_focus in src.topics
+    # configured through the shared fetcher-config schema.
+    fc = src.fetcher_config
+    assert fc is not None
+    assert fc.url == src.url
+    assert set((fc.item, fc.title, fc.link, fc.date)) == {"$", "title", "paper.id", "paper.submittedOnDailyAt"}
+
+
+def test_hf_papers_fetch_endpoint():
+    """The HF Daily Papers source points at the JSON endpoint (no RSS / no
+    scraping / no headless browser)."""
+    src = _source_named("Daily Papers")
+    assert src.url == HFPAPERS_URL
 
 
 # --- helpers ---------------------------------------------------------------

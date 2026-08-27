@@ -101,6 +101,39 @@
       "homepage": "https://huggingface.co/blog"
     },
     {
+      "name": "Hugging Face Daily Papers",
+      "tier": 3,
+      "kind": "huggingface_papers",
+      "url": "https://huggingface.co/api/daily_papers",
+      "homepage": "https://huggingface.co/papers",
+      "topics": [
+        "llm",
+        "language model",
+        "agent",
+        "reasoning",
+        "fine-tun",
+        "align",
+        "rlhf",
+        "pretrain",
+        "multimodal",
+        "code generation",
+        "coding",
+        "retrieval",
+        "rag",
+        "in-context",
+        "chain-of-thought",
+        "synthetic data",
+        "benchmark",
+        "scaling"
+      ],
+      "fetcher_config": {
+        "item": "$",
+        "title": "title",
+        "link": "paper.id",
+        "date": "paper.submittedOnDailyAt"
+      }
+    },
+    {
       "name": "radarai.top (AI)",
       "tier": 3,
       "kind": "rss",
