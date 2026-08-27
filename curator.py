@@ -290,11 +290,11 @@ def _section_prompt(prompt_text: str, section: str) -> str:
     because the curation prompt file already fixes the per-entry format.
     """
     return (
-        f"You are curating one digest section: **{section}**."
-        f" Produce only {section}: a flat list of item entries (an H3 title"
-        f" link plus its summary), in rough importance order. The pipeline"
-        f" adds the section heading and the source line, so write neither."
-        f" If no item below earns a place in {section}, produce nothing.\n\n"
+        f"You are curating the **{section}** section. Produce {section}"
+        f" entries as a flat list (each an H3 title link plus its summary),"
+        f" in rough importance order. The pipeline adds the section heading"
+        f" and the source line. Return entries only for items that earn a"
+        f" place in {section}.\n\n"
         + prompt_text
     )
 
