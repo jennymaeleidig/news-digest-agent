@@ -1,221 +1,1539 @@
 {
-  "items": {
-    "https://deepmind.google/blog/from-atari-to-eve-online-building-on-15-years-of-ai-research-in-games/": "2026-08-21T16:50:42.899332+00:00",
-    "https://deepmind.google/blog/introducing-gemini-3-7-flash/": "2026-08-13T17:11:42.873826+00:00",
-    "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/": "2026-08-12T17:11:41.373254+00:00",
-    "https://huggingface.co/blog/Dharma-AI/gpu-management-pt2": "2026-08-18T16:47:51.128789+00:00",
-    "https://huggingface.co/blog/LiquidAI/lfm2-5-vl-3b": "2026-08-12T17:11:41.373254+00:00",
-    "https://huggingface.co/blog/LiquidAI/lfm25-dspark": "2026-08-21T16:50:42.899332+00:00",
-    "https://huggingface.co/blog/LiquidAI/qad": "2026-08-19T16:46:11.070339+00:00",
-    "https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing": "2026-08-25T16:54:34.001663+00:00",
-    "https://huggingface.co/blog/allenai/olmoearth-embeddings": "2026-08-12T17:11:41.373254+00:00",
-    "https://huggingface.co/blog/amazon/strands-lerobot-streaming-data-loop": "2026-08-14T17:10:44.082350+00:00",
-    "https://huggingface.co/blog/asr-benchmark-optimization": "2026-08-21T16:50:42.899332+00:00",
-    "https://huggingface.co/blog/gradio-workflow-guide": "2026-08-25T16:54:34.001663+00:00",
-    "https://huggingface.co/blog/ibm-granite/granite-4-2": "2026-08-25T16:54:34.001663+00:00",
-    "https://huggingface.co/blog/ibm-research/altk-evolve-hmm": "2026-08-19T16:46:11.070339+00:00",
-    "https://huggingface.co/blog/icml-2026-open-reproductions": "2026-08-13T17:11:42.873826+00:00",
-    "https://huggingface.co/blog/multi-vector-encoder": "2026-08-18T16:47:51.128789+00:00",
-    "https://huggingface.co/blog/pwc-search": "2026-08-25T16:54:34.001663+00:00",
-    "https://huggingface.co/blog/state-of-open-models-summer-2026": "2026-08-14T17:10:44.082350+00:00",
-    "https://huggingface.co/blog/train-multi-vector-encoder": "2026-08-26T16:58:44.057835+00:00",
-    "https://magazine.sebastianraschka.com/p/ai-detector-from-scratch": "2026-08-15T16:41:01.856240+00:00",
-    "https://magazine.sebastianraschka.com/p/claude-watermarking": "2026-08-22T16:40:21.614327+00:00",
-    "https://news.ycombinator.com/item?id=49261133": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49261514": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49261532": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49264334": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49264755": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49265051": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49265135": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49267057": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49267928": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49269090": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49271994": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49272569": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49272620": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49274018": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49274027": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49274600": "2026-08-12T17:11:41.373254+00:00",
-    "https://news.ycombinator.com/item?id=49275114": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49275385": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49281916": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49283563": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49283891": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49285160": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49285244": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49285327": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49285604": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49285909": "2026-08-13T17:11:42.873826+00:00",
-    "https://news.ycombinator.com/item?id=49286073": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49287153": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49288293": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49288889": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49289112": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49289844": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49290062": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49290521": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49290768": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49292584": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49292932": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49296627": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49298088": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49299102": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49299282": "2026-08-14T17:10:44.082350+00:00",
-    "https://news.ycombinator.com/item?id=49300314": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49300568": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49300800": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49303350": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49303540": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49307099": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49307700": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49308553": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49309050": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49309451": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49310495": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49310719": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49310725": "2026-08-15T16:41:01.856240+00:00",
-    "https://news.ycombinator.com/item?id=49311445": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49312845": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49313367": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49313477": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49314967": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49317760": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49318735": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49319556": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49319814": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49320611": "2026-08-16T16:42:07.508500+00:00",
-    "https://news.ycombinator.com/item?id=49323136": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49323686": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49323932": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49324087": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49325714": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49325789": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49327490": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49329575": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49330215": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49330742": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49331220": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49331423": "2026-08-17T16:45:00.798673+00:00",
-    "https://news.ycombinator.com/item?id=49331625": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49332564": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49332751": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49335216": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49336050": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49336573": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49337392": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49337602": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49338139": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49341009": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49344643": "2026-08-18T16:47:51.128789+00:00",
-    "https://news.ycombinator.com/item?id=49347207": "2026-08-19T16:46:11.070339+00:00",
-    "https://news.ycombinator.com/item?id=49348751": "2026-08-19T16:46:11.070339+00:00",
-    "https://news.ycombinator.com/item?id=49351330": "2026-08-19T16:46:11.070339+00:00",
-    "https://news.ycombinator.com/item?id=49352806": "2026-08-19T16:46:11.070339+00:00",
-    "https://news.ycombinator.com/item?id=49353432": "2026-08-19T16:46:11.070339+00:00",
-    "https://news.ycombinator.com/item?id=49354664": "2026-08-19T16:46:11.070339+00:00",
-    "https://news.ycombinator.com/item?id=49362728": "2026-08-20T16:50:02.148183+00:00",
-    "https://news.ycombinator.com/item?id=49371857": "2026-08-20T16:50:02.148183+00:00",
-    "https://news.ycombinator.com/item?id=49373269": "2026-08-20T16:50:02.148183+00:00",
-    "https://news.ycombinator.com/item?id=49374772": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49375719": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49375996": "2026-08-20T16:50:02.148183+00:00",
-    "https://news.ycombinator.com/item?id=49378768": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49382041": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49383026": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49385994": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49386163": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49386699": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49387755": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49388752": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49389565": "2026-08-21T16:50:42.899332+00:00",
-    "https://news.ycombinator.com/item?id=49390463": "2026-08-22T16:40:21.614327+00:00",
-    "https://news.ycombinator.com/item?id=49393051": "2026-08-22T16:40:21.614327+00:00",
-    "https://news.ycombinator.com/item?id=49396590": "2026-08-22T16:40:21.614327+00:00",
-    "https://news.ycombinator.com/item?id=49399591": "2026-08-22T16:40:21.614327+00:00",
-    "https://news.ycombinator.com/item?id=49399941": "2026-08-23T16:42:34.655505+00:00",
-    "https://news.ycombinator.com/item?id=49401549": "2026-08-23T16:42:34.655505+00:00",
-    "https://news.ycombinator.com/item?id=49402232": "2026-08-23T16:42:34.655505+00:00",
-    "https://news.ycombinator.com/item?id=49414934": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49415852": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49415907": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49417313": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49421074": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49421554": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49422227": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49424387": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49432879": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49433292": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49434291": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49434378": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49435147": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49435675": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49435728": "2026-08-25T16:54:34.001663+00:00",
-    "https://news.ycombinator.com/item?id=49443523": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49445727": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49446422": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49447600": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49448137": "2026-08-26T16:58:44.057835+00:00",
-    "https://news.ycombinator.com/item?id=49449082": "2026-08-26T16:58:44.057835+00:00",
-    "https://openai.com/index/asana": "2026-08-18T16:47:51.128789+00:00",
-    "https://openai.com/index/builders-guide-to-gpt-5-6": "2026-08-14T17:10:44.082350+00:00",
-    "https://openai.com/index/chatgpt-ads-expands-across-europe": "2026-08-19T16:46:11.070339+00:00",
-    "https://openai.com/index/chatgpt-for-teens": "2026-08-18T16:47:51.128789+00:00",
-    "https://openai.com/index/dali-rajic-chief-revenue-officer": "2026-08-13T17:11:42.873826+00:00",
-    "https://openai.com/index/daybreak-models-are-now-available-on-aws": "2026-08-12T17:11:41.373254+00:00",
-    "https://openai.com/index/disrupting-malicious-uses-of-ai-influence-campaign-russia": "2026-08-25T16:54:34.001663+00:00",
-    "https://openai.com/index/gpt-5-6-in-kiro": "2026-08-25T16:54:34.001663+00:00",
-    "https://openai.com/index/how-enterprises-put-ai-to-work": "2026-08-12T17:11:41.373254+00:00",
-    "https://openai.com/index/introducing-admin-plugin": "2026-08-26T16:58:44.057835+00:00",
-    "https://openai.com/index/introducing-ai-futures": "2026-08-21T16:50:42.899332+00:00",
-    "https://openai.com/index/jalapeno-first-results": "2026-08-25T16:54:34.001663+00:00",
-    "https://openai.com/index/loveholidays": "2026-08-26T16:58:44.057835+00:00",
-    "https://openai.com/index/new-policy-ideas-for-the-intelligence-age": "2026-08-17T16:45:00.798673+00:00",
-    "https://openai.com/index/nvidia/chatgpt-work": "2026-08-19T16:46:11.070339+00:00",
-    "https://openai.com/index/offering-zero-data-retention-for-frontier-models": "2026-08-20T16:50:02.148183+00:00",
-    "https://openai.com/index/openai-joins-ports-pike-project": "2026-08-17T16:45:00.798673+00:00",
-    "https://openai.com/index/pacing-model-development-cyber-capabilities": "2026-08-19T16:46:11.070339+00:00",
-    "https://openai.com/index/partnering-with-codeai": "2026-08-18T16:47:51.128789+00:00",
-    "https://openai.com/index/previewing-ultrafast": "2026-08-13T17:11:42.873826+00:00",
-    "https://openai.com/index/replit": "2026-08-19T16:46:11.070339+00:00",
-    "https://openai.com/index/ringcentral": "2026-08-13T17:11:42.873826+00:00",
-    "https://openai.com/index/stampli": "2026-08-20T16:50:02.148183+00:00",
-    "https://openai.com/index/strengthening-democratic-oversight-in-national-security": "2026-08-19T16:46:11.070339+00:00",
-    "https://openai.com/index/the-defenders-window": "2026-08-17T16:45:00.798673+00:00",
-    "https://openai.com/index/the-full-stack-behind-abundant-intelligence": "2026-08-25T16:54:34.001663+00:00",
-    "https://tldr.tech/ai/2026-08-12": "2026-08-12T17:11:41.373254+00:00",
-    "https://tldr.tech/ai/2026-08-13": "2026-08-13T17:11:42.873826+00:00",
-    "https://tldr.tech/ai/2026-08-14": "2026-08-14T17:10:44.082350+00:00",
-    "https://tldr.tech/ai/2026-08-17": "2026-08-17T16:45:00.798673+00:00",
-    "https://tldr.tech/ai/2026-08-18": "2026-08-18T16:47:51.128789+00:00",
-    "https://tldr.tech/ai/2026-08-19": "2026-08-19T16:46:11.070339+00:00",
-    "https://tldr.tech/ai/2026-08-20": "2026-08-20T16:50:02.148183+00:00",
-    "https://tldr.tech/ai/2026-08-21": "2026-08-21T16:50:42.899332+00:00",
-    "https://tldr.tech/ai/2026-08-24": "2026-08-24T16:54:39.416035+00:00",
-    "https://tldr.tech/ai/2026-08-25": "2026-08-25T16:54:34.001663+00:00",
-    "https://tldr.tech/ai/2026-08-26": "2026-08-26T16:58:44.057835+00:00",
-    "https://www.anthropic.com/news/claude-text-watermark": "2026-08-15T16:41:01.856240+00:00",
-    "https://www.anthropic.com/news/wellbeing-research-grants": "2026-08-25T16:54:34.001663+00:00",
-    "https://www.interconnects.ai/p/glm-53-how-chinese-labs-keep-stride": "2026-08-15T16:41:01.856240+00:00",
-    "https://www.interconnects.ai/p/i-wrote-an-ai-textbook-how-long-until": "2026-08-12T17:11:41.373254+00:00",
-    "https://www.interconnects.ai/p/teaching-everyone-to-fish-for-tokens": "2026-08-17T16:45:00.798673+00:00",
-    "https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x": "2026-08-22T16:40:21.614327+00:00",
-    "https://www.latent.space/p/ainews-andrew-ng-gets-into-ai-engineering": "2026-08-25T16:54:34.001663+00:00",
-    "https://www.latent.space/p/ainews-cursors-60b-acquisition-by": "2026-08-17T16:45:00.798673+00:00",
-    "https://www.latent.space/p/ainews-death-of-params-zai-ceo-jie": "2026-08-20T16:50:02.148183+00:00",
-    "https://www.latent.space/p/ainews-gemini-37-flash-brings-gdm": "2026-08-14T17:10:44.082350+00:00",
-    "https://www.latent.space/p/ainews-how-to-steal-a-reasoning-trace": "2026-08-12T17:11:41.373254+00:00",
-    "https://www.latent.space/p/ainews-memory-prices-up-500-in-12": "2026-08-19T16:46:11.070339+00:00",
-    "https://www.latent.space/p/ainews-poolside-gets-12b-reverse": "2026-08-21T16:50:42.899332+00:00",
-    "https://www.latent.space/p/ainews-spacexai-grok-46-and-grok": "2026-08-13T17:11:42.873826+00:00",
-    "https://www.latent.space/p/ainews-stripe-buys-openrouter-for": "2026-08-18T16:47:51.128789+00:00",
-    "https://www.latent.space/p/anima": "2026-08-26T16:58:44.057835+00:00",
-    "https://www.latent.space/p/attention-interface": "2026-08-22T16:40:21.614327+00:00",
-    "https://www.latent.space/p/chai-discovery": "2026-08-12T17:11:41.373254+00:00",
-    "https://www.latent.space/p/flue-2": "2026-08-15T16:41:01.856240+00:00",
-    "https://www.latent.space/p/glean-model-routing": "2026-08-19T16:46:11.070339+00:00",
-    "https://www.latent.space/p/lovable-future-of-saas": "2026-08-26T16:58:44.057835+00:00",
-    "https://www.latent.space/p/simile": "2026-08-22T16:40:21.614327+00:00",
-    "https://www.latent.space/p/wayfinder-skill": "2026-08-21T16:50:42.899332+00:00"
+  "ai-ml": {
+    "https://aireleasetracker.com/model/deepseek/deepseek-v4-flash-0731": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/deepseek/deepseek-v4-pro-0813": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/google/gemini-3.7-flash": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/meta/muse-glimmer": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/meta/muse-spark-1.2": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/nvidia/nemotron-3.5-lightning": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/openai/gpt-5.6-cyber": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/qwen/qwen3.8-27b": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/qwen/qwen3.8-flash-next": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/qwen/qwen3.8-max": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/xai/grok-4.6": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/zai/glm-5.3": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/zai/glm-5.3-flash": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://arxiv.org/abs/2312.17535": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2502.11266": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2504.18346": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2505.15741": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2505.24241": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2506.13182": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2506.20073": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2508.09473": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2509.14646": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2510.12899": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2511.16478": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2512.15798": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2512.19612": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.00282": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.08626": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.16520": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.19435": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2602.05633": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2602.06268": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2602.11684": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2602.14069": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.00468": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2603.02041": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.04946": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.09979": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.10068": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.10243": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.13558": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.14265": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.16654": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.21883": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.22079": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.26958": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.28791": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.00728": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.01765": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.04120": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.06752": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2606.18699": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.19668": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.01388": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.02595": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2607.04469": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.08010": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.05154": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.06495": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.14905": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.15062": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.16645": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.19760": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.20373": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.20405": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.22232": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23023": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23104": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23152": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23181": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23200": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23283": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23311": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23391": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23421": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23474": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23566": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23570": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23582": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23599": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23610": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23611": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23616": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23619": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23622": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23623": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23627": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23628": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23630": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23632": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23635": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23640": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23651": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23653": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23663": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23666": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23670": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23705": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23719": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23740": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23780": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23783": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23806": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23809": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23812": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23814": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23818": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23830": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23842": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23851": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23867": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23873": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23897": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23903": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23920": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23953": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23961": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.23969": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23982": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24004": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24011": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24037": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24053": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24060": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24065": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24080": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24082": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24086": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24118": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24135": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24145": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24168": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24188": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24189": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24191": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24192": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24218": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24221": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24222": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24231": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24252": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24268": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24269": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24271": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24275": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24291": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24304": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24306": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24327": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24334": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24335": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24350": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24354": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24368": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24466": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24482": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24492": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24509": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24571": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24590": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24615": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24621": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24641": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24644": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24660": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24662": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24691": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24707": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24720": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24735": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24747": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24749": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24753": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24807": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24809": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24842": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24848": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24857": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "arXiv (Code)"
+    },
+    "https://aws.amazon.com/blogs/machine-learning/bring-your-own-model-with-amazon-sagemaker-ai-script-mode-in-sdk-v3/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://aws.amazon.com/blogs/machine-learning/evaluate-any-agent-framework-with-amazon-bedrock-agentcore-evaluations/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://aws.amazon.com/blogs/machine-learning/nateras-intelligent-appointment-scheduling-with-amazon-bedrock-agentcore/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://blog.google/innovation-and-ai/products/gemini-app/productivity-features-gemini-live/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://blog.google/products-and-platforms/products/workspace/gemini-google-workspace-back-to-school/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://blogs.nvidia.com/blog/nvlink-fusion-nvhbm-custom-high-bandwidth-memory/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://deepmind.google/blog/intelligent-transcription-with-gemini-3-5-transcribe/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developer.nvidia.com/blog/experiment-with-qwen3-8-flash-next-176b-model-on-nvidia-gb300-nvl72-for-agentic-coding/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developer.nvidia.com/blog/how-to-train-a-cross-embodiment-robot-navigation-policy-with-ai-agents/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developer.nvidia.com/blog/nvidia-nvlink-fusion-brings-nvhbm-to-next-generation-ai-infrastructure/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/a-three-dimensional-typology-of-agency-for-advanced-ai-systems-8c98e5a4c2": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/an-inclusive-and-lightweight-approach-to-federated-continual-learning-fo-b5c8b5dcb8": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/echocot-extracting-hidden-chain-of-thought-from-large-reasoning-models-2518ea47a0": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/from-street-view-imagery-to-street-quality-indicators-vision-language-in-d8eb9d73af": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/let-s-scale-step-by-step-compute-efficient-hyperparameter-transfer-for-l-fed988747b": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/regusim-evaluating-llm-agent-rule-grounding-in-financial-compliance-d7ec164fd8": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/systematic-evaluation-of-tabpfn-ts-for-zero-shot-probabilistic-heat-load-a027396126": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studien/what-you-can-t-see-is-what-you-learn-restricted-evidence-visibility-favo-0bf6c2bdcd": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/dynamic-gated-cross-modal-fusion-with-sarcastic-aware-contrastive-regula-7ad09df163": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://huggingface.co/blog/LiquidAI/lfm25-dspark": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/asr-benchmark-optimization": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/gradio-workflow-guide": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/ibm-granite/granite-4-2": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/pwc-search": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/train-multi-vector-encoder": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/papers/2606.13610": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.09408": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.13914": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.15242": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.15875": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.17906": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.19741": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.20492": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.20953": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.21455": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.21486": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.21500": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22274": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22510": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22591": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22614": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22817": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22849": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23041": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23181": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23189": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23200": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23252": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23311": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23318": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23392": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23566": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23670": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23691": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23740": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23918": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24053": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24189": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24569": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24646": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24680": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24696": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24735": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24763": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24794": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24845": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24876": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24877": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24882": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24979": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25927": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26105": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "Research",
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://news.mit.edu/2026/ai-helps-design-new-materials-that-work-in-real-world-0826": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://simonwillison.net/2026/Aug/26/paul-dix/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/26/ex-meta-scientists-want-to-bring-visual-ai-to-the-factory-floor/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/26/googles-gemini-has-a-branding-problem-and-so-does-the-rest-of-ai/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/26/how-do-we-explain-openais-executive-exodus/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/26/openai-releases-its-official-report-on-the-hugging-face-breach/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/26/radar-makes-podcasts-searchable-and-usable-by-ai-agents/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://towardsdatascience.com/how-does-a-rag-reranker-really-work-the-honest-answer-most-data-scientists-wont-give-you/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://towardsdatascience.com/how-to-effectively-solve-100-tasks-with-claude-code/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.amazon.science/blog/when-llm-judges-agree-should-we-believe-them": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2092433032078848368?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2092601960130289684?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2092602019379130495?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2092616758612172994?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2092616779432710617?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.langchain.com/blog/august-2026-langchain-newsletter": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.langchain.com/blog/customers-podium": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.langchain.com/blog/how-do-i-speed-up-my-agent": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.langchain.com/blog/nvidia-enterprise": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.langchain.com/blog/series-b": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.latent.space/p/anima": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.latent.space/p/lovable-future-of-saas": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.marktechpost.com/2026/08/26/alibabas-qwen-team-releases-qwen3-8-flash-next-a-125b-multimodal-moe-with-6b-active-parameters-previewing-the-qwen4-architecture/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyp1l9/first_serious_confirmation_ox_alpha_is_glm53flash/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyq2v4/megathread_qwen38flashnext_release_day/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyre6y/a_27b_model_beating_latest_frontier_models_was/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyw1wo/forget_the_pelican_its_weeviltime/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyw7e7/a_minecraft_clone_i_fully_vibecoded_with/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyy3k6/glm53flash_frontier_intelligence_flash_cost/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyyesk/zaiorgglm53flash_hugging_face/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyz13i/hf_exploring_sale_impact_on_open_models/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyzopv/gemma4_31b_vs_qwen38_27b_why_the_huge_difference/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyzzxu/megathread_glm53flash_former_oxalpha/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz1dkz/whoever_the_fuck_predicted_we_would_have_gpt_55/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz3a1a/little_tool_for_offline_wikipedia_rag/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz3cvg/are_models_with_ngram_tables_going_to_completely/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz3ieu/benchmarking_qwen38_27b_quantizations_4bit_holds/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz40zv/can_we_reconsider_the_megathreads/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz41ef/selfhosting_llms_on_budget_hardware_general/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz7095/lemonade_endofsummer_project_update_now_serving/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz779w/compared_qwen_38_27b_community_quants_on_rtx_6000/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz9hqa/qwen38_27b_c8_at_972_tg_5680_pp_on_4x_mi100_rig/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vz9say/qwen_27b_ud_iq3xxs_potential_3d_zen_room_demo_pi/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzdfw9/ama_announcement_apodex_thursday_8am11am_pst/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vze6jl/running_local_llms_as_agents_in_claude_code/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzfwnd/nvidia_has_been_in_talks_to_acquire_hugging_face/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzgtqf/ngram_vs_experts_explained/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzh2zm/nvidia_agrees_to_buy_open_source_model_repository/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.technologyreview.com/2026/08/26/1141949/editors-letter-september-2026/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.technologyreview.com/2026/08/26/1141952/puzzles-ai-models-flub-these-tests/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.technologyreview.com/2026/08/26/1142946/bill-gates-ai-danger-threshold/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.technologyreview.com/2026/08/26/1143013/the-inside-story-on-why-openai-agents-hacked-hugging-face/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/ai-slop-is-ruining-the-internets-cute-animal-economy/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/candidates-are-signing-a-pact-promising-action-on-data-centers-and-ai-safety/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/openais-hugging-face-hack-debrief-raises-more-questions-than-it-answers/": {
+      "date": "2026-08-27T02:33:44.574538+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    }
   }
 }

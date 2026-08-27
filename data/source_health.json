@@ -1,4 +1,669 @@
 {
+  "ai-ml": {
+    "sources": {
+      "AI Release Tracker": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175162+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:02:38.291696+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:07:25.357220+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739551+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070166+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952358+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055841+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663954+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923191+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220390+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090978+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751052+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570603+00:00"
+          }
+        ]
+      },
+      "Ahead of AI": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116466+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345308+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059611+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709245+00:00"
+          }
+        ]
+      },
+      "Google DeepMind": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116460+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345300+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059571+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709196+00:00"
+          }
+        ]
+      },
+      "Hugging Face": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709214+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175143+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:02:38.291665+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:07:25.357189+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739510+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070140+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952348+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055818+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663926+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923164+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220355+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090889+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751037+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570549+00:00"
+          }
+        ]
+      },
+      "Hugging Face Daily Papers": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175150+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:02:38.291689+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:07:25.357196+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739524+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070152+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952352+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055826+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663936+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923176+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220368+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090935+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751046+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570575+00:00"
+          }
+        ]
+      },
+      "Interconnects": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116465+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345307+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059596+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709231+00:00"
+          }
+        ]
+      },
+      "Latent Space": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116464+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345305+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059587+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709223+00:00"
+          }
+        ]
+      },
+      "OpenAI": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116456+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345295+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059554+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709134+00:00"
+          }
+        ]
+      },
+      "Reddit r/LocalLLaMA": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175158+00:00"
+          },
+          {
+            "error": "HTTP 403",
+            "success": false,
+            "timestamp": "2026-08-27T01:02:38.291693+00:00"
+          },
+          {
+            "error": "HTTP 403",
+            "success": false,
+            "timestamp": "2026-08-27T01:07:25.357210+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739540+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070162+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952356+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055836+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663948+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923186+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220383+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090971+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751050+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570598+00:00"
+          }
+        ]
+      },
+      "TLDR AI": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116468+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345310+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059630+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709264+00:00"
+          }
+        ]
+      },
+      "arXiv": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:15:55.116441+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:22:07.345280+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:34:48.059500+00:00"
+          }
+        ]
+      },
+      "arXiv (Code)": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709093+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175120+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:02:38.291661+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:07:25.357178+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739496+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070132+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952345+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055809+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663911+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923155+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220338+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090876+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751033+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570536+00:00"
+          }
+        ]
+      },
+      "arXiv (LLM)": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-26T22:43:34.709046+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175092+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:02:38.291643+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:07:25.357133+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739449+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070100+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952330+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055777+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663871+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923119+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220297+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090815+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751014+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570482+00:00"
+          }
+        ]
+      },
+      "radarai.top (AI)": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T00:58:22.175154+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:02:38.291691+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:07:25.357203+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:28:42.739532+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:33:29.070157+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:38:28.952354+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:42:50.055832+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:47:52.663943+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T01:55:34.923181+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:05:08.220376+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:22:28.090953+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:30:31.751048+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T02:33:44.570591+00:00"
+          }
+        ]
+      }
+    }
+  },
   "sources": {
     "Ahead of AI": {
       "recent_runs": [

@@ -17,9 +17,9 @@ from datetime import datetime, timezone
 import feedparser
 import requests
 
+from categories import Source
 from config import HTTP_TIMEOUT_SECONDS, SNIPPET_CHARS, USER_AGENT
 from fetchers.common import FetchResult, Item, strip_html
-from sources import Source
 
 # Advertise only encodings `requests` can decode without extra deps
 # (gzip, deflate). Brotli would need the `brotli` package.

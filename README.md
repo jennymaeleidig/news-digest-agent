@@ -1,80 +1,61 @@
-# AI news digest agent
+# News digest agent
 
-Daily AI/ML news digest. Fetches a curated set of sources, asks an LLM to
-filter and summarize the items worth surfacing, and emails a markdown digest.
-Runs on GitHub Actions at 15:17 UTC.
+A category-driven daily news digest: fetch curated sources, have an LLM pick
+and summarize the day's most relevant items, email the result. Ships configured
+for AI/ML news (LLMs and AI coding agents), but the engine is topic-agnostic —
+any subject is just another category. Runs on GitHub Actions at 16:17 UTC.
 
-Built as a personal tool — I wanted a single morning email summarizing
-what's worth attention across AI labs, ML research, and developer community
-discussion, without scrolling through ten feeds.
+> Fork of [al-strunova/ai-news-digest-agent](https://github.com/al-strunova/ai-news-digest-agent).
 
-## Architecture
+## How it works
 
-Pipeline runs in four stages: **fetch → filter → curate → email**.
+`fetch → filter → curate → email`, one email per category.
 
-- **Fetch** (`fetchers/`). One module per source kind (`rss`,
-  `anthropic_blog`, `hn`), dispatched on `Source.kind`. Failures are
-  returned, not raised, so a single broken source never stops the run.
-- **Filter** (`main.py`). Items older than seven days are dropped, then
-  deduplicated against a 14-day URL set persisted in
-  `data/seen_items.json`.
-- **Curate** (`curator.py`). Surviving items are passed to an LLM with a
-  single tool, `fetch_full_article(url)`, that the model can call when a
-  snippet is too thin to judge. Tool calls are subject to a per-run
-  hostname allowlist built from the source registry plus HN-linked URLs
-  in the current batch — exact-host match, redirect targets re-checked.
-  This is the prompt-injection boundary: untrusted article text cannot
-  cause the tool to reach hosts outside the allowlist.
-- **Email** (`emailer.py`). Markdown is rendered to HTML and sent via
-  Resend, with the raw markdown as the plain-text fallback.
+- **Fetch** — one module per source kind, dispatched through a `kind → fetcher`
+  registry (`rss`, `huggingface_papers`, `reddit_rss_api`,
+  `airelease_tracker`). Source failures are isolated, never fatal.
+- **Filter** — drop items outside the age window, off-topic items (per-source
+  allow-list), and already-seen items (14-day dedup).
+- **Curate** — GitHub Copilot CLI as a pure summarizer (no network tools), one
+  call per non-empty section, re-stitched in the category's declared order. A
+  pre-fetch stage deep-reads thin-snippet items first.
+- **Email** — markdown → HTML via Resend.
 
-`config.LLM_PROVIDER` selects the provider (`anthropic` or `gemini`); both
-implement the same `run_tool_use_loop` contract, so the curator is
-provider-agnostic.
+## Categories
+
+Every `categories/*.json` is one category, discovered and run independently —
+each with its own recipient, state, and digest email. A category is two files:
+
+- **`categories/<id>.json`** — the single source of truth for structure:
+  `id`, `name`, an ordered `sections` list (name + what belongs there), and
+  `sources` (tier, kind, url, section, optional topics/age-window).
+- **`categories/prompts/<id>.md`** — the curation prompt. Section-agnostic:
+  section names and descriptions are injected from the JSON at run time.
+
+Adding a category is "drop one JSON + one prompt"; no stage in the pipeline
+knows a section or source by name.
 
 ## State
 
-Three files in `data/`, committed back to the repo by the workflow each run:
+Three committed files in `data/`, keyed by category `id`:
 
-- `seen_items.json` — URL-keyed dedup set, entries expire after 14 days.
-  Only updated on successful email send.
-- `source_health.json` — per-source success/failure log. Failures appear
-  as a footer on the digest.
-- `token_usage.jsonl` — append-only per-run record of tokens, tool calls,
-  timing, and errors.
+- `seen_items.json` — dedup set (14-day expiry, written on successful send).
+- `source_health.json` — per-source success/failure, shown as a digest footer.
+- `run_log.jsonl` — per-run duration, item counts, prompt size, errors.
 
 ## Setup
 
 ```
 git clone <repo>
-cd ai-news-digest-agent
-python3 -m venv .venv
-source .venv/bin/activate
+cd news-digest-agent
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env
-# fill in the secrets below
-```
-
-Secrets, set in `.env` for local runs and in GitHub Secrets for CI:
-
-- `ANTHROPIC_API_KEY` (required if `LLM_PROVIDER = "anthropic"`)
-- `GEMINI_API_KEY` (required if `LLM_PROVIDER = "gemini"`)
-- `RESEND_API_KEY`
-- `RECIPIENT_EMAIL`
-
-Run locally:
-
-```
+cp .env.example .env   # RESEND_API_KEY, RECIPIENT_EMAIL
 python main.py
 ```
 
-## Provider rate limits
-
-Anthropic Tier 1 input token rate limit is 30K/min, which can be exceeded
-on heavy news days with the default `SNIPPET_CHARS` and a full batch. If
-using `LLM_PROVIDER = "anthropic"` on Tier 1, reduce `SNIPPET_CHARS` in
-`config.py` from 1500 to ~1000, or switch to `LLM_PROVIDER = "gemini"` —
-Gemini Tier 1 limits are significantly higher.
+Curation runs through Copilot CLI (a flat seat — no provider keys). One-time
+interactive login: `copilot`, then `/login` (or `gh auth login`).
 
 ## Example digest
 
@@ -82,10 +63,6 @@ Gemini Tier 1 limits are significantly higher.
 
 ## Operational notes
 
-- If email send fails, `seen_items.json` is not updated, so the next run
-  retries the same items. RSS feeds with short windows can still drop
-  items between a failed and a successful send — fix email failures
-  promptly. A future improvement is to persist unsent digests to a
-  pending file and retry on the next run.
-- `source_health.json` and `token_usage.jsonl` are written even when the
-  run fails, so post-mortem data isn't lost.
+- A failed email send does not write `seen_items.json`, so the next run retries
+  the same items — fix send failures promptly.
+- `source_health.json` and `run_log.jsonl` are written even when the run fails.

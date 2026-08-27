@@ -4,10 +4,25 @@
   "schedule": "17 16 * * *",
   "recipient": null,
   "prompt": "prompts/ai-ml.md",
+  "sections": [
+    {
+      "name": "Releases",
+      "description": "Model releases, capability milestones, new tools and frameworks."
+    },
+    {
+      "name": "Research",
+      "description": "Papers and technical deep-dives that change practice."
+    },
+    {
+      "name": "General news",
+      "description": "Business, funding, partnerships, enterprise wins, ecosystem."
+    }
+  ],
   "sources": [
     {
       "name": "arXiv (LLM)",
       "tier": 1,
+      "section": "Research",
       "kind": "rss",
       "url": "https://rss.arxiv.org/rss/cs.CL",
       "homepage": "https://arxiv.org",
@@ -59,6 +74,7 @@
     {
       "name": "arXiv (Code)",
       "tier": 1,
+      "section": "Research",
       "kind": "rss",
       "url": "https://rss.arxiv.org/rss/cs.SE",
       "homepage": "https://arxiv.org",
@@ -96,6 +112,7 @@
     {
       "name": "Hugging Face",
       "tier": 3,
+      "section": "General news",
       "kind": "rss",
       "url": "https://huggingface.co/blog/feed.xml",
       "homepage": "https://huggingface.co/blog"
@@ -103,6 +120,7 @@
     {
       "name": "Hugging Face Daily Papers",
       "tier": 3,
+      "section": "Research",
       "kind": "huggingface_papers",
       "url": "https://huggingface.co/api/daily_papers",
       "homepage": "https://huggingface.co/papers",
@@ -136,6 +154,7 @@
     {
       "name": "radarai.top (AI)",
       "tier": 3,
+      "section": "General news",
       "kind": "rss",
       "url": "https://radarai.top/en/feed.xml",
       "homepage": "https://radarai.top/en/"
@@ -143,21 +162,30 @@
     {
       "name": "Reddit r/LocalLLaMA",
       "tier": 4,
-      "kind": "rss",
-      "url": "https://www.reddit.com/r/LocalLLaMA.rss",
-      "homepage": "https://www.reddit.com/r/LocalLLaMA"
+      "section": "General news",
+      "kind": "reddit_rss_api",
+      "url": "https://reddit-rss-api.sametcn99.deno.net/r/LocalLLaMA",
+      "homepage": "https://www.reddit.com/r/LocalLLaMA",
+      "fetcher_config": {
+        "item": "items",
+        "title": "title",
+        "link": "link",
+        "date": "isoDate"
+      }
     },
     {
       "name": "AI Release Tracker",
       "tier": 4,
+      "section": "Releases",
       "kind": "airelease_tracker",
-      "url": "https://aireleasetracker.com/latest",
+      "url": "https://aireleasetracker.com/models.json",
       "homepage": "https://aireleasetracker.com/latest",
+      "age_limit_days": 30,
       "fetcher_config": {
-        "item": "a[href^=\"/model/\"]",
-        "title": "span.text-white.truncate",
-        "link": "a",
-        "date": "div"
+        "item": "models",
+        "title": "name",
+        "link": "slug",
+        "date": "releaseDate"
       }
     }
   ]

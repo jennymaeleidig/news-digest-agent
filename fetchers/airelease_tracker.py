@@ -1,51 +1,42 @@
-"""AI Release Tracker HTML-scraping fetcher.
+"""AI Release Tracker fetcher — consumes the official machine-readable dataset.
 
-A bespoke ``airelease_tracker`` source kind that scrapes the server-rendered
-``/latest`` release list with ``requests`` + ``BeautifulSoup`` — **no headless
-browser, no JSON API** — and maps each model-release card to an Item. Each
-item's published date is parsed from the displayed date string (e.g.
-``"Wed, Aug 26 2026"``) into a timezone-aware value, so an out-of-window
-release then drops exactly like any other source's old item — releases are
-never special-cased into the digest.
+The tracker publishes a JSON dataset at ``/models.json`` (linked from the site's
+own "Machine-readable index" as "the dataset as JSON"): one entry per tracked
+model with its release date, provider, weight-access, parameter count, context
+window, and published benchmark scores. This kind reads that dataset instead of
+scraping the server-rendered ``/latest`` HTML, which carries only a title, a
+provider, and a date — no description.
 
-Like every fetcher it returns a ``FetchResult`` and isolates-and-continues: an
-HTTP error, a transport exception, or a malformed body becomes a failure result
-for this source rather than a raised exception, so one broken source never
-stops the run. The request sends a browser-like User-Agent and a full header
-set so bot-sensitive hosts respond with a full body.
+Reading the dataset gives curation a real, self-contained snippet per release
+(provider + access + parameter count + context window + headline benchmark
+scores), so a release item no longer reaches the summarizer as a bare model
+name that must be dropped as "too thin".
 
-Configuration comes through the shared fetcher-config schema (see
-``fetchers/config_schema.py``): the same ``url`` + ``item``/``title``/``link``/
-``date`` shape every bespoke feedless kind shares. This kind interprets those
-strings as **CSS selectors** against the rendered HTML — an HTML-selector
-scraping mechanism, deliberately distinct from the JSON-API field mapping of
-``huggingface_papers``:
+Configuration comes through the shared fetcher-config schema: the same
+``url`` + ``item``/``title``/``link``/``date`` shape every bespoke feedless
+kind shares. This kind interprets those strings as dot-paths into the JSON
+response — the same mechanism as ``huggingface_papers``:
 
-  - ``item``  — selector locating each release container (an anchor like
-                ``<a href="/model/{provider}/{slug}">``).
-  - ``title`` — selector, resolved *within* each container, for the release's
-                title element; its text is the item title.
-  - ``link``  — selector, resolved *within* each container, for the element
-                carrying the article ``href``. When it selects no element, the
-                container's own ``href`` is used — the common anchor-container
-                layout, where the release link lives on the container itself.
-  - ``date``  — selector, resolved *within* each container, for the published
-                date element; its display text is parsed into a timezone-aware
-                ISO-8601 timestamp.
+  - ``item``  — path to the list of models (``"models"``).
+  - ``title`` — path to the model name.
+  - ``link``  — path to the model slug, which this kind renders into the
+                canonical article URL ``/model/{company}/{slug}`` (the
+                ``company`` and ``slug`` fields are kind-specific constants).
+  - ``date``  — path to the ISO release date (``releaseDate``).
 
-The config schema deliberately has no ``snippet`` field, so this kind derives
-each item's snippet from a kind-specific element constant — the provider span
-(``.text-gray-500.truncate``) inside the container. Keeping the provider's text
-as the snippet gives curation a short, on-topic descriptor per release.
+The snippet is synthesized from kind-specific fields (companyName, access,
+parameters, contextWindow, releaseDateLabel, benchmarks) rather than carried by
+the schema, because the dataset's value is spread across several fields no one
+flat path names.
 """
 
 from __future__ import annotations
 
+import json
+import urllib.parse
 from datetime import datetime, timezone
-from urllib.parse import urljoin
 
 import requests
-from bs4 import BeautifulSoup
 
 from categories import Source
 from config import HTTP_TIMEOUT_SECONDS, SNIPPET_CHARS, USER_AGENT
@@ -55,92 +46,122 @@ from fetchers.common import FetchResult, Item
 # sensitive hosts respond with a full body rather than a stripped one.
 _REQUEST_HEADERS = {
     "User-Agent": USER_AGENT,
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept": "application/json, text/plain, */*;q=0.5",
     "Accept-Language": "en-US,en;q=0.9",
     "Accept-Encoding": "gzip, deflate",
 }
 
-# Kind-specific element constant: the provider span inside each release
-# container. The config schema has no snippet field, so the provider's text
-# doubles as the item's snippet — a short, on-topic descriptor per release.
-_PROVIDER_SELECTOR = "span.text-gray-500.truncate"
+# A shared, kind-specific constant: the canonical model-article URL host. The
+# link field yields the model slug; the ``company`` field (also kind-specific)
+# forms the rest of the path, matching the site's /model/{company}/{slug}
+# scheme.
+_MODEL_URL_BASE = "https:" + "//aireleasetracker.com/model/"
 
-# Date formats the /latest page may render. The displayed date is not an ISO
-# timestamp (e.g. "Wed, Aug 26 2026"), so the kind tries each format and falls
-# back to the raw string if none match — the same tolerance the RSS fetcher
-# exercises with an unparseable feed date.
-_DATE_FORMATS = (
-    "%a, %b %d %Y",   # "Wed, Aug 26 2026"
-    "%a %b %d %Y",    # "Wed Aug 26 2026"
-    "%b %d, %Y",      # "Aug 26, 2026"
-    "%b %d %Y",       # "Aug 26 2026"
-)
+# How many headline benchmark scores the synthesized snippet carries. The
+# dataset lists a model's strongest published numbers first, so the first few
+# entries are the headline ones.
+_SNIPPET_BENCHMARKS = 6
 
 
-def _parse_published(text: str) -> str:
-    """Parse a displayed date string into a timezone-aware ISO-8601 value.
+def _dig(data, path: str):
+    """Resolve a dot-path against JSON data; ``$`` (or empty) is the value
+    itself. Returns None when any key along the path is missing."""
+    if path in ("", "$"):
+        return data
+    cur = data
+    for key in path.split("."):
+        if not isinstance(cur, dict) or key not in cur:
+            return None
+        cur = cur[key]
+    return cur
 
-    The /latest page shows dates like ``"Wed, Aug 26 2026"`` — not ISO
-    timestamps — so this parses the human-readable string into
-    ``YYYY-MM-DDTHH:MM:SS+00:00`` (UTC), which ``filter_recent``'s
-    ``fromisoformat`` can compare against the window cutoff. An unparseable
-    string is returned as-is, matching the RSS fetcher's tolerance, so an oddly
-    formatted item is kept rather than silently dropped.
-    """
-    raw = text.strip()
-    for fmt in _DATE_FORMATS:
+
+def _parse_release_date(value) -> str:
+    """Turn an ISO date like ``"2026-08-26"`` into a timezone-aware ISO-8601
+    timestamp (UTC), matching what ``filter_recent`` compares. A missing or
+    unparseable value is returned as-is (tolerance, not a crash)."""
+    if not value:
+        return ""
+    text = str(value).strip()
+    # The dataset's releaseDate is a bare day ("2026-08-26"); normalize to the
+    # same tz-aware ISO the other fetchers emit. A full timestamp passes through.
+    for fmt in ("%Y-%m-%dT%H:%M:%S.%f%z", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"):
         try:
-            dt = datetime.strptime(raw, fmt)
-            return dt.replace(tzinfo=timezone.utc).isoformat()
+            dt = datetime.strptime(text, fmt)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt.isoformat()
         except ValueError:
             continue
-    return raw
+    return text
 
 
-def _resolve_href(container, link_selector: str) -> str | None:
-    """Resolve an item container's article URL.
+def _build_snippet(entry: dict) -> str:
+    """Synthesize a self-contained description from the dataset's per-model
+    fields: provider, weight-access, parameter count, context window, release
+    label, and the first few headline benchmark scores."""
+    company = (entry.get("companyName") or entry.get("company") or "").strip()
+    access = (entry.get("access") or "").strip()
+    parameters = (entry.get("parameters") or "").strip()
+    context = (entry.get("contextWindow") or "").strip()
+    released = (entry.get("releaseDateLabel") or entry.get("releaseDate") or "").strip()
 
-    ``link_selector`` is a CSS selector resolved *within* the container for the
-    element carrying the ``href``. In the anchor-container layout the release
-    link lives on the container itself, where a descendant selector selects
-    nothing — so the container's own ``href`` is the fallback.
-    """
-    if link_selector:
-        el = container.select_one(link_selector)
-        if el is not None and el.get("href"):
-            return el["href"]
-    return container.get("href")
+    parts: list[str] = []
+    if company:
+        parts.append(company)
+    if access:
+        parts.append(access)
+    if parameters:
+        parts.append(f"{parameters} parameters")
+    if context:
+        parts.append(f"{context} context window")
+    head = " ".join(parts)
+    if released:
+        head += f"; released {released}" if head else f"Released {released}"
+    if head:
+        head += "."
+
+    # Headline published benchmark scores (the dataset lists strongest first).
+    benchmarks = entry.get("benchmarks")
+    bench_strs: list[str] = []
+    if isinstance(benchmarks, dict):
+        for key, b in list(benchmarks.items())[:_SNIPPET_BENCHMARKS]:
+            if not isinstance(b, dict):
+                continue
+            name = (b.get("name") or key).strip()
+            value = b.get("value")
+            unit = (b.get("unit") or "").strip()
+            if value is None:
+                continue
+            bench_strs.append(f"{name} {value}{unit}")
+
+    text = head
+    if bench_strs:
+        text += (" " if text else "") + "Benchmarks: " + ", ".join(bench_strs) + "."
+    return text.strip()[:SNIPPET_CHARS]
 
 
-def _map_containers(containers, config, source_name: str) -> list:
-    """Map each release container to an Item using the config's CSS selectors.
+def _map_models(entries, config, source_name: str) -> list[Item]:
+    """Map each JSON model entry to an Item.
 
-    Selectors are resolved *within* each container (for title/link/date) so the
-    same expression can select one element per card. Containers missing a title
-    or a resolvable link are skipped rather than crashing the mapping. The
-    snippet comes from the kind-specific provider element constant.
-    """
-    items: list = []
-    for container in containers:
-        title_el = container.select_one(config.title) if config.title else None
-        if title_el is None:
+    title/link/date come from the configured dot-paths (link = slug); the full
+    article URL is rendered from the kind-specific company + slug fields, and
+    the snippet is synthesized from the dataset's spec/benchmark fields."""
+    items: list[Item] = []
+    for entry in entries:
+        title = _dig(entry, config.title)
+        slug = _dig(entry, config.link)
+        published = _dig(entry, config.date)
+        if not title or not slug:
             continue
-        title = title_el.get_text(strip=True)
-        href = _resolve_href(container, config.link)
-        if not href:
-            continue
-
-        date_el = container.select_one(config.date) if config.date else None
-        date_text = date_el.get_text(strip=True) if date_el else ""
-        provider_el = container.select_one(_PROVIDER_SELECTOR)
-        provider = provider_el.get_text(strip=True) if provider_el else ""
-
+        company = str(entry.get("company") or "").strip()
+        url = _MODEL_URL_BASE + urllib.parse.quote(company) + "/" + urllib.parse.quote(str(slug).strip())
         items.append(Item(
-            title=title,
+            title=str(title).strip(),
             source_name=source_name,
-            url=urljoin(config.url, href),
-            published=_parse_published(date_text),
-            content_snippet=provider[:SNIPPET_CHARS],
+            url=url,
+            published=_parse_release_date(published),
+            content_snippet=_build_snippet(entry),
         ))
     return items
 
@@ -172,7 +193,17 @@ def fetch(source: Source) -> FetchResult:
     if resp.status_code >= 400:
         return FetchResult(source.name, False, error="HTTP " + str(resp.status_code))
 
-    soup = BeautifulSoup(resp.text, "html.parser")
-    containers = soup.select(config.item)
-    items = _map_containers(containers, config, source.name)
+    try:
+        payload = resp.json()
+    except ValueError as e:
+        return FetchResult(source.name, False, error=f"invalid JSON: {e}")
+
+    entries = _dig(payload, config.item)
+    if not isinstance(entries, list):
+        return FetchResult(
+            source.name, False,
+            error=f"item path {config.item!r} did not resolve to a list",
+        )
+
+    items = _map_models(entries, config, source.name)
     return FetchResult(source.name, True, items)

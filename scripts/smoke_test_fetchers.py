@@ -14,8 +14,10 @@ The three fetchers under test:
   - AI Release Tracker         (``airelease_tracker`` HTML-scraping fetcher)
   - radarai.top                (native ``rss`` feed, radarai.top/en/feed.xml)
 
-Reddit r/LocalLLaMA is deliberately **not** smoke-tested: it 429s on rapid
-repeats of the same endpoint, and this smoke test must not hammer a host.
+Reddit r/LocalLLaMA is deliberately **not** smoke-tested: it is read through a
+community-maintained third-party proxy (the ``reddit_rss_api`` fetcher), and a
+tier-4 commentary source degrading is a source-health event the run already
+surfaces — not a reason to block the CI job on a stranger's service.
 There are no retry loops anywhere in this script — each fetcher is called
 exactly once — so it cannot hammer any host it exercises.
 
@@ -45,7 +47,7 @@ from fetchers.registry import fetch_one
 # The three network-backed fetchers the smoke test covers, keyed by the source
 # ``name`` declared in categories/ai-ml.json. radarai.top is covered as one of
 # the new network-backed sources; Reddit r/LocalLLaMA is intentionally excluded
-# (it 429s on rapid repeats — a smoke test must not hammer a host).
+# (community third-party proxy — not a host we gate the CI job on).
 SMOKED_SOURCE_NAMES = (
     "Hugging Face Daily Papers",
     "AI Release Tracker",

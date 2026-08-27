@@ -66,8 +66,14 @@ def fetch_one(source: Source) -> FetchResult:
 # airelease_tracker (HTML-selector scraping) are bespoke feedless kinds that
 # stay **distinct** mechanisms while sharing one config-schema contract. Each
 # adds a source kind with no pipeline edit here or in main.py.
-from fetchers import airelease_tracker, huggingface_papers, rss  # noqa: E402
+from fetchers import (  # noqa: E402
+    airelease_tracker,
+    huggingface_papers,
+    reddit_rss_api,
+    rss,
+)
 
 register("rss", rss.fetch)
 register("huggingface_papers", huggingface_papers.fetch)
 register("airelease_tracker", airelease_tracker.fetch)
+register("reddit_rss_api", reddit_rss_api.fetch)

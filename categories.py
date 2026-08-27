@@ -15,12 +15,28 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
     recipient   str|null  recipient; null => default RECIPIENT_EMAIL
     prompt      str   file reference to a sibling prompts/<id>.md
                       (required, and the referenced file must exist)
+    sections[]  list  non-empty and ordered; each section has:
+        name          str    display name / digest heading (required, unique)
+        description   str    what belongs in the section; rendered into the
+                             curation prompt (optional, defaults to "")
     sources[]   list  non-empty; each source has:
         name        str    (required)
         tier        int    Kagi trust tier 1-4 (required, static)
         kind        str    "rss" at launch (required)
         url         str    feed URL (required)
         homepage    str    display link + static allowlist (optional)
+        section     str    digest section this source feeds — one of the names
+                           in the category's top-level ``sections`` (required).
+                           Delegates each source to exactly one section, so a
+                           prolific feed (arXiv) stays scoped to Research
+                           instead of crowding every section.
+        age_limit_days int|null  per-source recency-window override (optional).
+                           When set, this source's items stay eligible for that
+                           many days instead of the global ITEM_AGE_LIMIT_DAYS.
+                           For a slow-moving canonical feed — a release tracker's
+                           "latest" list spans weeks, so a 7-day window shows
+                           almost nothing — set a longer window (e.g. 30).
+                           Omitted/null => the global window applies.
         topics      [str]  optional relevance allow-list: an item from this
                            source is kept only if one of these terms appears in
                            its title or abstract/snippet (case-insensitive).
@@ -55,14 +71,29 @@ class CategoryError(ValueError):
 
 
 @dataclass(frozen=True)
+class Section:
+    """One digest section: its display name and (optional) description.
+
+    Sections are category-specific and defined in the category JSON, which is
+    the single source of truth: the loader validates each source's ``section``
+    against these names, the curator emits sections in this order, and the
+    curation prompt's section definitions are rendered from these descriptions.
+    """
+    name: str
+    description: str = ""
+
+
+@dataclass(frozen=True)
 class Source:
     name: str
     tier: int          # Kagi trust tier 1-4 (static default)
     kind: str          # "rss" at launch
     url: str           # the feed URL
     homepage: str | None = None   # display link + static allowlist
+    section: str | None = None    # digest section (see module docstring)
     topics: tuple[str, ...] = ()  # relevance allow-list (see module docstring)
     fetcher_config: FetcherConfig | None = None  # bespoke kinds only (see docstring)
+    age_limit_days: int | None = None  # per-source recency override (see docstring)
 
 
 @dataclass(frozen=True)
@@ -74,6 +105,7 @@ class Category:
     prompt: str                # file ref to a sibling prompts/<id>.md
     prompt_path: Path          # resolved path to the referenced prompt file
     sources: tuple[Source, ...]
+    sections: tuple[Section, ...]
 
     @classmethod
     def from_dict(cls, data: dict, config_path: Path) -> "Category":
@@ -120,6 +152,31 @@ class Category:
                 f"category {cat_id!r}: prompt file reference {prompt!r} "
                 f"does not exist (resolved to {prompt_path})"
             )
+
+        # ---- sections (single source of truth for digest sections) ------
+        raw_sections = data.get("sections")
+        if not isinstance(raw_sections, list) or not raw_sections:
+            raise err(
+                f"category {cat_id!r}: 'sections' is required and must be a non-empty list"
+            )
+        parsed_sections: list[Section] = []
+        seen_sections: set[str] = set()
+        for j, sec in enumerate(raw_sections):
+            if not isinstance(sec, dict):
+                raise err(f"category {cat_id!r}: sections[{j}] must be an object")
+            sec_label = f"category {cat_id!r}: sections[{j}]"
+            sec_name = sec.get("name")
+            if not isinstance(sec_name, str) or not sec_name.strip():
+                raise err(f"{sec_label}: 'name' is required and must be a non-empty string")
+            sec_name = sec_name.strip()
+            if sec_name in seen_sections:
+                raise err(f"{sec_label}: duplicate section name {sec_name!r}")
+            seen_sections.add(sec_name)
+            sec_description = sec.get("description", "") or ""
+            if not isinstance(sec_description, str):
+                raise err(f"{sec_label}: 'description' must be a string")
+            parsed_sections.append(Section(sec_name, sec_description.strip()))
+        section_names = tuple(sec.name for sec in parsed_sections)
 
         # ---- sources ----------------------------------------------------
         sources = data.get("sources")
@@ -169,6 +226,23 @@ class Category:
             else:
                 topics = tuple(t.strip() for t in topics)
 
+            section = src.get("section")
+            if not isinstance(section, str) or section.strip() not in section_names:
+                raise err(
+                    f"{label} ({s_name!r}): 'section' is required and must "
+                    f"be one of: {', '.join(section_names)}"
+                )
+            section = section.strip()
+
+            age_limit_days = src.get("age_limit_days")
+            if age_limit_days is not None:
+                if not isinstance(age_limit_days, int) or isinstance(age_limit_days, bool):
+                    raise err(
+                        f"{label} ({s_name!r}): 'age_limit_days' must be an integer or null"
+                    )
+                if age_limit_days < 1:
+                    raise err(f"{label} ({s_name!r}): 'age_limit_days' must be >= 1")
+
             # Optional shared fetcher-config (bespoke feedless kinds). Pins
             # the config-shape contract; parsing is left to each consuming
             # kind. ``url`` is inherited from the source's top-level url so
@@ -202,8 +276,10 @@ class Category:
                 kind=kind,
                 url=url,
                 homepage=homepage,
+                section=section,
                 topics=topics,
                 fetcher_config=fetcher_config,
+                age_limit_days=age_limit_days,
             ))
 
         return cls(
@@ -214,6 +290,7 @@ class Category:
             prompt=prompt,
             prompt_path=prompt_path,
             sources=tuple(parsed_sources),
+            sections=tuple(parsed_sections),
         )
 
 

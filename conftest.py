@@ -228,9 +228,13 @@ def _install_offline_stubs() -> None:
     )
     # Top-level aliases the real `requests` package exposes; the new bespoke
     # fetchers reference them (requests.get / requests.RequestException), so
-    # the offline stub must be faithful. Real outbound calls are monkeypatched
-    # by the tests that exercise a fetch.
+    # the offline stub must be faithful. Each HTTP verb a test monkeypatches
+    # must be pre-declared here: monkeypatch.setattr resolves the attribute
+    # before replacing it, so a missing verb fails at patch time. Declared as
+    # None so an unpatched call fails loudly; tests that exercise a fetch
+    # monkeypatch it.
     fake_req.RequestException = fake_req.exceptions.RequestException
+    fake_req.get = None
     sys.modules.setdefault("requests", fake_req)
 
     # markdown: map markdown -> a distinguishable HTML wrapper.
@@ -322,7 +326,7 @@ def make_source(name="S1", kind="rss", url=None, homepage=None):
 def make_category(cat_id="ai-ml", name="AI/ML", recipient=None):
     """Build a Category. prompt_path is only read by the real curator, never
     by the fake curator the seam tests inject, so any Path is fine."""
-    from categories import Category
+    from categories import Category, Section
     return Category(
         id=cat_id,
         name=name,
@@ -331,6 +335,7 @@ def make_category(cat_id="ai-ml", name="AI/ML", recipient=None):
         prompt="prompts/%s.md" % cat_id,
         prompt_path=Path(REPO_ROOT) / "categories" / "prompts" / ("%s.md" % cat_id),
         sources=(make_source(name="S1"), make_source(name="S2")),
+        sections=(Section("General news", "fallback test section"),),
     )
 
 
