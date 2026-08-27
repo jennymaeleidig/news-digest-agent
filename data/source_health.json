@@ -6,11 +6,6 @@
           {
             "error": null,
             "success": true,
-            "timestamp": "2026-08-27T01:02:38.291696+00:00"
-          },
-          {
-            "error": null,
-            "success": true,
             "timestamp": "2026-08-27T01:07:25.357220+00:00"
           },
           {
@@ -72,6 +67,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611757+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.336009+00:00"
           }
         ]
       },
@@ -125,11 +125,6 @@
       },
       "Hugging Face": {
         "recent_runs": [
-          {
-            "error": null,
-            "success": true,
-            "timestamp": "2026-08-27T01:02:38.291665+00:00"
-          },
           {
             "error": null,
             "success": true,
@@ -194,16 +189,16 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611741+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.335994+00:00"
           }
         ]
       },
       "Hugging Face Daily Papers": {
         "recent_runs": [
-          {
-            "error": null,
-            "success": true,
-            "timestamp": "2026-08-27T01:02:38.291689+00:00"
-          },
           {
             "error": null,
             "success": true,
@@ -268,6 +263,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611746+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.335998+00:00"
           }
         ]
       },
@@ -348,11 +348,6 @@
           {
             "error": "HTTP 403",
             "success": false,
-            "timestamp": "2026-08-27T01:02:38.291693+00:00"
-          },
-          {
-            "error": "HTTP 403",
-            "success": false,
             "timestamp": "2026-08-27T01:07:25.357210+00:00"
           },
           {
@@ -414,6 +409,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611753+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.336005+00:00"
           }
         ]
       },
@@ -462,11 +462,6 @@
       },
       "arXiv (Code)": {
         "recent_runs": [
-          {
-            "error": null,
-            "success": true,
-            "timestamp": "2026-08-27T01:02:38.291661+00:00"
-          },
           {
             "error": null,
             "success": true,
@@ -531,16 +526,16 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611734+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.335988+00:00"
           }
         ]
       },
       "arXiv (LLM)": {
         "recent_runs": [
-          {
-            "error": null,
-            "success": true,
-            "timestamp": "2026-08-27T01:02:38.291643+00:00"
-          },
           {
             "error": null,
             "success": true,
@@ -605,16 +600,16 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611712+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.335969+00:00"
           }
         ]
       },
       "radarai.top (AI)": {
         "recent_runs": [
-          {
-            "error": null,
-            "success": true,
-            "timestamp": "2026-08-27T01:02:38.291691+00:00"
-          },
           {
             "error": null,
             "success": true,
@@ -679,6 +674,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-08-27T02:58:00.611750+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-27T03:04:41.336002+00:00"
           }
         ]
       }

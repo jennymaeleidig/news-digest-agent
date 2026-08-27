@@ -1,1 +1,2 @@
 
+{"category": "ai-ml", "timestamp": "2026-08-27T03:04:41.336901+00:00", "items_input": 0, "items_output": 0, "sources_succeeded": 7, "sources_failed": 0, "duration_seconds": 48.71, "prompt_size": 0, "curate_error": "OSError: [Errno 7] Argument list too long: 'copilot'", "email_error": null}
