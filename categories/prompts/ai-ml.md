@@ -22,7 +22,7 @@ the list is genuinely in scope.
 Rank by importance: (1) model releases and infrastructure shifts; (2) research
 that changes practice — training/scaling, alignment, fine-tuning, context,
 agents and tool use, evals, retrieval, synthetic data, reasoning; (3)
-tools/frameworks and business news — when a report, acquisition, post-mortem,
+tools/frameworks and business news — when a report, merger/acquisition, post-mortem,
 benchmark, or finding carries a lesson you can build on, not a launch
 announcement. Between two borderline items, keep the one more relevant to LLM
 engineering.
