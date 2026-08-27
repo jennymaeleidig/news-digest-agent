@@ -72,3 +72,33 @@ jobs:
 
           git commit -m "chore: update state files ($(date -u +%Y-%m-%d))"
           git push
+
+  # Smoke-test the three new network-backed fetchers (Hugging Face Daily
+  # Papers, AI Release Tracker, radarai.top) from the same datacenter-IP
+  # environment the scheduled digest run executes from. A fetch that works on
+  # a local residential IP is not sufficient evidence a source holds up where
+  # the digest actually runs; this job fails unless each returns a full body
+  # that maps to non-empty items (see scripts/smoke_test_fetchers.py). It runs
+  # within the same 10-minute timeout and same dependency set as run-digest and
+  # never retries a host, so it cannot hammer any of the sites it exercises.
+  smoke-test-fetchers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Smoke-test network-backed fetchers (datacenter IP)
+        # Exits non-zero if any of the three network-backed fetchers fails or
+        # returns an empty body from this environment, so a scrape that only
+        # works locally fails here and blocks claiming the effort complete.
+        run: python scripts/smoke_test_fetchers.py
