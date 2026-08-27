@@ -43,6 +43,14 @@ Three committed files in `data/`, keyed by category `id`:
 - `source_health.json` — per-source success/failure, shown as a digest footer.
 - `run_log.jsonl` — per-run duration, item counts, prompt size, errors.
 
+To reset state before a debugging run (treat every recent item as unseen
+again and start a clean log):
+
+```
+python -m scripts.clear_state            # seen_items + run_log
+python -m scripts.clear_state --health   # + source_health
+```
+
 ## Setup
 
 ```
