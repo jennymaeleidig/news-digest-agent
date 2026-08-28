@@ -7,18 +7,22 @@
   "sections": [
     {
       "name": "Global News",
+      "max_items": 5,
       "description": "Events and affairs outside the United States — wars, disasters, courts, institutions, and world news as it happens; the center is what occurred beyond the US, not the politics around it."
     },
     {
       "name": "Global Politics",
+      "max_items": 5,
       "description": "Governments, elections, and power outside the United States — foreign leaders, parties, elections, diplomacy, and geopolitics; the center is who holds or contests power abroad."
     },
     {
       "name": "US News",
+      "max_items": 10,
       "description": "Domestic events and affairs in the United States — courts, disasters, investigations, institutions, and national news as it happens; the center is what occurred at home, not the politics around it."
     },
     {
       "name": "US Politics",
+      "max_items": 10,
       "description": "The contest for power and policy in the United States — elections, Congress, the administration, campaigns, policy fights, and political movements; the center is the political fight itself."
     }
   ],

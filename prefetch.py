@@ -41,7 +41,15 @@ A stage-1-selected video's transcript is fetched keylessly through
 `youtube-transcript-api` and reduced **deterministically** to a compact,
 bounded excerpt block — evenly-spaced windows of the transcript text capped
 at `TRANSCRIPT_MAX_CHARS`, with no model pass — so stage-2 remains the only
-summarizer and cost doesn't grow per video. The caption origin
+summarizer and cost doesn't grow per video.
+
+Known gap: datacenter IPs (GitHub Actions runners) are blocked from the
+transcript endpoint (`RequestBlocked`); a self-deployed proxy per the
+youtube-transcript-api proxy docs is the planned fix (see README,
+Known gaps). Failures are isolated — the item stays judgable on its
+snippet alone.
+
+The caption origin
 (`is_generated`: auto-generated vs manual) is surfaced in the block's header
 line. The block attaches to the item's enrichment exactly like an HTML
 enrichment (keyed by the item's URL). Each transcript fetch counts against

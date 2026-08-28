@@ -104,3 +104,18 @@ The model is pinned in `.env` as `OPENROUTER_MODEL` (default
 - A failed email send does not write `seen_items.json`, so the next run retries
   the same items — fix send failures promptly.
 - `source_health.json` and `run_log.jsonl` are written even when the run fails.
+
+## Known gaps / future work
+
+- **Video transcripts are blocked from datacenter IPs.** YouTube serves
+  transcripts to residential IPs but blocks datacenter ones — the CI smoke
+  test observes `RequestBlocked` (and occasionally `VideoUnplayable` for live
+  entries) from GitHub Actions runners, so shortlisted videos there are
+  judged on their snippet alone. Isolate-and-continue holds: the run never
+  fails on this, the item just loses its transcript deep-read. The fix is a
+  self-deployed proxy: route the `youtube-transcript-api` calls in
+  `prefetch.fetch_transcript_excerpt` through an outbound proxy we own
+  (residential or egress we control), per
+  [youtube-transcript-api · Using other proxy solutions](https://github.com/jdepoix/youtube-transcript-api#using-other-proxy-solutions).
+  Until then, transcript quality for the three YouTube sources is a
+  laptop-only property.
