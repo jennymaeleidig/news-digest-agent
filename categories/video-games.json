@@ -1,0 +1,34 @@
+{
+  "id": "video-games",
+  "name": "Video games",
+  "schedule": "0 9 * * *",
+  "recipient": null,
+  "prompt": "prompts/video-games.md",
+  "sections": [
+    {
+      "name": "video game news",
+      "description": "The games industry and medium as a beat — studios, publishers, platforms, labor, regulation, and game culture — industry news, excluding individual release announcements."
+    },
+    {
+      "name": "video game releases",
+      "description": "Releases as a beat — new-game and expansion announcements, launch dates, previews, hands-on impressions, and major updates or patches: what is coming out and when it lands."
+    }
+  ],
+  "sources": [
+    {
+      "name": "aftermath",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://aftermath.site/rss/",
+      "homepage": "https://aftermath.site/",
+      "sections": ["video game news", "video game releases"]
+    },
+    {
+      "name": "jason-schreier",
+      "tier": 4,
+      "kind": "youtube",
+      "url": "UCQoOmu6mKZkXTnwZcpD8Ciw",
+      "sections": ["video game news"]
+    }
+  ]
+}
