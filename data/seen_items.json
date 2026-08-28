@@ -1,1 +1,1849 @@
-{}
+{
+  "ai-ml": {
+    "https://aireleasetracker.com/model/deepseek/deepseek-v4-flash-0731": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/deepseek/deepseek-v4-pro-0813": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/google/gemini-3.7-flash": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/meta/muse-glimmer": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/meta/muse-spark-1.2": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/nvidia/nemotron-3.5-lightning": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/openai/gpt-5.6-cyber": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/qwen/qwen3.8-27b": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/qwen/qwen3.8-flash-next": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/qwen/qwen3.8-max": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/xai/grok-4.6": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/zai/glm-5.3": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Releases",
+      "source": "AI Release Tracker"
+    },
+    "https://aireleasetracker.com/model/zai/glm-5.3-flash": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "AI Release Tracker"
+    },
+    "https://arxiv.org/abs/2411.15129": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2504.05216": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2505.14104": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2505.15740": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2505.22203": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2506.16453": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2506.23749": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2507.02950": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2507.11515": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2508.11017": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2508.19449": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2509.03345": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2509.07274": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2509.08897": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2509.25160": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2510.09316": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2510.11297": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2510.11358": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2510.12979": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2510.18383": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2510.25732": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2511.02475": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2511.18782": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2512.06694": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.03605": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.04778": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.15236": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2601.17173": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2602.04731": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.09215": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.16105": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.18161": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.21165": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2603.25489": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2604.02324": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2604.05876": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2604.06474": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2604.08801": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2604.20468": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2604.21057": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.04180": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.17873": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.24279": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2605.26678": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2605.30931": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.02502": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.05725": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.07867": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.08000": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.08357": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.09080": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.10402": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.12984": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.17188": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.18037": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.21891": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2606.22179": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.07050": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.18064": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2607.19326": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.23838": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2607.27747": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.01942": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.01979": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.07261": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.13463": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.15763": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.20574": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.21832": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.21884": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.22126": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.22444": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.22559": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.22963": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23149": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23705": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.23780": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24135": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24168": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24275": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24368": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.24977": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.24982": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.25061": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.25531": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.25677": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.25944": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26013": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26108": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26109": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26112": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26113": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26114": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26119": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26120": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26121": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26123": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26124": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26125": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26126": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26129": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26130": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26131": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26132": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26133": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26136": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26137": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26139": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26140": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26141": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26142": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26143": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26144": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26145": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26147": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26148": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26150": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26152": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26154": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26155": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26159": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26161": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26163": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26165": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26168": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26171": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26175": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26176": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26177": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26180": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26186": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26187": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26192": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26194": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26195": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26197": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26199": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26214": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26218": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26222": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26225": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26238": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26295": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26316": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26317": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26319": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26324": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26327": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26329": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26332": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26344": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26357": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26372": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26374": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26375": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26379": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26386": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26389": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26391": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26408": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26414": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26423": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26432": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26442": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26462": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26476": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26480": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26495": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://arxiv.org/abs/2608.26506": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "Research",
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26511": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26529": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26546": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26550": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26557": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26563": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26574": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26576": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26580": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26582": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26587": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26588": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26592": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26596": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26602": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26641": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26674": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26676": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26696": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26699": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26706": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26735": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26742": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26753": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26762": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26779": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26788": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26832": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26836": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26870": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26885": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.26887": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26921": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26923": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26925": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26941": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26950": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26973": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.26982": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27031": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27036": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27038": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27049": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27070": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27086": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27094": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27110": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27115": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27135": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27146": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27148": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27161": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27165": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27167": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27176": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27184": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27219": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27234": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27260": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27265": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27266": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27268": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27299": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27309": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27343": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27348": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27358": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27370": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27391": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27394": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27397": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27402": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27409": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27420": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27427": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27428": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27442": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27448": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27449": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (Code)"
+    },
+    "https://arxiv.org/abs/2608.27454": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://arxiv.org/abs/2608.27455": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "arXiv (LLM)"
+    },
+    "https://aws.amazon.com/blogs/machine-learning/build-agentic-creative-workflows-with-amazon-quick-and-fal/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://aws.amazon.com/blogs/machine-learning/introducing-india-cross-region-inference-for-openai-gpt-5-6-models-on-amazon-bedrock/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://aws.amazon.com/blogs/machine-learning/introducing-openai-models-on-amazon-bedrock-for-in-country-inferencing-in-india/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/hypoforge-a-self-improving-multi-agent-framework-for-automated-hypothesi-66fa9393a7": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/icon-decomposition-multivariate-concept-level-explanations-of-deep-repre-8c627b97af": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/livingrag-augmenting-graph-rag-with-experience-31d6f94716": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/prefix-sliding-for-efficient-test-time-scaling-6527db8dc5": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/swarmworld-stigmergic-technological-evolution-in-societies-of-language-m-c804c356b6": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://github.com/ggml-org/llama.cpp/releases/tag/b10658": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.4.0a1": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://github.com/langfuse/langfuse/releases/tag/v4.23.0": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://github.com/langfuse/langfuse/releases/tag/v4.24.0": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/gradio-workflow-guide": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/ibm-granite/granite-4-2": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/blog/train-multi-vector-encoder": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face"
+    },
+    "https://huggingface.co/papers/2608.14652": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.15062": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.15763": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.19098": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.19556": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.19583": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.21140": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.21832": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.21839": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.22071": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23172": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23256": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23318": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23383": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.23564": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24099": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24138": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24358": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24479": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24909": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24979": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.24987": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25204": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25500": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25512": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25518": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25529": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25580": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25593": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25625": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25832": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.25864": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26005": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26067": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26070": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26103": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26200": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26238": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26530": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26809": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26872": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.26993": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27123": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27260": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27345": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27351": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27448": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27454": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://huggingface.co/papers/2608.27456": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Hugging Face Daily Papers"
+    },
+    "https://machinelearningmastery.com/interpretable-text-classification-probing-scikit-llm-embedding-spaces/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://research.google/blog/planetary-prediction-engine-automating-global-models-via-earth-ai/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://simonwillison.net/2026/Aug/27/breaking-claude-code-opus-5-auto-mode/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/27/anthropic-and-openai-are-joining-the-ai-stage-at-techcrunch-disrupt-2026/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/27/barret-zoph-the-thinking-machines-co-founder-who-defected-to-openai-is-now-at-google/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/27/openai-anthropic-google-and-100-other-companies-call-for-action-to-defend-against-rogue-ai/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/28/anthropic-gets-its-first-court-win-over-the-pentagons-supply-chain-risk-label/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/28/meta-executive-leaves-for-openai-as-the-social-media-giant-faces-growing-scrutiny-in-india/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/article/7cc75857fa?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.kdnuggets.com/quantization-and-pruning-methods-to-make-your-llm-leaner": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.latent.space/p/ainews-openai-to-reach-agi-bar-by": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.marktechpost.com/2026/08/27/google-ai-releases-gemini-3-5-transcribe-a-speech-to-text-model-reporting-2-6-average-wer-across-85-languages/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzdfw9/ama_announcement_apodex_thursday_8am11am_pst/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzmqrk/nvidia_buying_hf_isnt_a_good_thing_for_open_source/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzvsx0/and_then_they_came_for_the_used_server_ram/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vzxdui/were_the_team_behind_apodex_11_ask_us_anything/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0198r/no_engrams_wont_let_you_run_1t_models_locally_it/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w01y1f/with_huggingface_nvidia_is_also_acquiring/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w03zdo/llamacpp_support_for_qwen38flashnext_has_been/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w05clp/the_unsloth_appreciation_post_big_thanks_to/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w05kbt/5090_now_officially_cost_5090/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0ao39/i_implemented_a_modern_llm_in_700_lines_of_c/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0bnv2/yall_are_sleeping_on_qwen_38_27b_q2_q2_dflash_q5/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0dgiv/do_you_think_a_few_qwen3827b_models_working/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0dl38/i_am_concerned_if_nvidia_acquires_llamacpp_dev/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0fxos/ninfer_and_a_5090_with_38_27b_is_making_me_cry/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0hrrn/i_reverseengineered_an_npu_vendors_engine_format/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0i01c/infinite_procedurally_generated_walking_simulator/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0igxk/tencenthy4preview_770ba49b_weight_dropped/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0kstl/open_source_caught_up_because_its_open/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0lz7e/claude_mods_didnt_like_that_somehow/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0m6gg/tontaubev1_open_tts_model_release_for_local/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0mmk7/micron_hbm_requires_three_times_more_wafer_area/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0na2z/qwen38flashnext_udiq4_xs_on_2x_rtx_3060_7800x3d/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0p5ho/after_meta_avocado_we_get_watermelon_due_in/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0panh/heat/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w0pscn/qwen3827b_q8_kv_cache_does_seem_to_actually_hurt/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.wired.com/story/a-judge-has-blocked-the-pentagons-attempt-to-blacklist-anthropic/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/ai-agents-hacking-systems-could-push-the-us-and-china-to-cooperate/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/anthropic-standard-ai-agents-coming-to-the-physical-world/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/he-scraped-art-from-cara-for-ai-now-he-is-collaborating-on-a-tool-to-help-them/": {
+      "date": "2026-08-28T14:11:30.259876+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    }
+  }
+}

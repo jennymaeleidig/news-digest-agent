@@ -1,1 +1,69 @@
-{}
+{
+  "ai-ml": {
+    "sources": {
+      "AI Release Tracker": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259409+00:00"
+          }
+        ]
+      },
+      "Hugging Face": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259401+00:00"
+          }
+        ]
+      },
+      "Hugging Face Daily Papers": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259403+00:00"
+          }
+        ]
+      },
+      "Reddit r/LocalLLaMA": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259407+00:00"
+          }
+        ]
+      },
+      "arXiv (Code)": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259397+00:00"
+          }
+        ]
+      },
+      "arXiv (LLM)": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259377+00:00"
+          }
+        ]
+      },
+      "radarai.top (AI)": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T14:11:30.259405+00:00"
+          }
+        ]
+      }
+    }
+  }
+}

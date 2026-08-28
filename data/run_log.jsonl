@@ -1,0 +1,1 @@
+{"category": "ai-ml", "timestamp": "2026-08-28T14:11:30.259804+00:00", "items_input": 384, "items_output": 16, "sources_succeeded": 7, "sources_failed": 0, "duration_seconds": 462.99, "prompt_size": 181203, "model": "z-ai/glm-5.3-flash", "prompt_tokens": 48942, "completion_tokens": 17307, "curate_error": null, "email_error": null}
