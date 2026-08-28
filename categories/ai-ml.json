@@ -1,7 +1,7 @@
 {
   "id": "ai-ml",
   "name": "AI",
-  "schedule": "17 16 * * *",
+  "schedule": "0 8 * * *",
   "recipient": null,
   "prompt": "prompts/ai-ml.md",
   "sections": [

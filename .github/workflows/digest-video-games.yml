@@ -1,0 +1,100 @@
+# Per-category digest workflow: Video games (video-games).
+#
+# Each category runs as its own workflow, invoking the per-category dispatch
+# selector (`main.py --category <id>`) so one run touches exactly one
+# category. The four categories are staggered on the shared base 08:00 UTC,
+# +30m each — AI 08:00, Tech 08:30, Video games 09:00, Politics & News
+# 09:30 — so all four digests deliver into the same inbox as separate
+# messages, each scoped to its own subject, and the sends are spaced.
+#
+# Isolate-and-continue holds across the schedule structurally: each category
+# is its own workflow and its own process, so this category failing (curation,
+# email, or a hard error) fails only this workflow and never halts the
+# others'. Within the run itself, per-source and per-stage failures are
+# isolated by main.py exactly as for a run-everything invocation.
+#
+# The cron below must stay in sync with categories/video-games.json's `schedule`
+# field; tests/test_workflow_schedule.py pins the two together and fails if
+# they drift. Cron is always UTC.
+name: Digest — Video games
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch: {}
+
+# All four digest workflows read-modify-write the shared data/ state files
+# (seen_items.json, source_health.json, run_log.jsonl) and push to the same
+# branch, so they share one concurrency group with cancel-in-progress
+# disabled: an overlapping run (manual dispatch during a scheduled run) queues
+# rather than clobbering another workflow's state commit. The 30-minute
+# stagger plus the 10-minute timeout means scheduled runs never overlap.
+concurrency:
+  group: digest
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # required so we can commit data/ files back to the repo
+
+jobs:
+  run-digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Video games digest
+        # The per-category dispatch selector: this workflow runs only the
+        # video-games category. Curation runs through the OpenRouter
+        # chat-completions API; the curation model is pinned via the
+        # OPENROUTER_MODEL env var (here from an optional repo variable,
+        # defaulting to config.OPENROUTER_MODEL when unset/empty). All four
+        # category workflows wire the same RECIPIENT_EMAIL secret, so each
+        # digest lands in the same inbox as its own message. Local runs use
+        # the same values via .env.
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+        run: python main.py --category video-games
+
+      # Always commit state changes, even if the digest run failed:
+      # source_health.json and run_log.jsonl are most useful when
+      # something went wrong, so we want them captured either way. The state
+      # files are shared across categories (each category is a key inside
+      # them), so this commits the whole file — the concurrency group
+      # guarantees no other digest run is writing at the same time.
+      - name: Commit state changes
+        if: always()
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Add only files that exist; on the very first run run_log.jsonl
+          # may not yet exist if main.py crashed before its first append.
+          for f in data/seen_items.json data/source_health.json data/run_log.jsonl; do
+            if [ -f "$f" ]; then
+              git add "$f"
+            fi
+          done
+
+          if git diff --staged --quiet; then
+            echo "No state changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update state files ($(date -u +%Y-%m-%d))"
+          git push

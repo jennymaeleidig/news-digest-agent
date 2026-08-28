@@ -11,3 +11,4 @@
 -r requirements.txt
 
 pytest>=7.0
+pyyaml>=6.0   # test-only: parses .github/workflows/*.yml in the schedule tests

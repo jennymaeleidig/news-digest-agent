@@ -3,7 +3,9 @@
 A category-driven daily news digest: fetch curated sources, have an LLM pick
 and summarize the day's most relevant items, email the result. Ships configured
 for AI/ML news (LLMs and AI coding agents), but the engine is topic-agnostic —
-any subject is just another category. Runs on GitHub Actions at 16:17 UTC.
+any subject is just another category. Runs on GitHub Actions — one workflow
+per category, staggered from 08:00 UTC (AI 08:00, Tech 08:30, Video games
+09:00, Politics & News 09:30).
 
 > Fork of [al-strunova/ai-news-digest-agent](https://github.com/al-strunova/ai-news-digest-agent).
 
@@ -87,6 +89,13 @@ The model is pinned in `.env` as `OPENROUTER_MODEL` (default
 
 ## Operational notes
 
+- Each category runs as its own GitHub Actions workflow
+  (`.github/workflows/digest-<id>.yml`) on a staggered UTC schedule —
+  AI 08:00, Tech 08:30, Video games 09:00, Politics & News 09:30 (base
+  08:00, +30m each) — so the four digests arrive as separate messages in
+  the same inbox, and one category failing fails only its own workflow.
+  A workflow's cron and its category config's `schedule` field must stay
+  in sync (`tests/test_workflow_schedule.py` enforces it).
 - A failed email send does not write `seen_items.json`, so the next run retries
   the same items — fix send failures promptly.
 - `source_health.json` and `run_log.jsonl` are written even when the run fails.

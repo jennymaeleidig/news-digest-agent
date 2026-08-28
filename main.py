@@ -3,7 +3,9 @@
 Discovers every category config (categories/*.json) and runs each category's
 full fetch → filter → curate → email pipeline (see run_category) fully before
 starting the next; per-category failures are isolated so one bad category never
-halts the rest. One shared schedule (the workflow) fires all categories.
+halts the rest. Each category runs as its own scheduled workflow (see
+.github/workflows/digest-<id>.yml) on a staggered UTC schedule — base 08:00,
++30m each — and its run touches only that category.
 
 CLI argument contract (per-category dispatch, spec: expand categories):
   main.py                 # no arg => run all discovered categories
@@ -566,10 +568,11 @@ def main(argv: list[str] | None = None) -> int:
 
     # Discover every category config, resolve the dispatch selector, and run
     # each selected category fully (fetch → filter → curate → email) before
-    # starting the next. One shared schedule fires this single job; each
-    # category gets its own prompt file, its own state namespace, and its own
-    # email routing. Isolate-and-continue across categories lives in
-    # run_digest.
+    # starting the next. Each category is scheduled as its own workflow
+    # (.github/workflows/digest-<id>.yml) and invokes this entry point with
+    # only its own id; each category gets its own prompt file, its own state
+    # namespace, and its own email routing. Isolate-and-continue across
+    # categories lives in run_digest.
     categories = discover_categories()
     try:
         selected = select_categories(categories, category_id=args.category)
