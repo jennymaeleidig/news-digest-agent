@@ -35,6 +35,19 @@ _REQUEST_HEADERS = {
 }
 
 
+def _https_normalize(url: str) -> str:
+    """Upgrade an ``http://`` permalink to ``https://``.
+
+    Some feeds (e.g. democracynow) publish ``http://`` permalinks even though
+    the https origin serves the same page. Normalizing at fetch time keeps a
+    source's item URLs on one scheme so dedup (``seen_items`` keyed by URL)
+    matches across runs instead of carrying both spellings.
+    """
+    if url.startswith("http://"):
+        return "https://" + url[len("http://"):]
+    return url
+
+
 def _parse_published(entry) -> str:
     parsed = entry.get("published_parsed") or entry.get("updated_parsed")
     if parsed:
@@ -83,7 +96,7 @@ def fetch(source: Source) -> FetchResult:
     items: list[Item] = []
     for entry in parsed.entries:
         title = (entry.get("title") or "").strip()
-        url = (entry.get("link") or "").strip()
+        url = _https_normalize((entry.get("link") or "").strip())
         if not title or not url:
             continue
         linked_url = None

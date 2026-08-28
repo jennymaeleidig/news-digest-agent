@@ -1,0 +1,97 @@
+{
+  "id": "politics-news",
+  "name": "Politics & News",
+  "schedule": "30 9 * * *",
+  "recipient": null,
+  "prompt": "prompts/politics-news.md",
+  "sections": [
+    {
+      "name": "Global News",
+      "description": "Events and affairs outside the United States — wars, disasters, courts, institutions, and world news as it happens; the center is what occurred beyond the US, not the politics around it."
+    },
+    {
+      "name": "Global Politics",
+      "description": "Governments, elections, and power outside the United States — foreign leaders, parties, elections, diplomacy, and geopolitics; the center is who holds or contests power abroad."
+    },
+    {
+      "name": "US News",
+      "description": "Domestic events and affairs in the United States — courts, disasters, investigations, institutions, and national news as it happens; the center is what occurred at home, not the politics around it."
+    },
+    {
+      "name": "US Politics",
+      "description": "The contest for power and policy in the United States — elections, Congress, the administration, campaigns, policy fights, and political movements; the center is the political fight itself."
+    }
+  ],
+  "sources": [
+    {
+      "name": "democracynow",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.democracynow.org/democracynow.rss",
+      "homepage": "https://www.democracynow.org/",
+      "sections": ["Global News", "Global Politics", "US News", "US Politics"]
+    },
+    {
+      "name": "dropsite",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.dropsitenews.com/feed",
+      "homepage": "https://www.dropsitenews.com/",
+      "sections": ["Global News", "Global Politics", "US News"]
+    },
+    {
+      "name": "propublica",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.propublica.org/feeds/propublica/main",
+      "homepage": "https://www.propublica.org/",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "defector",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://defector.com/feed",
+      "homepage": "https://defector.com/",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "kenklippenstein",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://www.kenklippenstein.com/feed",
+      "homepage": "https://www.kenklippenstein.com/",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "usermag",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.usermag.co/feed",
+      "homepage": "https://www.usermag.co/",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "majority-report",
+      "tier": 4,
+      "kind": "youtube",
+      "url": "UC-3jIAlnQmbbVMV6gR7K8aQ",
+      "sections": ["US Politics"]
+    },
+    {
+      "name": "hasanabi",
+      "tier": 4,
+      "kind": "youtube",
+      "url": "UCtoaZpBnrd0lhycxYJ4MNOQ",
+      "sections": ["US Politics"]
+    },
+    {
+      "name": "true-anon",
+      "tier": 4,
+      "kind": "rss",
+      "url": "https://www.patreon.com/public-rss/2963533?show=875184",
+      "homepage": "https://podcast.trueanon.com",
+      "sections": ["US Politics"]
+    }
+  ]
+}
