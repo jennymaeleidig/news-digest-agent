@@ -14,9 +14,12 @@ The prompt reaches the model as text only: the category's curation prompt file
 (categories/prompts/<id>.md) is read for the driving instructions, the day's
 items are formatted into the user message, and the two are combined into a
 single chat `user` message. Curation runs **one API call per digest section**:
-items are partitioned by their source's assigned section and each non-empty
-section is curated separately, so section coverage is an orchestration
-guarantee rather than a model balancing judgment. No tools or plugins are
+an item from a multi-section source is offered as a candidate to every Section
+its source is mapped to and each section's candidates are curated separately,
+so section coverage is an orchestration guarantee rather than a model balancing
+judgment. A deterministic no-double-pick guard (``_candidates_for_section``)
+keeps one URL in exactly one Section of the digest: a URL picked in an earlier
+Section is excluded from every later Section's candidate set. No tools or plugins are
 requested, so the model is a pure summarizer that never touches the network —
 an untrusted article's text cannot cause it to fetch arbitrary hosts.
 Authentication is the `OPENROUTER_API_KEY` bearer token.
@@ -220,13 +223,14 @@ def _tier_by_source(category: Category) -> dict[str, int]:
     return {s.name: s.tier for s in category.sources}
 
 
-def _section_by_source(category: Category) -> dict[str, str]:
-    """Map each configured source name to its assigned digest section.
+def _sections_by_source(category: Category) -> dict[str, tuple[str, ...]]:
+    """Map each configured source name to every Section it is mapped to.
 
-    Sources without a section (absent / None) drop out, so an un-delegated
-    source simply has no ``Section:`` tag and the model is free to place it.
+    A multi-section source's items are offered as candidates in each of these
+    Sections' per-section passes (see ``_group_by_section``); a source with a
+    single mapped Section behaves exactly as before.
     """
-    return {s.name: s.section for s in category.sources if s.section}
+    return {s.name: s.sections for s in category.sources if s.sections}
 
 
 def _order_by_relevance(items: list[Item], category: Category) -> list[Item]:
@@ -255,23 +259,49 @@ def _order_by_relevance(items: list[Item], category: Category) -> list[Item]:
 
 def _group_by_section(
     items: list[Item],
-    section_by_source: dict[str, str],
+    sections_by_source: dict[str, tuple[str, ...]],
     section_order: tuple[str, ...],
 ) -> dict[str, list[Item]]:
-    """Partition items into their assigned digest sections.
+    """Offer items as candidates to every Section their source is mapped to.
 
-    Returns a ``section -> items`` map in no particular grouping order (the
-    caller walks ``section_order``). Items whose source has no section, or an
-    unknown one, land in the last section (the catch-all), matching
-    ``_reassemble_by_section``'s fallback.
+    An item from a multi-section source is appended to *each* mapped Section's
+    candidate list, so a strong item can be placed by stage-1 into any of its
+    mapped Sections rather than being forced into one (the no-double-pick
+    guard, ``_candidates_for_section``, keeps it out of the Sections it loses
+    the race for). Returns a ``section -> items`` map in no particular
+    grouping order (the caller walks ``section_order``). Items whose source
+    maps to no known Section land in the last section (the catch-all),
+    matching ``_reassemble_by_section``'s fallback.
     """
     groups: dict[str, list[Item]] = {s: [] for s in section_order}
     for it in items:
-        section = section_by_source.get(it.source_name)
-        if section not in groups:
-            section = section_order[-1]
-        groups[section].append(it)
+        mapped = [
+            s for s in sections_by_source.get(it.source_name, ())
+            if s in groups
+        ]
+        if not mapped:
+            mapped = [section_order[-1]]
+        for section in mapped:
+            groups[section].append(it)
     return groups
+
+
+def _candidates_for_section(
+    section_items: list[Item],
+    picked_urls: set[str],
+) -> list[Item]:
+    """The no-double-pick guard: drop items already picked in an earlier
+    Section.
+
+    Sections are curated in declared order, and ``picked_urls`` accumulates
+    the URLs stage-1 actually selected in the Sections already processed, so a
+    URL picked in an earlier Section is excluded from this Section's candidate
+    set and one URL can never be selected into more than one Section of the
+    same digest. Deterministic: same input items and picked set, same output
+    list, in input order. This is pipeline logic, not the model's judgment —
+    the model never sees (and so can never re-pick) an already-picked URL.
+    """
+    return [it for it in section_items if it.url not in picked_urls]
 
 
 def _section_prompt(prompt_text: str, section: Section) -> str:
@@ -831,12 +861,15 @@ def curate(
     """Run curation for one category via a two-stage, per-section OpenRouter pass.
 
     One pinned model (config.OPENROUTER_MODEL, overridden by OPENROUTER_MODEL)
-    is used for every call. Section coverage is an orchestration guarantee: the
-    day's items are grouped by their source's assigned section, and each
-    non-empty section is curated in two stages — stage 1 selects the items that
-    earn a place from titles alone (so every candidate is seen and no source is
-    starved), the selected subset is then deep-read (pre-fetch), and stage 2
-    summarizes and formats those enriched items. The
+    is used for every call. Section coverage is an orchestration guarantee: an
+    item is offered as a candidate to every Section its source is mapped to,
+    and each section's candidates are curated in two stages — stage 1 selects
+    the items that earn a place from titles alone (so every candidate is seen
+    and no source is starved), the selected subset is then deep-read
+    (pre-fetch), and stage 2 summarizes and formats those enriched items. A
+    deterministic no-double-pick guard keeps one URL in exactly one Section of
+    the digest: a URL picked in an earlier Section is excluded from every
+    later Section's candidate set. The
     per-section outputs are post-processed deterministically (verbatim titles,
     canonical source/tier lines, canonical section order) and concatenated.
     Raises OpenRouterError if any call fails; main.py turns that into the
@@ -860,9 +893,14 @@ def curate(
     # section's definition (see _section_prompt) since a call curates exactly
     # one section — other sections' descriptions would be noise.
     tier_by_source = _tier_by_source(category)
-    section_by_source = _section_by_source(category)
     section_order = tuple(sec.name for sec in category.sections)
-    groups = _group_by_section(ordered, section_by_source, section_order)
+    groups = _group_by_section(
+        ordered, _sections_by_source(category), section_order,
+    )
+    # The no-double-pick guard's state: URLs stage-1 has already selected in
+    # the Sections processed so far (declared order). Once picked, an item is
+    # excluded from every later Section's candidate set.
+    picked_urls: set[str] = set()
 
     # One pinned model for every call so the digest reflects a single model's
     # selection, not a rotating cast.
@@ -875,7 +913,9 @@ def curate(
     total_prompt_tokens = 0
     total_completion_tokens = 0
     for section in category.sections:
-        section_items = groups[section.name]
+        section_items = _candidates_for_section(
+            groups[section.name], picked_urls,
+        )
         if not section_items:
             continue
 
@@ -899,6 +939,7 @@ def curate(
         total_chars += len(select_prompt)
         picks = _parse_selection(select_raw, len(section_items))[:max_items]
         selected = [section_items[i - 1] for i in picks]
+        picked_urls.update(it.url for it in selected)
         print(
             f"[{category.id}]   {section.name}: [stage 1] done — selected "
             f"{len(selected)}/{len(section_items)}",
@@ -923,17 +964,24 @@ def curate(
             f"{len(selected)} items…",
             file=sys.stderr, flush=True,
         )
+        # This call curates exactly one Section, so every candidate it sees is
+        # rendered into *that* Section — a multi-section source's item lands
+        # under the Section that picked it, never its source's first mapping.
+        call_section_by_source = {
+            s.name: section.name
+            for s in category.sources if section.name in s.sections
+        }
         prompt, _ = _build_prompt(
             _section_prompt(prompt_text, section),
             selected, today, section_prefetch.enrichments,
-            tier_by_source, section_by_source,
+            tier_by_source, call_section_by_source,
         )
         raw_md, usage = _run_model(prompt, model)
         total_prompt_tokens += int(usage.get("prompt_tokens") or 0)
         total_completion_tokens += int(usage.get("completion_tokens") or 0)
         total_chars += len(prompt)
         section_md = _postprocess(
-            raw_md, selected, tier_by_source, section_by_source,
+            raw_md, selected, tier_by_source, call_section_by_source,
             section_order,
         )
         if section_md:

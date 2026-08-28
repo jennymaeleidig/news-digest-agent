@@ -18,7 +18,9 @@ _Avoid_: feed, newsletter, publication
 
 **Source**:
 A curated feed whose items flow into a category's digest, scoped by trust tier
-and an optional topic allow-list. Every source feeds exactly one **Section**.
+and an optional topic allow-list. Every source feeds one or more declared
+**Sections**; the no-double-pick guard places each picked item in exactly one
+of them per digest.
 _Avoid_: channel, stream
 
 **Section**:
