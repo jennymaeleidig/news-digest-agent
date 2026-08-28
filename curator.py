@@ -43,7 +43,7 @@ from __future__ import annotations
 import os
 import re
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 import requests
@@ -107,6 +107,12 @@ class CurateResult:
     model: str = ""              # the model id curation actually ran against
     prompt_tokens: int = 0       # sum of usage.prompt_tokens across section calls
     completion_tokens: int = 0   # sum of usage.completion_tokens across section calls
+    # The Section each URL was actually picked into (url -> section name),
+    # accumulated from stage-1's selections in declaration order by the
+    # no-double-pick guard. URLs never picked are absent. Seen-items state
+    # records this map's value — the picking Section, not the source's
+    # first/mapped one — keyed per category (ticket 08).
+    picked_section_by_url: dict[str, str] = field(default_factory=dict)
 
 
 def _request_headers(api_key: str) -> dict[str, str]:
@@ -899,8 +905,11 @@ def curate(
     )
     # The no-double-pick guard's state: URLs stage-1 has already selected in
     # the Sections processed so far (declared order). Once picked, an item is
-    # excluded from every later Section's candidate set.
+    # excluded from every later Section's candidate set. The companion map
+    # records *where* each URL was picked, so seen_items can tag the picking
+    # Section (ticket 08) — the map and the set always agree.
     picked_urls: set[str] = set()
+    picked_section_by_url: dict[str, str] = {}
 
     # One pinned model for every call so the digest reflects a single model's
     # selection, not a rotating cast.
@@ -940,6 +949,7 @@ def curate(
         picks = _parse_selection(select_raw, len(section_items))[:max_items]
         selected = [section_items[i - 1] for i in picks]
         picked_urls.update(it.url for it in selected)
+        picked_section_by_url.update((it.url, section.name) for it in selected)
         print(
             f"[{category.id}]   {section.name}: [stage 1] done — selected "
             f"{len(selected)}/{len(section_items)}",
@@ -1015,4 +1025,5 @@ def curate(
         model=model,
         prompt_tokens=total_prompt_tokens,
         completion_tokens=total_completion_tokens,
+        picked_section_by_url=picked_section_by_url,
     )

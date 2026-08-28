@@ -5,9 +5,13 @@ and reports health independently:
 
   seen_items.json       {<category id>: {url: {date, section}}}
                         Each covered URL maps to a record carrying the ISO
-                        timestamp it was covered plus the digest section its
-                        source was delegated to (deterministic section tag
-                        travels with the state). Pruned to last 14 days.
+                        timestamp it was covered plus the digest Section the
+                        item was actually picked into — a single string, from
+                        the curator's picked_section_by_url map, never the
+                        source's first/mapped Section (within a category the
+                        no-double-pick guard lands a picked item in exactly
+                        one Section). An offered-but-never-picked item
+                        records no Section. Pruned to last 14 days.
                         Legacy entries are plain ISO-timestamp strings.
   source_health.json    {<category id>: {sources: {name: [recent run records]}}}
                         Per-source list of recent success + error records.

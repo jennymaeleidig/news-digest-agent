@@ -15,7 +15,9 @@ Behavior under test:
     the candidate set of every later Section, so one URL lands in exactly one
     Section of the digest;
   - an item renders under the Section that actually picked it, not its
-    source's first declared section.
+    source's first declared section;
+  - ``CurateResult.picked_section_by_url`` records the Section each URL was
+    actually picked into (ticket 08's picked-Section map for seen_items).
 """
 
 from __future__ import annotations
@@ -264,3 +266,62 @@ class TestCurateOfferingAndGuard:
             items_a1_a2_b1(), make_category([MULTI, SINGLE]), today="2099-01-01",
         ).digest_markdown
         assert first == second
+
+
+# ---------------------------------------------------------------------------
+# 4. The picked-Section map: CurateResult records where each URL landed
+# ---------------------------------------------------------------------------
+class TestPickedSectionMap:
+    """Ticket 08's upstream seam: the curator exposes the URL -> Section map
+    of where each URL was actually picked, so seen_items can record the
+    picked Section instead of the source's first declared one."""
+
+    def test_map_records_the_section_that_actually_picked_each_url(
+        self, monkeypatch,
+    ):
+        """Alpha picks a1/a2, Beta picks b1: the map says a1/a2 -> Alpha and
+        b1 -> Beta — the picking Section, never a source's first mapping."""
+        fake = FakeModel(picks_by_section={"Alpha": [1, 2], "Beta": [1]})
+        patch_pipeline(monkeypatch, fake)
+        result = curator.curate(
+            items_a1_a2_b1(), make_category([MULTI, SINGLE]), today="2099-01-01",
+        )
+        assert result.picked_section_by_url == {
+            "https://example.com/a1": "Alpha",
+            "https://example.com/a2": "Alpha",
+            "https://example.com/b1": "Beta",
+        }
+
+    def test_map_names_second_section_when_it_did_the_picking(
+        self, monkeypatch,
+    ):
+        """A multi-section source's item picked into its second mapped
+        Section is recorded under that Section (Beta), not its first (Alpha)."""
+        fake = FakeModel(picks_by_section={"Alpha": [], "Beta": [1]})
+        patch_pipeline(monkeypatch, fake)
+        result = curator.curate(
+            items_a1_a2_b1(), make_category([MULTI, SINGLE]), today="2099-01-01",
+        )
+        assert result.picked_section_by_url["https://example.com/a1"] == "Beta"
+
+    def test_never_picked_urls_are_absent_from_the_map(self, monkeypatch):
+        """Nothing is picked anywhere: the map is empty — an unpicked URL has
+        no Section it was 'actually picked into'."""
+        fake = FakeModel(picks_by_section={})
+        patch_pipeline(monkeypatch, fake)
+        result = curator.curate(
+            items_a1_a2_b1(), make_category([MULTI, SINGLE]), today="2099-01-01",
+        )
+        assert result.picked_section_by_url == {}
+
+    def test_map_covers_only_urls_picked_this_run(self, monkeypatch):
+        """Beta picks only b1: a1/a2 (offered to Beta but not picked there)
+        stay absent — the map carries picks, not candidates."""
+        fake = FakeModel(picks_by_section={"Alpha": [], "Beta": [3]})
+        patch_pipeline(monkeypatch, fake)
+        result = curator.curate(
+            items_a1_a2_b1(), make_category([MULTI, SINGLE]), today="2099-01-01",
+        )
+        assert result.picked_section_by_url == {
+            "https://example.com/b1": "Beta",
+        }

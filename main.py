@@ -383,14 +383,20 @@ def run_category(
     # ran. An error email still sets message_id, but its items were never
     # curated — leaving curate_error out here would silently burn them so the
     # next (recovered) run never sees them again.
+    #
+    # The recorded section is the Section the item was *actually picked into*
+    # (the curator's picked_section_by_url map — ticket 08), never the
+    # source's first/mapped section: within a category the no-double-pick
+    # guard lands a picked item in exactly one Section, so the value stays a
+    # single string. An offered-but-never-picked item has no picked Section
+    # and records none.
     marked_seen: list[str] = []
     if message_id is not None and curate_error is None:
         now_iso = datetime.now(timezone.utc).isoformat()
-        section_by_source = {s.name: s.section for s in sources}
         for it in unseen:
             seen[it.url] = {
                 "date": now_iso,
-                "section": section_by_source.get(it.source_name),
+                "section": result.picked_section_by_url.get(it.url),
                 "source": it.source_name,
             }
             marked_seen.append(it.url)

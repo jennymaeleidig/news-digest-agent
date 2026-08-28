@@ -379,11 +379,17 @@ def make_fetch_results(items_by_source):
 
 
 class FakeCurator:
-    """Returns a fixed CurateResult without invoking OpenRouter/pre-fetch."""
+    """Returns a fixed CurateResult without invoking OpenRouter/pre-fetch.
 
-    def __init__(self, digest="## Digest\n\nitem A", fail=None):
+    ``picked_section_by_url`` seeds the picked-Section map (ticket 08) the
+    run seam reads when tagging seen items.
+    """
+
+    def __init__(self, digest="## Digest\n\nitem A", fail=None,
+                 picked_section_by_url=None):
         self._digest = digest
         self._fail = fail
+        self._picked = picked_section_by_url or {}
         self.calls = []
 
     def __call__(self, items, category, **kw):
@@ -396,6 +402,7 @@ class FakeCurator:
             items_input=len(items),
             items_output=1,
             prompt_size=len(self._digest),
+            picked_section_by_url=dict(self._picked),
         )
 
 
