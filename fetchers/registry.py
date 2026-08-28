@@ -71,9 +71,11 @@ from fetchers import (  # noqa: E402
     huggingface_papers,
     reddit_rss_api,
     rss,
+    youtube,
 )
 
 register("rss", rss.fetch)
+register("youtube", youtube.fetch)
 register("huggingface_papers", huggingface_papers.fetch)
 register("airelease_tracker", airelease_tracker.fetch)
 register("reddit_rss_api", reddit_rss_api.fetch)

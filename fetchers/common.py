@@ -25,6 +25,9 @@ class Item:
                                          # set when a feed item's link resolves
                                          # off the source's own host (aggregator
                                          # feeds that link out to other sites)
+    video_id: Optional[str] = None      # YouTube video id, extracted from the
+                                         # watch URL; set only by the youtube
+                                         # fetcher (transcript deep-read path)
 
 
 @dataclass
