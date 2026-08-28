@@ -1,4 +1,456 @@
 {
+  "politics-news": {
+    "https://defector.com/aristides-aquino-thumped-while-the-thumping-was-good": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/im-a-redhead-so-hit-me-with-your-best-shot-of-lidocaine": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/its-no-longer-reds-week": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/lets-make-some-romesco-not-only-because-its-red-but-because-it-rules": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/the-cozy-looking-sweaters-in-reds-ranked": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/there-is-only-one-lesson-of-red-vienna": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/we-caught-these-teams-playing-imaginary-football-redhanded": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/who-needs-life-on-mars-when-it-has-glacial-spiders": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/why-does-the-red-lipped-batfish-look-like-that": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://defector.com/why-your-team-sucks-2026-san-francisco-49ers": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "defector"
+    },
+    "https://www.democracynow.org/2026/8/24/aisha_wahab": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/24/angie_nixon": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/24/headlines": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/24/montreal_vote_cut_israel_ties": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/24/us_canada_trade_war": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/25/aura_bogado_illinois_immigration_police_cooperation": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/25/autumn_hill_prairieland_nine_50_years": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/25/headlines": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/25/trump_bessent_iran_sanctions_nicholas_mulder": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/26/headlines": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/26/most_americans_are_getting_poorer_robert": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/26/they_threw_me_to_the_wolves": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/26/trumps_contested_order_to_restrict_mail": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/27/ai_platform_extractivism": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/27/data_workers": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/27/headlines": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/27/meta_settlement_ai_regulation": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/28/dont_be_squeamish_about_squamous": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/28/headlines": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/28/joaquin_castro_ice": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/28/juan_chicago_report": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/28/nepal_flooding": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global News",
+      "source": "democracynow"
+    },
+    "https://www.democracynow.org/2026/8/28/runa_simi": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "democracynow"
+    },
+    "https://www.dropsitenews.com/p/gary-indiana-power-us-iran-sanctions-israel-gaza-mosque-desalination": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global Politics",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/gaza-hospitals-medical-equipment-supplies-israeli-blockade": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global News",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/imran-khans-health-iran-under-sanctions": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global Politics",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/israel-military-funding-universities": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/israel-west-bank-jenin-trump-mail-ballots-nepal-flood": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global Politics",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/meta-social-media-suit-canada-us-trade-tariffs-nepal-flash-flood": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/pakistan-double-tap-afghanistan-samkani": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global News",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/rural-residents-say-no-data-centers-ai-cafos": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/united-states-designates-palestinian-refugee-terrorist-germany": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/us-boat-strike-haiti-gang-raid-israel-palestine-jerusalem-unrwa": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global News",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/us-sanctions-palestine-action-ice-texas-russia-uk-ukraine": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global Politics",
+      "source": "dropsite"
+    },
+    "https://www.dropsitenews.com/p/venezuela-maduro-juan-contreras-trump-oil": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "Global News",
+      "source": "dropsite"
+    },
+    "https://www.kenklippenstein.com/p/dolly-partons-superpower": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "kenklippenstein"
+    },
+    "https://www.kenklippenstein.com/p/the-most-dangerous-feds-youve-never": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "kenklippenstein"
+    },
+    "https://www.patreon.com/TrueAnonPod/posts/adult-baby-daddy-167592975": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "true-anon"
+    },
+    "https://www.patreon.com/TrueAnonPod/posts/episode-572-167835007": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "true-anon"
+    },
+    "https://www.propublica.org/article/401k-retirement-plan-fees-funds": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/911-calls-camp-east-montana-texas-detention": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/army-artillery-factory-fiasco-takeaways": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/craig-towers-knoxville-tennessee-newborn-withdrawal-study": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/faith-healing-idaho-deaths-followers-of-christ": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/hegseth-civilian-harm-mitigation-response-trump-defense-department": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/idaho-law-faith-healing-exemption": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/immigrants-rebooking-ice-jails-florida": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/syracuse-sexual-assault-lawsuit-records": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "propublica"
+    },
+    "https://www.propublica.org/article/texas-flooding-2026-kerr-county": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US News",
+      "source": "propublica"
+    },
+    "https://www.usermag.co/p/vibe-coders-now-have-their-own-language": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "usermag"
+    },
+    "https://www.youtube.com/shorts/A2qHjDIMraY": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/shorts/ReYkwN2R3WQ": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/shorts/ef0SrGyv-h8": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/shorts/igDWVuFoXTY": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/shorts/to9Wqo5m608": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/shorts/xgofZG4TMsI": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=2CuZ6hXIWoE": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=42GVoHM9BEA": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=9ZMiOd8_DyI": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=BYv8R__P3vc": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=DV_Rd9vDtDs": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=EB4aYGZtbks": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=FFU6BO8-VGk": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=Fqc5TsJ-AHs": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=KOKcW-lQayA": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=Kl-0nAlwFU8": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=MHICSwTVkYQ": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=Qp5N9ma0cBM": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=Ue-z8vFs-I4": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=VG-v1VfUcBY": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": "US Politics",
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=ViDE9Xz8654": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=ZbCsfxErgJA": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=_BblzpguYhQ": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=_FlCbT7WNCs": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=eVizUUt90oE": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=f-9NxrzNSE0": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=gV5eCaMWZqg": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=i7dooH_qdww": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "hasanabi"
+    },
+    "https://www.youtube.com/watch?v=seP2YWe8f6I": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    },
+    "https://www.youtube.com/watch?v=zf1dq0Cg41E": {
+      "date": "2026-08-28T22:09:09.858807+00:00",
+      "section": null,
+      "source": "majority-report"
+    }
+  },
   "tech": {
     "https://aftermath.site/gamescom-laptop-theft-spree-iam8bit-mimic/": {
       "date": "2026-08-28T20:55:09.833122+00:00",

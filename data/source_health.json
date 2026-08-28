@@ -1,4 +1,89 @@
 {
+  "politics-news": {
+    "sources": {
+      "defector": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858194+00:00"
+          }
+        ]
+      },
+      "democracynow": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858166+00:00"
+          }
+        ]
+      },
+      "dropsite": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858186+00:00"
+          }
+        ]
+      },
+      "hasanabi": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858207+00:00"
+          }
+        ]
+      },
+      "kenklippenstein": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858198+00:00"
+          }
+        ]
+      },
+      "majority-report": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858204+00:00"
+          }
+        ]
+      },
+      "propublica": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858191+00:00"
+          }
+        ]
+      },
+      "true-anon": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858210+00:00"
+          }
+        ]
+      },
+      "usermag": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T22:09:09.858201+00:00"
+          }
+        ]
+      }
+    }
+  },
   "tech": {
     "sources": {
       "404media": {
