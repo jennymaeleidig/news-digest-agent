@@ -5,6 +5,11 @@ full fetch → filter → curate → email pipeline (see run_category) fully bef
 starting the next; per-category failures are isolated so one bad category never
 halts the rest. One shared schedule (the workflow) fires all categories.
 
+CLI argument contract (per-category dispatch, spec: expand categories):
+  main.py                 # no arg => run all discovered categories
+  main.py --all           # same, explicit
+  main.py --category tech # run only that category
+
 Per-category run order (inside run_category):
   1. Fetch from every source (failures isolated, run continues)
   2. Filter items: time window, then dedup against that category's seen_items
@@ -25,6 +30,7 @@ Per-category run order (inside run_category):
 
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 import time
@@ -434,22 +440,98 @@ def discover_categories(directory: str | Path = CATEGORIES_DIR) -> list[Category
     return [load_category(p) for p in paths]
 
 
-def main() -> int:
-    load_dotenv()
-    run_started = time.monotonic()
-    today_date = datetime.now(timezone.utc).date().isoformat()
+StateFor = Callable[[Category], StateStore]  # per-category state factory
 
-    # Discover every category config and run each fully (fetch → filter →
-    # curate → email) before starting the next. One shared schedule fires this
-    # single job; each category gets its own prompt file, its own state
-    # namespace, and its own email routing. A category run failing does not
-    # prevent the next from running (isolate-and-continue across categories).
-    categories = discover_categories()
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    """Parse the per-category dispatch arguments (the CLI contract):
+
+    no argument (or ``--all``) runs every discovered category; ``--category
+    <id>`` runs only that category. ``--category`` and ``--all`` are mutually
+    exclusive — passing both is a usage error (exit 2).
+    """
+    parser = argparse.ArgumentParser(
+        prog="main.py",
+        description=(
+            "Run the news digest pipeline. "
+            "No argument (or --all) runs every discovered category; "
+            "--category <id> runs only that category."
+        ),
+    )
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--category",
+        metavar="<id>",
+        default=None,
+        help="run only this category id (e.g. tech)",
+    )
+    group.add_argument(
+        "--all",
+        action="store_true",
+        help="run every discovered category (the default)",
+    )
+    return parser.parse_args(argv)
+
+
+def select_categories(
+    categories: list[Category], category_id: str | None = None
+) -> list[Category]:
+    """Resolve the dispatch selector against the discovered categories.
+
+    No selector returns every category (today's run-everything behavior, also
+    behind ``--all``); a selector returns just that category. An unknown id
+    raises ValueError listing the available ids so the operator sees what
+    could have been selected instead of silently running nothing.
+    """
+    if category_id is None:
+        return list(categories)
+    matches = [c for c in categories if c.id == category_id]
+    if not matches:
+        available = ", ".join(c.id for c in categories)
+        raise ValueError(
+            f"unknown category {category_id!r} (available: {available})"
+        )
+    return matches
+
+
+def run_categories(
+    categories: list[Category],
+    *,
+    run_one: Callable[..., CategoryRunOutcome] = run_category,
+    today: str | None = None,
+    fetcher_registry: FetcherLike = fetch_one,
+    curate_fn: CuratorLike = curate,
+    emailer: EmailerLike = send_digest,
+    state_for: StateFor | None = None,
+) -> tuple[list[CategoryRunOutcome], int]:
+    """Dispatch the selected categories through their per-category Runs.
+
+    The per-category dispatch seam (ticket 09): runs each category fully
+    (fetch → filter → curate → email) before starting the next, preserving
+    isolate-and-continue across categories — a hard run failure (captured and
+    logged, category skipped) or a captured curate/email error never halts
+    the others' runs. All stage dependencies thread through to ``run_one``
+    (default run_category) so tests run the real composition with the
+    conftest fakes: ``fetcher_registry``, ``curate_fn``, and ``emailer`` are
+    shared across the dispatch; ``state_for`` builds each category's own
+    namespaced state operator (default: run_category's StateStore binding).
+
+    Returns ``(outcomes, exit_code)``: one outcome per category that ran, and
+    exit 1 if any category failed (hard failure or not ``ok``), else 0.
+    """
+    outcomes: list[CategoryRunOutcome] = []
     exit_code = 0
     for category in categories:
         print(f"[{category.id}] starting run…", file=sys.stderr, flush=True)
         try:
-            outcome = run_category(category, today=today_date)
+            outcome = run_one(
+                category,
+                fetcher_registry=fetcher_registry,
+                curate_fn=curate_fn,
+                emailer=emailer,
+                state=state_for(category) if state_for is not None else None,
+                today=today,
+            )
         except Exception as e:
             # Only unexpected hard failures land here; run_category already
             # captures curate/email errors into the outcome. Isolate-and-
@@ -469,11 +551,39 @@ def main() -> int:
             + (f" | curate_error={outcome.curate_error}" if outcome.curate_error else "")
             + (f" | email_error={outcome.email_error}" if outcome.email_error else "")
         )
+        outcomes.append(outcome)
         if not outcome.ok:
             exit_code = 1
 
+    return outcomes, exit_code
+
+
+def main(argv: list[str] | None = None) -> int:
+    load_dotenv()
+    args = parse_args(argv)
+    run_started = time.monotonic()
+    today_date = datetime.now(timezone.utc).date().isoformat()
+
+    # Discover every category config, resolve the dispatch selector, and run
+    # each selected category fully (fetch → filter → curate → email) before
+    # starting the next. One shared schedule fires this single job; each
+    # category gets its own prompt file, its own state namespace, and its own
+    # email routing. Isolate-and-continue across categories lives in
+    # run_digest.
+    categories = discover_categories()
+    try:
+        selected = select_categories(categories, category_id=args.category)
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+
+    outcomes, exit_code = run_categories(selected, today=today_date)
+
     run_duration = time.monotonic() - run_started
-    print(f"digest complete: {len(categories)} categories in {run_duration:.1f}s")
+    print(
+        f"digest complete: {len(outcomes)} of {len(selected)} categories "
+        f"in {run_duration:.1f}s"
+    )
     return exit_code
 
 

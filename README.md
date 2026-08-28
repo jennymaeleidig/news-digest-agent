@@ -38,6 +38,18 @@ each with its own recipient, state, and digest email. A category is two files:
 Adding a category is "drop one JSON + one prompt"; no stage in the pipeline
 knows a section or source by name.
 
+## Running
+
+```
+python main.py                 # run every discovered category (default)
+python main.py --all           # same, explicit
+python main.py --category tech # run only that category
+```
+
+Categories run one fully after the other; a category failing (curation,
+email, or a hard error) never stops the rest — the process exits 1 if any
+failed, 2 for a usage error (unknown category id, conflicting flags).
+
 ## State
 
 Three committed files in `data/`, keyed by category `id`:
