@@ -11,10 +11,9 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
 
     id          str   stable state-namespace key (required, non-empty)
     name        str   display name, used for the email subject (required)
-    schedule    str   cron in UTC; the category's own staggered schedule —
+                  schedule    str   cron in UTC; the category's own staggered schedule —
                   the per-category workflow (.github/workflows/
-                  digest-<id>.yml) must carry this same cron, and
-                  tests/test_workflow_schedule.py pins the two together
+                  digest-<id>.yml) must carry this same cron
                   (stagger: base 08:00 UTC, +30m each)
     recipient   str|null  recipient; null => default RECIPIENT_EMAIL
     prompt      str   file reference to a sibling prompts/<id>.md
@@ -143,13 +142,13 @@ class Category:
         schedule = data.get("schedule")
         if not isinstance(schedule, str):
             # The category's own staggered cron; the per-category workflow
-            # (.github/workflows/digest-<id>.yml) must carry the same value
-            # (pinned together by tests/test_workflow_schedule.py). Allow
+            # (.github/workflows/digest-<id>.yml) must carry the same value.
+            # Allow
             # missing (backward-friendly) but reject a schedule that is
             # present but
             # not a string so a config typo is caught early.
             if schedule is not None:
-                raise err(f"category {cat_id!r}: 'schedule' must be a string (kept but ignored)")
+                raise err(f"category {cat_id!r}: 'schedule' must be a string (the category's own cron, mirrored by its workflow)")
             schedule = ""
 
         recipient = data.get("recipient")

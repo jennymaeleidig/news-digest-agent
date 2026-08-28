@@ -28,7 +28,8 @@ on:
 # branch, so they share one concurrency group with cancel-in-progress
 # disabled: an overlapping run (manual dispatch during a scheduled run) queues
 # rather than clobbering another workflow's state commit. The 30-minute
-# stagger plus the 10-minute timeout means scheduled runs never overlap.
+# stagger normally keeps scheduled runs apart; at worst a run queues behind
+# the previous one (cancel-in-progress is disabled, so nothing is clobbered).
 concurrency:
   group: digest
   cancel-in-progress: false
@@ -39,7 +40,7 @@ permissions:
 jobs:
   run-digest:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
 
     steps:
       - name: Checkout

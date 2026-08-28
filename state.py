@@ -4,8 +4,8 @@ Three files under data/, all keyed by category `id` so each category dedupes
 and reports health independently:
 
   seen_items.json       {<category id>: {url: {date, section}}}
-                        Each covered URL maps to a record carrying the ISO
-                        timestamp it was covered plus the digest Section the
+                        Each Seen URL maps to a record carrying the ISO
+                        timestamp it was seen plus the digest Section the
                         item was actually picked into — a single string, from
                         the curator's picked_section_by_url map, never the
                         source's first/mapped Section (within a category the

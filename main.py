@@ -513,8 +513,8 @@ def run_categories(
     isolate-and-continue across categories — a hard run failure (captured and
     logged, category skipped) or a captured curate/email error never halts
     the others' runs. All stage dependencies thread through to ``run_one``
-    (default run_category) so tests run the real composition with the
-    conftest fakes: ``fetcher_registry``, ``curate_fn``, and ``emailer`` are
+    (default run_category) so tests can inject fakes for the seams: 
+    ``fetcher_registry``, ``curate_fn``, and ``emailer`` are
     shared across the dispatch; ``state_for`` builds each category's own
     namespaced state operator (default: run_category's StateStore binding).
 
@@ -572,7 +572,7 @@ def main(argv: list[str] | None = None) -> int:
     # (.github/workflows/digest-<id>.yml) and invokes this entry point with
     # only its own id; each category gets its own prompt file, its own state
     # namespace, and its own email routing. Isolate-and-continue across
-    # categories lives in run_digest.
+    # categories lives in run_categories.
     categories = discover_categories()
     try:
         selected = select_categories(categories, category_id=args.category)

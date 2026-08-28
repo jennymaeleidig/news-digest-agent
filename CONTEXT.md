@@ -29,6 +29,11 @@ category's declared sections are authoritative: their names, order, and scope;
 the digest renders one heading per non-empty section.
 _Avoid_: subsection, topic, bucket
 
+**Schedule**:
+A category's own declared run time, independent of every other category's;
+its workflow mirrors the declared schedule.
+_Avoid_: cadence, cron
+
 **Item**:
 A single raw entry from a source — title, link, publish date, a content snippet,
 and an optional linked URL (a link post's external target).

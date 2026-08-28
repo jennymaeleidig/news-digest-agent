@@ -14,7 +14,7 @@ per category, staggered from 08:00 UTC (AI 08:00, Tech 08:30, Video games
 `fetch → filter → curate → email`, one email per category.
 
 - **Fetch** — one module per source kind, dispatched through a `kind → fetcher`
-  registry (`rss`, `huggingface_papers`, `reddit_rss_api`,
+  registry (`rss`, `youtube`, `huggingface_papers`, `reddit_rss_api`,
   `airelease_tracker`). Source failures are isolated, never fatal.
 - **Filter** — drop items outside the age window, off-topic items (per-source
   allow-list), and already-seen items (14-day dedup).
@@ -29,16 +29,21 @@ per category, staggered from 08:00 UTC (AI 08:00, Tech 08:30, Video games
 ## Categories
 
 Every `categories/*.json` is one category, discovered and run independently —
-each with its own recipient, state, and digest email. A category is two files:
+each with its own recipient, state, and digest email. A category is three files:
 
 - **`categories/<id>.json`** — the single source of truth for structure:
-  `id`, `name`, an ordered `sections` list (name + what belongs there), and
-  `sources` (tier, kind, url, sections — one or more digest sections, optional topics/age-window).
+  `id`, `name`, an ordered `sections` list (name + what belongs there),
+  `sources` (tier, kind, url, sections — one or more digest sections, optional topics/age-window),
+  and its own `schedule` cron.
 - **`categories/prompts/<id>.md`** — the curation prompt. Section-agnostic:
   section names and descriptions are injected from the JSON at run time.
+- **`.github/workflows/digest-<id>.yml`** — the per-category workflow, carrying
+  the same staggered cron as the JSON's `schedule` and invoking
+  `python main.py --category <id>`.
 
-Adding a category is "drop one JSON + one prompt"; no stage in the pipeline
-knows a section or source by name.
+No stage in the pipeline knows a section or source by name — but the workflow
+file does hard-code the category id, and its cron must mirror the JSON's
+`schedule` (the JSON is the source of truth for the cron).
 
 ## Running
 
@@ -95,7 +100,7 @@ The model is pinned in `.env` as `OPENROUTER_MODEL` (default
   08:00, +30m each) — so the four digests arrive as separate messages in
   the same inbox, and one category failing fails only its own workflow.
   A workflow's cron and its category config's `schedule` field must stay
-  in sync (`tests/test_workflow_schedule.py` enforces it).
+  in sync — the category JSON is the source of truth.
 - A failed email send does not write `seen_items.json`, so the next run retries
   the same items — fix send failures promptly.
 - `source_health.json` and `run_log.jsonl` are written even when the run fails.

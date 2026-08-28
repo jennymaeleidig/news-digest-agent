@@ -229,7 +229,7 @@ fi
 
 # ── Stage 5: push the CI wiring ──────────────────────────────────────────
 stage "Deploy: push main"
-say "Secrets are in place. Next, push the curation changes to CI."
+say "Secrets are in place. Next, push the digest changes to CI."
 step "This runs: git push origin main"
 if confirm "Push main to origin now?"; then
   git push origin main
@@ -239,11 +239,27 @@ fi
 
 # ── Stage 6: trigger a manual run to verify ──────────────────────────────
 stage "Verify: trigger a manual run"
-open_url "https://github.com/jennymaeleidig/news-digest-agent/actions/workflows/daily-digest.yml"
-step "On the Daily digest workflow, click Run workflow → Run workflow."
+say "Each category runs as its own workflow, staggered 30 minutes apart:"
+say "  digest-ai-ml.yml          08:00 UTC"
+say "  digest-tech.yml           08:30 UTC"
+say "  digest-video-games.yml    09:00 UTC"
+say "  digest-politics-news.yml  09:30 UTC"
+if command -v gh >/dev/null 2>&1; then
+  step "We can dispatch one category now via the gh CLI to verify end to end."
+  if confirm "Dispatch 'Digest — Tech' (digest-tech.yml) now?"; then
+    gh workflow run digest-tech.yml --repo jennymaeleidig/news-digest-agent
+  else
+    SKIPPED+=("gh workflow run digest-tech.yml")
+  fi
+else
+  open_url "https://github.com/jennymaeleidig/news-digest-agent/actions"
+  step "Open any 'Digest — <category>' workflow → Run workflow → Run workflow."
+fi
 say "When it finishes, check data/run_log.jsonl: the row should show"
 say "curate_error: null, a non-empty digest (or a clean empty digest), and a"
 say "populated 'model' field equal to the pinned model id (z-ai/glm-5.3-flash)."
+say "The other three workflows fire on their own crons; dispatch each manually"
+say "from the Actions tab if you want to verify all four today."
 pause "Press Enter once you've queued the run."
 
 finish
