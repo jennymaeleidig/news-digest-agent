@@ -1,63 +1,83 @@
-"""Manual fetch-only smoke test for one category's sources.
+"""Fetch-only smoke test for a category's sources — no model, no email, no state.
 
-Unlike scripts/smoke_test_fetchers.py (the CI datacenter-IP gate for ai-ml's
-three network-backed fetchers), this is an operator tool: it fetches every
-source in one category exactly once through the real fetcher registry and
-reports per-source status. No model calls, no email, no state writes —
-safe to run from a laptop.
+Unlike scripts/smoke_test_fetchers.py (the CI datacenter-IP gate across all
+categories), this is an operator tool for one category: it fetches every
+source exactly once through the real fetcher registry and reports per-source
+status. Safe to run from a laptop.
 
 For ``kind: youtube`` sources it additionally attempts one transcript excerpt
-on the first listed video, so the deep-read seam (youtube-transcript-api) is
-exercised end to end. A transcript failure is reported as a warning, not a
-failure — per isolate-and-continue the item would stay judgable on its
-snippet alone.
+on the first listed video with a watch URL, so the deep-read seam
+(youtube-transcript-api) is exercised end to end. A transcript failure is
+reported as a warning, not a failure — per isolate-and-continue the item
+would stay judgable on its snippet alone.
 
 Exit code: 0 if every fetch succeeded and mapped to non-empty items, 1
 otherwise (transcript warnings alone never fail the run).
+
+Usage:
+    python -m scripts.smoke_fetch_category <category.json | category id>
 """
 
 from __future__ import annotations
 
 import sys
 
-from categories import load_category
+from categories import Category, load_category
+from fetchers.common import FetchResult
 from fetchers.registry import fetch_one
 from fetchers.youtube import extract_video_id
 from prefetch import fetch_transcript_excerpt
 
 
-def main(argv: list[str] | None = None) -> int:
-    argv = list(sys.argv[1:] if argv is None else argv)
-    if len(argv) != 1:
-        print(f"usage: {sys.argv[0]} <category.json | category id>", file=sys.stderr)
-        return 2
-    arg = argv[0]
-    path = arg if arg.endswith(".json") else f"categories/{arg}.json"
+def check_fetch(source, result: FetchResult | None) -> list[str]:
+    """Return the list of problems with a single source's fetch.
 
-    category = load_category(path)
+    Empty list means the fetch is healthy: it succeeded *and* mapped to
+    non-empty items. A non-empty list means the fetch is a failure this smoke
+    test must surface — including the 200-but-zero-items case, the datacenter
+    block a residential IP would not reproduce (a bot-blocked host often
+    still returns HTTP 200 with a stripped/empty body rather than a 4xx).
+    """
+    if result is None:
+        return [f"{source.name}: fetcher returned no result"]
+    if not result.success:
+        return [f"{source.name}: fetch failed: {result.error}"]
+    if not result.items:
+        return [
+            f"{source.name}: returned a full body but mapped to zero items — "
+            f"likely a bot-blocked or empty response"
+        ]
+    return []
+
+
+def smoke_category(
+    category: Category,
+    fetcher_registry=fetch_one,
+    transcript_fn=fetch_transcript_excerpt,
+) -> tuple[bool, list[str]]:
+    """Smoke-test one category: every source, exactly one dispatch each.
+
+    No retries, no second chances — so the smoke test cannot hammer a host.
+    For youtube sources, one transcript excerpt is attempted on the first
+    item with an extractable video id (a live/Shorts-style entry can top a
+    feed with a URL that is not a /watch link); a transcript failure is a
+    printed warning, never a failure. Returns ``(ok, failures)``.
+    """
     print(f"smoke: {category.id!r} — fetching {len(category.sources)} sources "
           "(one dispatch each, no retries, no state, no email)")
     failures: list[str] = []
     for source in category.sources:
-        result = fetch_one(source)
-        if not result.success:
-            failures.append(f"{source.name}: fetch failed: {result.error}")
+        result = fetcher_registry(source)
+        problems = check_fetch(source, result)
+        if problems:
+            failures.extend(problems)
             print(f"  FAIL  {source.name:<22} kind={source.kind:<8} "
-                  f"tier={source.tier}  -> {result.error}")
-            continue
-        if not result.items:
-            failures.append(
-                f"{source.name}: full body but zero items — likely bot-blocked "
-                "or an empty response")
-            print(f"  FAIL  {source.name:<22} kind={source.kind:<8} "
-                  f"tier={source.tier}  -> 0 items (body empty/blocked?)")
+                  f"tier={source.tier}  -> {problems[0]}")
             continue
         print(f"  OK    {source.name:<22} kind={source.kind:<8} "
               f"tier={source.tier}  -> {len(result.items)} items")
         if source.kind != "youtube" or not result.items:
             continue
-        # Live/Shorts-style entries can top a feed with a URL that is not a
-        # /watch link — scan for the first item that yields a video id.
         video_id = next(
             (vid for item in result.items
              if (vid := extract_video_id(item.url)) is not None),
@@ -69,19 +89,29 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  FAIL  {source.name:<22} no /watch URL among "
                   f"{len(result.items)} items (first: {result.items[0].url})")
             continue
-        excerpt, err = fetch_transcript_excerpt(video_id)
+        excerpt, err = transcript_fn(video_id)
         if err:
             print(f"  WARN  {source.name:<22} transcript unavailable on "
                   f"video {video_id}: {err} (item stays judgable on snippet)")
         else:
             print(f"  OK    {source.name:<22} transcript excerpt on video "
                   f"{video_id}: {len(excerpt)} chars")
+    return (not failures, failures)
 
-    if failures:
-        print(f"smoke: {category.id!r} FAILED — {len(failures)} problem(s)",
+
+def main(argv: list[str] | None = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if len(argv) != 1:
+        print(f"usage: {sys.argv[0]} <category.json | category id>",
               file=sys.stderr)
+        return 2
+    arg = argv[0]
+    path = arg if arg.endswith(".json") else f"categories/{arg}.json"
+    ok, failures = smoke_category(load_category(path))
+    if not ok:
+        print(f"smoke: FAILED — {len(failures)} problem(s)", file=sys.stderr)
         return 1
-    print(f"smoke: {category.id!r} — all sources fetched non-empty items")
+    print("smoke: all sources fetched non-empty items")
     return 0
 
 

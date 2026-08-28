@@ -244,22 +244,24 @@ say "  digest-ai-ml.yml          08:00 UTC"
 say "  digest-tech.yml           08:30 UTC"
 say "  digest-video-games.yml    09:00 UTC"
 say "  digest-politics-news.yml  09:30 UTC"
+open_url "https://github.com/jennymaeleidig/news-digest-agent/actions"
+step "This just opened the Actions page in your browser — keep it handy."
 if command -v gh >/dev/null 2>&1; then
-  step "We can dispatch one category now via the gh CLI to verify end to end."
-  if confirm "Dispatch 'Digest — Tech' (digest-tech.yml) now?"; then
-    gh workflow run digest-tech.yml --repo jennymaeleidig/news-digest-agent
+  step "We can dispatch the smoke test now via the gh CLI to verify the"
+  step "fetchers from the datacenter IP the digests actually run from."
+  if confirm "Dispatch 'Smoke-test fetchers' (smoke-test-fetchers.yml) now?"; then
+    gh workflow run smoke-test-fetchers.yml --repo jennymaeleidig/news-digest-agent
   else
-    SKIPPED+=("gh workflow run digest-tech.yml")
+    SKIPPED+=("gh workflow run smoke-test-fetchers.yml")
   fi
 else
-  open_url "https://github.com/jennymaeleidig/news-digest-agent/actions"
-  step "Open any 'Digest — <category>' workflow → Run workflow → Run workflow."
+  step "No gh CLI found — on the Actions page, open 'Smoke-test fetchers' →"
+  step "Run workflow → Run workflow."
 fi
-say "When it finishes, check data/run_log.jsonl: the row should show"
-say "curate_error: null, a non-empty digest (or a clean empty digest), and a"
-say "populated 'model' field equal to the pinned model id (z-ai/glm-5.3-flash)."
-say "The other three workflows fire on their own crons; dispatch each manually"
-say "from the Actions tab if you want to verify all four today."
+say "When it finishes, every source should show OK — including the two YouTube"
+say "transcript paths, which are the ones a laptop IP can't fully verify."
+say "The digest workflows fire on their own staggered crons (or dispatch any"
+say "'Digest — <category>' workflow manually from the Actions page)."
 pause "Press Enter once you've queued the run."
 
 finish

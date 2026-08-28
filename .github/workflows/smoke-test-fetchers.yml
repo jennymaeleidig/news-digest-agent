@@ -1,12 +1,16 @@
-# Network-backed fetcher smoke test.
+# Fetcher smoke test — every source, every category.
 #
-# Smoke-tests the network-backed fetchers (Hugging Face Daily Papers, AI
-# Release Tracker, radarai.top) from the same datacenter-IP environment the
+# Smoke-tests ALL sources in ALL discovered categories (one stage per
+# category — RSS feeds, keyless YouTube Atom feeds, and the network-backed
+# JSON/HTML fetchers alike) from the same datacenter-IP environment the
 # scheduled digest workflows execute from. A fetch that works on a local
 # residential IP is not sufficient evidence a source holds up where the digest
-# actually runs; this workflow fails unless each returns a full body that maps
-# to non-empty items (see scripts/smoke_test_fetchers.py). It runs within a
-# 10-minute timeout and the same dependency set as the digest workflows and
+# actually runs; this workflow fails unless each source returns a full body
+# that maps to non-empty items (see scripts/smoke_test_fetchers.py). YouTube
+# sources additionally get one transcript attempt per channel — reported as a
+# warning (isolate-and-continue keeps the item judgable) but surfaced because
+# it is the datacenter-IP signal a laptop run cannot provide. It runs within
+# a 10-minute timeout and the same dependency set as the digest workflows and
 # never retries a host, so it cannot hammer any of the sites it exercises.
 #
 # Scheduled after the last digest of the staggered morning block (AI 08:00,
@@ -37,9 +41,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Smoke-test network-backed fetchers (datacenter IP)
-        # Exits non-zero if any of the three network-backed fetchers fails or
-        # returns an empty body from this environment, so a scrape that only
+      - name: Smoke-test all category sources (datacenter IP)
+        # Exits non-zero if any source in any category fails or returns an
+        # empty body from this environment, so a scrape that only
         # works locally fails here and blocks claiming the effort complete.
         # Run as a module (not `python scripts/…`) so the repo root lands on
         # sys.path and the top-level `categories` / `fetchers` imports resolve.
