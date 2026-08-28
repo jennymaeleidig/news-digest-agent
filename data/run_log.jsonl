@@ -1,0 +1,1 @@
+{"category": "tech", "timestamp": "2026-08-28T13:47:45.564994+00:00", "items_input": 31, "items_output": 5, "sources_succeeded": 3, "sources_failed": 0, "duration_seconds": 162.26, "prompt_size": 20602, "model": "z-ai/glm-5.3-flash", "prompt_tokens": 4837, "completion_tokens": 7922, "curate_error": null, "email_error": null}
