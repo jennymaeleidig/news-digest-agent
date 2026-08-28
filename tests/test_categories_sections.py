@@ -151,7 +151,9 @@ class TestSectionsValidation:
 
 
 class TestExistingConfigsStillLoad:
-    """The real shipped ai-ml config (singular ``section``) still loads."""
+    """The real shipped ai-ml config (migrated to the ``sections`` list
+    form in ticket 10) still loads; the loader's singular-form normalization
+    keeps ``Source.section`` valid for pre-existing consumers."""
 
     def test_ai_ml_config_loads(self):
         category = load_category(Path("categories/ai-ml.json"))

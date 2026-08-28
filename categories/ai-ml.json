@@ -25,7 +25,7 @@
     {
       "name": "arXiv (LLM)",
       "tier": 1,
-      "section": "Research",
+      "sections": ["Research"],
       "kind": "rss",
       "url": "https://rss.arxiv.org/rss/cs.CL",
       "homepage": "https://arxiv.org",
@@ -77,7 +77,7 @@
     {
       "name": "arXiv (Code)",
       "tier": 1,
-      "section": "Research",
+      "sections": ["Research"],
       "kind": "rss",
       "url": "https://rss.arxiv.org/rss/cs.SE",
       "homepage": "https://arxiv.org",
@@ -115,7 +115,7 @@
     {
       "name": "Hugging Face",
       "tier": 3,
-      "section": "General news",
+      "sections": ["General news"],
       "kind": "rss",
       "url": "https://huggingface.co/blog/feed.xml",
       "homepage": "https://huggingface.co/blog"
@@ -123,7 +123,7 @@
     {
       "name": "Hugging Face Daily Papers",
       "tier": 3,
-      "section": "Research",
+      "sections": ["Research"],
       "kind": "huggingface_papers",
       "url": "https://huggingface.co/api/daily_papers",
       "homepage": "https://huggingface.co/papers",
@@ -157,7 +157,7 @@
     {
       "name": "radarai.top (AI)",
       "tier": 3,
-      "section": "General news",
+      "sections": ["General news"],
       "kind": "rss",
       "url": "https://radarai.top/en/feed.xml",
       "homepage": "https://radarai.top/en/"
@@ -165,7 +165,7 @@
     {
       "name": "Reddit r/LocalLLaMA",
       "tier": 4,
-      "section": "General news",
+      "sections": ["General news"],
       "kind": "reddit_rss_api",
       "url": "https://reddit-rss-api.sametcn99.deno.net/r/LocalLLaMA",
       "homepage": "https://www.reddit.com/r/LocalLLaMA",
@@ -179,7 +179,7 @@
     {
       "name": "AI Release Tracker",
       "tier": 4,
-      "section": "Releases",
+      "sections": ["Releases"],
       "kind": "airelease_tracker",
       "url": "https://aireleasetracker.com/models.json",
       "homepage": "https://aireleasetracker.com/latest",

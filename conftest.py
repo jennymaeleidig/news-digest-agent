@@ -355,11 +355,11 @@ def make_category(cat_id="ai-ml", name="AI/ML", recipient=None):
     )
 
 
-def make_item(url=None, snippet="", linked_url=None):
+def make_item(url=None, snippet="", linked_url=None, source_name="S1"):
     from fetchers.common import Item
     return Item(
         title="T",
-        source_name="S1",
+        source_name=source_name,
         url=url or (HOST + "a"),
         published="2099-01-01T00:00:00+00:00",
         content_snippet=snippet,

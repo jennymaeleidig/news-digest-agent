@@ -31,7 +31,7 @@ each with its own recipient, state, and digest email. A category is two files:
 
 - **`categories/<id>.json`** — the single source of truth for structure:
   `id`, `name`, an ordered `sections` list (name + what belongs there), and
-  `sources` (tier, kind, url, section, optional topics/age-window).
+  `sources` (tier, kind, url, sections — one or more digest sections, optional topics/age-window).
 - **`categories/prompts/<id>.md`** — the curation prompt. Section-agnostic:
   section names and descriptions are injected from the JSON at run time.
 
