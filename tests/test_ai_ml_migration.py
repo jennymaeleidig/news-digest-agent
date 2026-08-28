@@ -134,8 +134,6 @@ class TestMigratedConfigLoadsIdentically:
         assert set(by_name) == set(EXPECTED_SOURCE_SECTIONS)
         for name, expected in EXPECTED_SOURCE_SECTIONS.items():
             assert list(by_name[name].sections) == expected, name
-            # Loader normalization still yields the legacy singular accessor.
-            assert by_name[name].section == expected[0], name
 
     def test_source_metadata_untouched(self, ai_ml):
         by_name = {s.name: s for s in ai_ml.sources}

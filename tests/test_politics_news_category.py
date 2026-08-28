@@ -200,7 +200,6 @@ class TestMultiSectionSource:
         dnow = next(s for s in pn.sources if s.name == "democracynow")
         assert dnow.sections == (
             "Global News", "Global Politics", "US News", "US Politics")
-        assert dnow.section == "Global News"  # first of the list
 
 
 class TestCrossCategoryCoexistence:

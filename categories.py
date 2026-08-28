@@ -11,7 +11,11 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
 
     id          str   stable state-namespace key (required, non-empty)
     name        str   display name, used for the email subject (required)
-    schedule    str   cron; kept but ignored (the workflow owns scheduling)
+    schedule    str   cron in UTC; the category's own staggered schedule —
+                  the per-category workflow (.github/workflows/
+                  digest-<id>.yml) must carry this same cron, and
+                  tests/test_workflow_schedule.py pins the two together
+                  (stagger: base 08:00 UTC, +30m each)
     recipient   str|null  recipient; null => default RECIPIENT_EMAIL
     prompt      str   file reference to a sibling prompts/<id>.md
                       (required, and the referenced file must exist)
@@ -29,15 +33,12 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
         kind        str    "rss" at launch (required)
         url         str    feed URL (required)
         homepage    str    display link + static allowlist (optional)
-        section     str    legacy singular form: the digest section this
-                           source feeds — one of the names in the category's
-                           top-level ``sections``. Normalized to a 1-element
-                           ``sections`` tuple. Use ``sections`` instead.
         sections    [str]  list of digest section names this source feeds —
                            each must be one of the names in the category's
-                           top-level ``sections``. Exactly one of
-                           ``section``/``sections`` is required (expanded
-                           form).
+                           top-level ``sections`` (required, non-empty). The
+                           legacy singular ``section`` form is no longer
+                           accepted: a config that still declares it is
+                           rejected.
         age_limit_days int|null  per-source recency-window override (optional).
                            When set, this source's items stay eligible for that
                            many days instead of the global ITEM_AGE_LIMIT_DAYS.
@@ -102,7 +103,6 @@ class Source:
     kind: str          # "rss" at launch
     url: str           # the feed URL
     homepage: str | None = None   # display link + static allowlist
-    section: str | None = None    # legacy singular section (first of ``sections``)
     sections: tuple[str, ...] = ()  # digest sections this source feeds (see docstring)
     topics: tuple[str, ...] = ()  # relevance allow-list (see module docstring)
     fetcher_config: FetcherConfig | None = None  # bespoke kinds only (see docstring)
@@ -142,8 +142,11 @@ class Category:
 
         schedule = data.get("schedule")
         if not isinstance(schedule, str):
-            # Kept but ignored; the workflow owns scheduling. Allow missing
-            # (backward-friendly) but reject a schedule that is present but
+            # The category's own staggered cron; the per-category workflow
+            # (.github/workflows/digest-<id>.yml) must carry the same value
+            # (pinned together by tests/test_workflow_schedule.py). Allow
+            # missing (backward-friendly) but reject a schedule that is
+            # present but
             # not a string so a config typo is caught early.
             if schedule is not None:
                 raise err(f"category {cat_id!r}: 'schedule' must be a string (kept but ignored)")
@@ -249,34 +252,29 @@ class Category:
             else:
                 topics = tuple(t.strip() for t in topics)
 
-            # A source feeds one or more declared Sections: the singular
-            # ``section`` is the legacy form (normalized to a 1-element
-            # ``sections`` tuple); ``sections`` is the expanded list form.
-            raw_section = src.get("section")
-            raw_sections = src.get("sections")
-            if raw_section is None and raw_sections is None:
+            # A source feeds one or more declared Sections, given as the
+            # ``sections`` list — the only accepted form. The legacy singular
+            # ``section`` key is rejected outright so a stale config fails
+            # loudly instead of silently curating into one Section.
+            if "section" in src:
                 raise err(
-                    f"{label} ({s_name!r}): 'section' (or 'sections') is "
-                    f"required and must name one of: {', '.join(section_names)}"
+                    f"{label} ({s_name!r}): 'section' is no longer accepted; "
+                    f"use the 'sections' list"
                 )
-            if raw_sections is not None:
-                if not isinstance(raw_sections, list) or not raw_sections:
+            raw_sections = src.get("sections")
+            if not isinstance(raw_sections, list) or not raw_sections:
+                raise err(
+                    f"{label} ({s_name!r}): 'sections' is required and must be "
+                    f"a non-empty list naming one or more of: "
+                    f"{', '.join(section_names)}"
+                )
+            for entry in raw_sections:
+                if not isinstance(entry, str) or not entry.strip():
                     raise err(
-                        f"{label} ({s_name!r}): 'sections' must be a non-empty list"
+                        f"{label} ({s_name!r}): 'sections' entries must "
+                        f"be non-empty strings"
                     )
-                for entry in raw_sections:
-                    if not isinstance(entry, str) or not entry.strip():
-                        raise err(
-                            f"{label} ({s_name!r}): 'sections' entries must "
-                            f"be non-empty strings"
-                        )
-                sections = tuple(entry.strip() for entry in raw_sections)
-            else:
-                if not isinstance(raw_section, str) or not raw_section.strip():
-                    raise err(
-                        f"{label} ({s_name!r}): 'section' must be a non-empty string"
-                    )
-                sections = (raw_section.strip(),)
+            sections = tuple(entry.strip() for entry in raw_sections)
             unknown = [s for s in sections if s not in section_names]
             if unknown:
                 raise err(
@@ -284,7 +282,6 @@ class Category:
                     f"section(s) {', '.join(unknown)!r}; must be one of: "
                     f"{', '.join(section_names)}"
                 )
-            section = sections[0]
 
             age_limit_days = src.get("age_limit_days")
             if age_limit_days is not None:
@@ -328,7 +325,6 @@ class Category:
                 kind=kind,
                 url=url,
                 homepage=homepage,
-                section=section,
                 sections=sections,
                 topics=topics,
                 fetcher_config=fetcher_config,

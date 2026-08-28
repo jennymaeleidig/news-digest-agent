@@ -127,7 +127,6 @@ class TestMultiSectionSource:
     def test_aftermath_feeds_both_sections(self, vg):
         aftermath = next(s for s in vg.sources if s.name == "aftermath")
         assert aftermath.sections == ("video game news", "video game releases")
-        assert aftermath.section == "video game news"  # first of the list
 
 
 class TestCrossCategoryCoexistence:
