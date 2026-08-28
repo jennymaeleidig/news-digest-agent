@@ -1,0 +1,43 @@
+{
+  "id": "tech",
+  "name": "Tech",
+  "schedule": "30 8 * * *",
+  "recipient": null,
+  "prompt": "prompts/tech.md",
+  "sections": [
+    {
+      "name": "Industry news",
+      "description": "The tech industry as it moves — companies, products, platforms, regulation, labor, and the people running them; industry news and events, more than individual product releases or pure business dealings."
+    },
+    {
+      "name": "Events",
+      "description": "Time-bound tech happenings — conferences, summits, product events, hearings, and deadlines — and the notable moments that come out of them, distinct from ongoing industry coverage."
+    }
+  ],
+  "sources": [
+    {
+      "name": "404media",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.404media.co/rss/",
+      "homepage": "https://www.404media.co/",
+      "sections": ["Industry news"]
+    },
+    {
+      "name": "usermag",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.usermag.co/feed",
+      "homepage": "https://www.usermag.co/",
+      "sections": ["Industry news"]
+    },
+    {
+      "name": "aftermath",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://aftermath.site/rss/",
+      "homepage": "https://aftermath.site/",
+      "sections": ["Industry news"]
+    }
+  ]
+}
