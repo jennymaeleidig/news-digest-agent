@@ -1,0 +1,1 @@
+{"category": "video-games", "timestamp": "2026-08-28T19:26:42.830989+00:00", "items_input": 26, "items_output": 5, "sources_succeeded": 2, "sources_failed": 0, "duration_seconds": 234.36, "prompt_size": 16056, "model": "z-ai/glm-5.3-flash", "prompt_tokens": 4055, "completion_tokens": 15638, "curate_error": null, "email_error": null}

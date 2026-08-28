@@ -1,1 +1,24 @@
-{}
+{
+  "video-games": {
+    "sources": {
+      "aftermath": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T19:26:42.830569+00:00"
+          }
+        ]
+      },
+      "jason-schreier": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-28T19:26:42.830592+00:00"
+          }
+        ]
+      }
+    }
+  }
+}
