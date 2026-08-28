@@ -271,11 +271,12 @@ def _install_offline_stubs() -> None:
     # transcript tests always monkeypatch prefetch.YouTubeTranscriptApi, so no
     # real fetch is ever attempted).
     yta = types.ModuleType("youtube_transcript_api")
-    class _TranscriptError(Exception):
+    class CouldNotRetrieveTranscript(Exception):
         pass
-    for _name in ("CouldNotRetrieveTranscript", "TranscriptsDisabled",
-                  "NoTranscriptFound", "VideoUnplayable", "RequestBlocked"):
-        setattr(yta, _name, type(_name, (_TranscriptError,), {}))
+    for _name in ("TranscriptsDisabled", "NoTranscriptFound",
+                  "VideoUnplayable", "RequestBlocked"):
+        setattr(yta, _name, type(_name, (CouldNotRetrieveTranscript,), {}))
+    yta.CouldNotRetrieveTranscript = CouldNotRetrieveTranscript
     yta.YouTubeTranscriptApi = None
     sys.modules.setdefault("youtube_transcript_api", yta)
 
