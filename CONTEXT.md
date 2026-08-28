@@ -65,8 +65,9 @@ The curated selection Curation produces; the digest renders from it.
 The stage before Curation that obtains full text for **deep-read** items.
 
 **Deep-read**:
-Selecting and fetching an item's full text so it can be judged on more than its
-snippet. Gated by an allowlist.
+Selecting and fetching an item's substance so it can be judged on more than
+its snippet. Articles are gated by an allowlist; videos are gated by their
+video id (a transcript fetch, no allowlist needed).
 _Avoid_: fetch full article
 
 **Enrichment**:

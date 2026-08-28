@@ -4,3 +4,4 @@ beautifulsoup4==4.14.3
 resend==2.29.0
 python-dotenv==1.2.1
 markdown==3.10.2
+youtube-transcript-api==1.2.4

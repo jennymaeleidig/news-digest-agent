@@ -265,6 +265,20 @@ def _install_offline_stubs() -> None:
     # feeds it. Other paths (prefetch full-article) only need safe get_text.
     sys.modules.setdefault("bs4", _build_mini_bs4())
 
+    # youtube-transcript-api: only the names prefetch.py imports — the
+    # exception hierarchy (the four spec failure types under their base) and
+    # the API class, left None so an unpatched construction fails loudly (the
+    # transcript tests always monkeypatch prefetch.YouTubeTranscriptApi, so no
+    # real fetch is ever attempted).
+    yta = types.ModuleType("youtube_transcript_api")
+    class _TranscriptError(Exception):
+        pass
+    for _name in ("CouldNotRetrieveTranscript", "TranscriptsDisabled",
+                  "NoTranscriptFound", "VideoUnplayable", "RequestBlocked"):
+        setattr(yta, _name, type(_name, (_TranscriptError,), {}))
+    yta.YouTubeTranscriptApi = None
+    sys.modules.setdefault("youtube_transcript_api", yta)
+
 
 _install_offline_stubs()
 

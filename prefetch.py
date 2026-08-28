@@ -25,15 +25,38 @@ Which items get deep-read:
     has the substance) — the `linked_url` is fetched.
   - Any item whose snippet is below `DEEP_READ_SNIPPET_CHARS` — its own `url`
     is fetched.
+  - Items carrying a `video_id` (YouTube watch items from the `kind: youtube`
+    fetcher) **always**, via the transcript path below — a video judged
+    without its transcript is judged on the title alone, which is no judgment
+    at all. This path is gated by the video id itself, not the article
+    allowlist: a watch URL is never fetched as HTML, so no youtube.com
+    allowlist entry is needed.
 
 Long-but-vague snippets at or above the threshold are an accepted loss: they
 are not deep-read and are judged on the snippet alone.
+
+## Transcript deep-read (videos)
+
+A stage-1-selected video's transcript is fetched keylessly through
+`youtube-transcript-api` and reduced **deterministically** to a compact,
+bounded excerpt block — evenly-spaced windows of the transcript text capped
+at `TRANSCRIPT_MAX_CHARS`, with no model pass — so stage-2 remains the only
+summarizer and cost doesn't grow per video. The caption origin
+(`is_generated`: auto-generated vs manual) is surfaced in the block's header
+line. The block attaches to the item's enrichment exactly like an HTML
+enrichment (keyed by the item's URL). Each transcript fetch counts against
+the shared `TOOL_CALL_CAP`; video items never take the HTML deep-read path,
+so no allowlist entry is needed for youtube.com and a watch URL can never
+burn an article fetch.
 
 ## Isolate-and-continue
 
 A fetch that fails, exceeds a cap, or is disallowed by the allowlist leaves
 that item's enrichment empty — the item remains judgable on its snippet alone.
-One bad item never crashes the run.
+One bad item never crashes the run. Transcript failures (captions disabled,
+no matching transcript, video unplayable, request blocked by YouTube — the
+`CouldNotRetrieveTranscript` family) map the same way: a per-item error
+string in `PrefetchResult.errors`, and the run continues.
 """
 
 from __future__ import annotations
@@ -55,9 +78,18 @@ from config import (
     MAX_REDIRECTS,
     MAX_RETURN_CHARS,
     TOOL_CALL_CAP,
+    TRANSCRIPT_MAX_CHARS,
     USER_AGENT,
 )
 from fetchers.common import Item
+from youtube_transcript_api import (
+    CouldNotRetrieveTranscript,
+    NoTranscriptFound,
+    RequestBlocked,
+    TranscriptsDisabled,
+    VideoUnplayable,
+    YouTubeTranscriptApi,
+)
 
 
 @dataclass
@@ -236,12 +268,95 @@ def fetch_full_article(url: str, allowlist: set[str]) -> str:
         return f"Error: fetch failed: {e}"
 
 
+# ---------------------------------------------------------------------------
+# Transcript deep-read (videos)
+# ---------------------------------------------------------------------------
+
+# Marker between excerpt windows in a reduced transcript block: unambiguous,
+# compact, and stable, so a bounded block's pieces stay evenly spaced and the
+# cap arithmetic in reduce_transcript stays exact.
+TRANSCRIPT_SEPARATOR = "\n[…]\n"
+
+# Language preference for transcript lookup, most-preferred first. Manual
+# captions are preferred over auto-generated within each code
+# (TranscriptList.find_transcript's documented order); if none of these match,
+# the first transcript YouTube lists is used so a non-English channel still
+# gets substance rather than a per-item error.
+TRANSCRIPT_LANGUAGES = ("en", "en-US", "en-GB")
+
+
+def reduce_transcript(text: str, cap: int = TRANSCRIPT_MAX_CHARS) -> str:
+    """Reduce a transcript to at most `cap` chars, deterministically.
+
+    Text within the cap passes through unchanged. Longer text is split into
+    the fewest evenly-spaced contiguous windows that fit the cap (head, mid,
+    …, tail — so the video's beginning and end are always represented) and
+    joined with the `[…]` separator. Pure arithmetic, no randomness: the
+    same transcript always reduces to the same block.
+    """
+    if len(text) <= cap:
+        return text
+    n = -(-len(text) // cap)                       # window count (ceil div)
+    sep = len(TRANSCRIPT_SEPARATOR)
+    window = (cap - (n - 1) * sep) // n
+    if window <= 0:                                # pathological tiny cap
+        return text[:cap]
+    # Evenly spaced window starts spanning the whole text: the first window
+    # opens at the head, the last closes at the tail.
+    span = len(text) - window
+    starts = [round(i * span / (n - 1)) for i in range(n)]
+    windows = [text[s:s + window] for s in starts]
+    return TRANSCRIPT_SEPARATOR.join(windows)
+
+
+def fetch_transcript_excerpt(video_id: str) -> tuple[str, str | None]:
+    """Fetch one video's transcript and reduce it to a bounded excerpt block.
+
+    Returns ``(block, None)`` on success — the block opens with a header
+    surfacing the caption origin (auto-generated vs manual), then the capped
+    excerpt — or ``("", error)`` on failure. Never raises: every
+    `CouldNotRetrieveTranscript` (the base of TranscriptsDisabled /
+    NoTranscriptFound / VideoUnplayable / RequestBlocked) and any unexpected
+    exception maps to a per-item error string, so the item stays judgable on
+    its snippet alone and the run continues.
+    """
+    try:
+        api = YouTubeTranscriptApi()
+        transcript_list = api.list(video_id)
+        try:
+            transcript = transcript_list.find_transcript(TRANSCRIPT_LANGUAGES)
+        except CouldNotRetrieveTranscript:
+            # No preferred language: fall back to whatever YouTube lists, so
+            # a non-English channel is judged on its actual transcript.
+            transcript = next(iter(transcript_list), None)
+        if transcript is None:
+            return "", "Error: transcript unavailable: no transcripts listed"
+        fetched = transcript.fetch()
+    except CouldNotRetrieveTranscript as e:
+        return "", f"Error: transcript unavailable: {type(e).__name__}"
+    except Exception as e:                         # noqa: BLE001 — isolate-and-continue
+        return "", f"Error: transcript fetch failed: {type(e).__name__}: {e}"
+
+    text = re.sub(r"\s+", " ", " ".join(s.text for s in fetched)).strip()
+    if not text:
+        return "", "Error: transcript unavailable: empty transcript"
+    origin = "auto-generated" if fetched.is_generated else "manual"
+    header = f"[Video transcript — {origin} captions]"
+    # The cap bounds the whole block (header included), not just the excerpt.
+    excerpt = reduce_transcript(
+        text, TRANSCRIPT_MAX_CHARS - len(header) - 1)
+    return f"{header}\n{excerpt}", None
+
+
 def prefetch(items: list[Item], sources: Iterable[Source]) -> PrefetchResult:
     """Run the pre-fetch stage: fetch full text for the deep-read items.
 
     Builds the static allowlist from source homepages plus the runtime
     allowlist from item linked URLs, selects the deep-read targets via the
     thin-snippet policy, and fetches each within the per-call fetch budget.
+    Items carrying a `video_id` take the transcript path instead (never the
+    HTML path, so no youtube.com allowlist entry is needed); each transcript
+    fetch counts against the same shared TOOL_CALL_CAP as article fetches.
     Exceeding
     the fetch cap simply stops deep-reading; a per-fetch failure or disallowed
     host leaves that item's enrichment empty (isolate-and-continue). Returns a
@@ -255,12 +370,44 @@ def prefetch(items: list[Item], sources: Iterable[Source]) -> PrefetchResult:
     errors: dict[str, str] = {}
     fetches_used = 0
 
-    deep_read_urls = list(select_deep_read_urls(items, allowlist))
-    total = len(deep_read_urls)
+    # Transcript targets: every selected video item, in incoming order,
+    # deduped by video id (one shared video can't fetch twice). Videos run
+    # before articles: a video without its transcript has no substance at
+    # all, whereas an article item always keeps its snippet to be judged on.
+    transcript_targets: list[tuple[str, str]] = []   # (item url, video id)
+    seen_video_ids: set[str] = set()
+    for it in items:
+        if it.video_id and it.video_id not in seen_video_ids:
+            seen_video_ids.add(it.video_id)
+            transcript_targets.append((it.url, it.video_id))
+
+    # Article targets: the thin-snippet policy over the non-video items only,
+    # so a watch URL can never consume an article fetch slot.
+    text_items = [it for it in items if not it.video_id]
+    deep_read_urls = list(select_deep_read_urls(text_items, allowlist))
+    total = len(transcript_targets) + len(deep_read_urls)
     print(
-        f"[prefetch] {total} deep-read target(s) (cap {TOOL_CALL_CAP})",
+        f"[prefetch] {total} deep-read target(s) "
+        f"({len(transcript_targets)} transcript, {len(deep_read_urls)} article; "
+        f"cap {TOOL_CALL_CAP})",
         file=sys.stderr, flush=True,
     )
+
+    for url, video_id in transcript_targets:
+        if fetches_used >= TOOL_CALL_CAP:
+            errors[url] = f"Error: fetch cap reached ({TOOL_CALL_CAP} per run)"
+            continue
+        fetches_used += 1
+        print(
+            f"[prefetch]   {fetches_used}/{total} transcript {video_id}",
+            file=sys.stderr, flush=True,
+        )
+        block, err = fetch_transcript_excerpt(video_id)
+        if err:
+            errors[url] = err
+        else:
+            enrichments[url] = block
+
     for url in deep_read_urls:
         if fetches_used >= TOOL_CALL_CAP:
             errors[url] = f"Error: fetch cap reached ({TOOL_CALL_CAP} per run)"

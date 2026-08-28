@@ -69,6 +69,12 @@ MAX_REDIRECTS = 5         # redirect recheck bound for the allowlist gate
 # snippet alone — long-but-vague snippets are an accepted loss.
 DEEP_READ_SNIPPET_CHARS = 500
 
+# Transcript deep-read cap: a fetched YouTube transcript is reduced
+# deterministically (evenly-spaced excerpt windows, no model pass) to at most
+# this many characters before it is attached as enrichment. Well under
+# MAX_RETURN_CHARS and far under the CURATION_PROMPT_MAX_BYTES budget.
+TRANSCRIPT_MAX_CHARS = 12_000
+
 # State management
 SEEN_TTL_DAYS = 14
 HEALTH_RUNS_KEPT = 14
