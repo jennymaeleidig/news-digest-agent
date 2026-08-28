@@ -14,10 +14,11 @@ in the registry and either runs the mapped fetcher or returns an isolated
 per-source ``FetchResult`` failure for unknown kinds, so one bad source never
 crashes the run (isolate-and-continue).
 
-RSS is the only kind registered and dispatched at launch — it covers both
-arXiv and YouTube feeds. ``newsletter`` and site-specific (bespoke) kinds are
-documented future additions; the registry supports them with no pipeline edits
-when a category ever declares one, but none are shipped at launch.
+Several kinds are registered at launch: ``rss`` (arXiv and other feeds) and
+``youtube`` (keyless per-channel Atom listing, deliberately a separate kind —
+never the shared ``rss`` kind), plus the bespoke ``huggingface_papers``,
+``airelease_tracker``, and ``reddit_rss_api``. The registry supports further
+kinds with no pipeline edits when a category ever declares one.
 """
 
 from __future__ import annotations
@@ -61,11 +62,12 @@ def fetch_one(source: Source) -> FetchResult:
     return fetcher(source)
 
 
-# Launch registrations. RSS is the shipped general kind (covers arXiv and
-# YouTube feeds); huggingface_papers (JSON-API field mapping) and
-# airelease_tracker (HTML-selector scraping) are bespoke feedless kinds that
-# stay **distinct** mechanisms while sharing one config-schema contract. Each
-# adds a source kind with no pipeline edit here or in main.py.
+# Launch registrations. ``rss`` is the shipped general feed kind;
+# ``youtube`` is deliberately separate (per-channel Atom, never routed
+# through ``rss``). huggingface_papers (JSON-API field mapping),
+# airelease_tracker (HTML-selector scraping), and reddit_rss_api are bespoke
+# kinds that stay **distinct** mechanisms while sharing one config-schema
+# contract. Each adds a source kind with no pipeline edit here or in main.py.
 from fetchers import (  # noqa: E402
     airelease_tracker,
     huggingface_papers,

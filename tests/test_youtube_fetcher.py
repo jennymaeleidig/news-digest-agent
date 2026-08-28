@@ -146,8 +146,12 @@ class TestVideoIdExtraction:
 
 
 class TestRegistryDispatch:
-    def test_youtube_kind_dispatches_through_the_registry(self):
+    def test_youtube_kind_dispatches_through_the_registry(self, feed, monkeypatch):
         from fetchers.registry import fetch_one
+
+        # Hermetic: patch the HTTP boundary so dispatch never touches network.
+        import fetchers.youtube as yt
+        monkeypatch.setattr(yt.requests, "get", lambda *a, **k: FakeResponse())
 
         result = fetch_one(youtube_source())
         # Reached the real (keyless, network) fetcher path: a wrong kind would
