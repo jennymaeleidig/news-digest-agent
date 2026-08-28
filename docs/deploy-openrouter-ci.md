@@ -1,6 +1,7 @@
 # Deployment plan: OpenRouter API in GitHub Actions
 
-Status: **implemented** in `.github/workflows/daily-digest.yml` — auth via a
+Status: **implemented** in the per-category digest workflows
+(`.github/workflows/digest-<id>.yml`) — auth via a
 single **`OPENROUTER_API_KEY`** bearer secret, billed per token to the key
 owner's OpenRouter account.
 
@@ -68,8 +69,10 @@ Do these before the first real run:
 ## 4. Cutover
 
 1. Changes are on `main`.
-2. Run the workflow once manually: **Actions → Daily digest → Run workflow**.
-3. Verify (below). Do not wait for the next 16:17 UTC scheduled run.
+2. Run a digest workflow once manually: **Actions → Digest — AI → Run
+   workflow** (any of the four per-category workflows).
+3. Verify (below). Do not wait for the next scheduled run (AI 08:00 UTC;
+   Tech 08:30, Video games 09:00, Politics & News 09:30 follow, staggered).
 4. Confirm the schedule is still registered and not disabled.
 
 ## 5. Verification checklist
@@ -107,8 +110,8 @@ Do these before the first real run:
 - **Key hygiene.** The bearer key is a spendable credential and is not printed
   by the workflow, but rotate it if it ever leaks. It is redacted from error
   messages by `main.sanitize_error` before anything touches disk.
-- **No `pull_request` trigger.** The workflow fires only on `schedule` +
-  `workflow_dispatch`, so the key is not exposed to fork-triggered runs. Keep
+- **No `pull_request` trigger.** The digest workflows fire only on `schedule`
+  + `workflow_dispatch`, so the key is not exposed to fork-triggered runs. Keep
   it that way.
 
 ## 8. Sources

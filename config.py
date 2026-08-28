@@ -8,7 +8,10 @@ What lives elsewhere on purpose:
   - Source URLs / kinds              category config (categories/*.json)
   - Kind -> fetcher registry          fetchers/registry.py
   - Curation prompt (driving text)   category prompt file (prompts/<id>.md)
-  - Cron schedule                   .github/workflows/daily-digest.yml
+  - Cron schedule (per category)    categories/<id>.json `schedule` field,
+                                      mirrored in .github/workflows/
+                                      digest-<id>.yml (pinned together by
+                                      tests/test_workflow_schedule.py)
 """
 
 # Shared across all outbound HTTP fetchers

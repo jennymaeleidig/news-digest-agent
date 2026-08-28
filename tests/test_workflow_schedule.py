@@ -56,15 +56,35 @@ def _workflow_for(category_id: str) -> dict:
     return _load_workflow(f"digest-{category_id}.yml")
 
 
+def _on(workflow: dict) -> dict:
+    """Return the workflow's `on:` (trigger) block.
+
+    pyyaml parses the YAML 1.1 unquoted key `on:` as the boolean `True`, so
+    the triggers live under that key in the loaded mapping (the quoted
+    "on": spelling would parse normally, but the files use the conventional
+    unquoted form GitHub expects).
+    """
+    return workflow[True] if True in workflow else workflow["on"]
+
+
+def _run_step(workflow: dict) -> dict:
+    """Return the run job's `python main.py ...` step."""
+    steps = workflow["jobs"]["run-digest"]["steps"]
+    return next(
+        s for s in steps
+        if any(
+            line.strip().startswith("python main.py")
+            for line in s.get("run", "").splitlines()
+        )
+    )
+
+
 def _run_command(workflow: dict) -> str:
     """Extract the `python main.py ...` command from the run job's steps."""
-    steps = workflow["jobs"]["run-digest"]["steps"]
-    for step in steps:
-        run = step.get("run", "")
-        for line in run.splitlines():
-            stripped = line.strip()
-            if stripped.startswith("python main.py"):
-                return stripped
+    for line in _run_step(workflow)["run"].splitlines():
+        stripped = line.strip()
+        if stripped.startswith("python main.py"):
+            return stripped
     raise AssertionError(
         f"no `python main.py ...` run step found in workflow "
         f"{workflow.get('name')!r}"
@@ -72,8 +92,7 @@ def _run_command(workflow: dict) -> str:
 
 
 def _schedule_crons(workflow: dict) -> list[str]:
-    on = workflow[True] if True in workflow else workflow["on"]
-    return [t["cron"] for t in on.get("schedule", [])]
+    return [t["cron"] for t in _on(workflow).get("schedule", [])]
 
 
 # ---------------------------------------------------------------------------
@@ -164,8 +183,7 @@ def test_all_scheduled_workflows_deliver_into_the_same_inbox():
             f"({category.recipient!r}); the four digests must share the one "
             f"default inbox"
         )
-        env = _workflow_for(category.id)["jobs"]["run-digest"]["steps"]
-        run_step = next(s for s in env if "main.py" in s.get("run", ""))
+        run_step = _run_step(_workflow_for(category.id))
         assert run_step["env"]["RECIPIENT_EMAIL"] == "${{ secrets.RECIPIENT_EMAIL }}"
 
 
@@ -175,7 +193,7 @@ def test_all_scheduled_workflows_deliver_into_the_same_inbox():
 @pytest.mark.parametrize("category_id", sorted(STAGGERED_CRONS))
 def test_workflow_supports_manual_dispatch(category_id):
     workflow = _workflow_for(category_id)
-    on = workflow[True] if True in workflow else workflow["on"]
+    on = _on(workflow)
     assert "workflow_dispatch" in on, (
         f"digest-{category_id}.yml must be manually dispatchable"
     )
