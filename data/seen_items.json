@@ -1,4 +1,161 @@
 {
+  "tech": {
+    "https://aftermath.site/gamescom-laptop-theft-spree-iam8bit-mimic/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "aftermath"
+    },
+    "https://aftermath.site/gamescom-opening-night-live-news-roundup/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "aftermath"
+    },
+    "https://aftermath.site/google-ai-video-games/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/gta-6-netflix-gameplay-reveal-npcs-crunch/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/i-came-to-hell-clock-for-the-vibes-then-learned-a-history-lesson/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/meta-facebook-instagram-lawsuit/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "aftermath"
+    },
+    "https://aftermath.site/nicole-gets-into-pokemon-card-trading/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/peter-cullen-toonami-rest-in-peace/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/podcasts/aftermath-hours-podcast-gta-6-realistic-violence/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/pokemon-lgbtq-san-francisco-coyote/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/sovereign-tower-review-impressions/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/tim-curry-dead-video-games-command-and-conquer/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/vholume-and-cicadamata-make-a-meal-of-movement/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/video-game-movie-website-headlines-clickbait/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://aftermath.site/xgimi-horizon-20-home-projector-review/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "aftermath"
+    },
+    "https://www.404media.co/a-student-said-he-was-a-hobby-plane-spotter-he-was-allegedly-taking-photos-for-the-chinese-government/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/behind-the-blog-the-complete-idiots-guide-to-flamin-hot-slop/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/bridget-todd-love-at-first-prompt-ai-chatbot-companions-podcast/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/businesses-go-viral-for-making-signs-without-ai/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/charges-dropped-against-person-who-clapped-at-a-city-data-center-meeting/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/cocomelons-studio-tells-its-artists-to-start-experimenting-with-ai/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/flocks-ceo-is-lying-to-cops-about-404-medias-reporting-on-abortion-case/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/florida-deputy-of-the-year-used-flock-to-stalk-ex-held-gun-in-her-mouth-did-a-nazi-salute/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/ice-plans-to-spends-millions-on-boston-dynamics-dog-robots/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/ice-wants-the-countrys-voter-data/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/inside-the-warehouse-where-amazon-scans-and-destroys-books-for-ai-training/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/israel-is-running-a-synthetic-think-tank-to-influence-ai-search-results/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.404media.co/podcast-cops-are-making-fake-flock-cameras-and-amazon-packages/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/scientists-discover-vast-underground-anomaly-on-mars/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": null,
+      "source": "404media"
+    },
+    "https://www.404media.co/the-ai-ghosts-contaminating-academic-publishing/": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "404media"
+    },
+    "https://www.usermag.co/p/vibe-coders-now-have-their-own-language": {
+      "date": "2026-08-28T20:55:09.833122+00:00",
+      "section": "Industry news",
+      "source": "usermag"
+    }
+  },
   "video-games": {
     "https://aftermath.site/gamescom-laptop-theft-spree-iam8bit-mimic/": {
       "date": "2026-08-28T19:26:42.831075+00:00",
