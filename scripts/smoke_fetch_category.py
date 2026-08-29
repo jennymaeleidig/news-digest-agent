@@ -11,8 +11,11 @@ on the first listed video with a watch URL, so the deep-read seam
 reported as a warning, not a failure — per isolate-and-continue the item
 would stay judgable on its snippet alone.
 
-Exit code: 0 if every fetch succeeded and mapped to non-empty items, 1
-otherwise (transcript warnings alone never fail the run).
+Exit code: 0 if every fetch succeeded and mapped to non-empty items (a
+success that mapped to zero items is tolerated only when the feed itself
+documents the emptiness — `FetchResult.note`, e.g. arXiv's <skipDays> — and
+is reported as a WARN), 1 otherwise (transcript warnings alone never fail
+the run).
 
 Usage:
     python -m scripts.smoke_fetch_category <category.json | category id>
@@ -36,10 +39,13 @@ def check_fetch(source, result: FetchResult | None) -> list[str]:
     """Return the list of problems with a single source's fetch.
 
     Empty list means the fetch is healthy: it succeeded *and* mapped to
-    non-empty items. A non-empty list means the fetch is a failure this smoke
-    test must surface — including the 200-but-zero-items case, the datacenter
-    block a residential IP would not reproduce (a bot-blocked host often
-    still returns HTTP 200 with a stripped/empty body rather than a 4xx).
+    non-empty items — OR it succeeded empty with `result.note` set, meaning
+    the feed itself documents the emptiness (arXiv's <skipDays>: a valid,
+    empty channel on declared skip days). The smoke test surfaces that case
+    as a WARN, not a failure — but a 200-but-empty response *without* the
+    note stays a failure this smoke test must surface: a bot-blocked host
+    often still returns HTTP 200 with a stripped/empty body rather than a
+    4xx, and that body does not come with a valid channel + skipDays.
     """
     if result is None:
         return [f"{source.name}: fetcher returned no result"]
@@ -72,13 +78,20 @@ def smoke_category(
     for source in category.sources:
         result = fetcher_registry(source)
         problems = check_fetch(source, result)
-        if problems:
+        note = result.note if (result is not None and result.success) else None
+        if problems and not note:
             failures.extend(problems)
             print(f"  FAIL  {source.name:<22} kind={source.kind:<8} "
                   f"tier={source.tier}  -> {problems[0]}")
             continue
-        print(f"  OK    {source.name:<22} kind={source.kind:<8} "
-              f"tier={source.tier}  -> {len(result.items)} items")
+        if problems and note:
+            # Documented-empty feed (e.g. arXiv skip days): expected emptiness,
+            # surfaced but never failed on.
+            print(f"  WARN  {source.name:<22} kind={source.kind:<8} "
+                  f"tier={source.tier}  -> {note}")
+        else:
+            print(f"  OK    {source.name:<22} kind={source.kind:<8} "
+                  f"tier={source.tier}  -> {len(result.items)} items")
         if source.kind != "youtube" or not result.items:
             continue
         video_id = next(

@@ -36,6 +36,10 @@ class FetchResult:
     success: bool
     items: list[Item] = field(default_factory=list)
     error: Optional[str] = None
+    note: Optional[str] = None        # non-fatal observation on a success (e.g.
+                                      # a valid but documented-empty feed); the
+                                      # smoke tests surface it without failing
+                                      # the run
 
 
 def strip_html(html: str) -> str:

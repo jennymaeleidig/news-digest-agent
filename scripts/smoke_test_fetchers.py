@@ -14,7 +14,10 @@ RSS parse yielding zero entries) rather than a 4xx. The fetchers already
 convert HTTP errors and unparseable bodies into failure ``FetchResult``s, so
 this smoke test's extra job is to surface the 200-but-empty case — the one a
 local IP would not reproduce. That is what makes a local-OK-but-datacenter-
-blocked scrape fail loudly here instead of silently passing.
+blocked scrape fail loudly here instead of silently passing. The one
+exception is a feed that documents its own emptiness (``FetchResult.note``,
+set when the channel is well-formed and declares <skipDays>, as arXiv does
+for weekends/holidays): that is reported as a WARN, not a failure.
 
 For youtube sources it also attempts one transcript excerpt per channel (the
 first listed video with a watch URL). A transcript failure prints a warning

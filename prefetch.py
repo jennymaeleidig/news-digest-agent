@@ -45,10 +45,13 @@ summarizer and cost doesn't grow per video.
 
 Datacenter IPs (GitHub Actions runners) are blocked from the transcript
 endpoint (`RequestBlocked`); when `YT_TRANSCRIPT_PROXY_URL` is set (an
-outbound HTTP proxy, e.g. a rotating residential one), transcript requests
-route through it — and *only* transcript requests: article deep-reads stay
-direct so proxy bandwidth stays minimal. Failures are isolated — the item
-stays judgable on its snippet alone.
+outbound HTTP proxy, e.g. a rotating residential one), transcript attempts
+start through it — and *only* transcript requests ever touch the proxy:
+article deep-reads stay direct so proxy bandwidth stays minimal. The two
+pools (the run host's IP and the proxy's rotating pool) get flagged by
+YouTube independently, so block/transient retries alternate between them
+(see the retry policy at `TRANSCRIPT_ATTEMPTS`). Failures are isolated — the
+item stays judgable on its snippet alone.
 
 The caption origin
 (`is_generated`: auto-generated vs manual) is surfaced in the block's header
@@ -73,6 +76,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+import time
 from dataclasses import dataclass, field
 from typing import Iterable
 from urllib.parse import urlparse
@@ -295,6 +299,20 @@ TRANSCRIPT_SEPARATOR = "\n[…]\n"
 # gets substance rather than a per-item error.
 TRANSCRIPT_LANGUAGES = ("en", "en-US", "en-GB")
 
+# Bounded retry on the transcript seam. Neither connection type retries
+# anything today: with GenericProxyConfig the api mounts no urllib3 Retry
+# (retries_when_blocked is 0 — that knob exists only on WebshareProxyConfig),
+# and direct connections never get one. So a transient TLS EOF, a connection
+# reset, or a rotating-proxy IP YouTube has flagged (IpBlocked) failed the
+# item on attempt 1, every time. Policy: up to TRANSCRIPT_ATTEMPTS attempts,
+# one FRESH api instance per attempt (fresh TCP/TLS — a rotating proxy hands
+# out a fresh IP), short backoff. Only transient causes retry:
+# RequestBlocked/IpBlocked and network-level exceptions. Deterministic
+# failures (TranscriptsDisabled, NoTranscriptFound, VideoUnplayable) fail
+# immediately — the captions are not coming back.
+TRANSCRIPT_ATTEMPTS = 3
+TRANSCRIPT_RETRY_BACKOFF_SECONDS = 2.0
+
 
 def reduce_transcript(text: str, cap: int = TRANSCRIPT_MAX_CHARS) -> str:
     """Reduce a transcript to at most `cap` chars, deterministically.
@@ -346,32 +364,55 @@ def fetch_transcript_excerpt(video_id: str) -> tuple[str, str | None]:
     # The proxy applies here — and only here: this function is the whole
     # transcript seam. Article deep-reads (fetch_full_article) never see it,
     # so proxy bandwidth cost stays a few hundred KB per video at most.
-    # A fresh YouTubeTranscriptApi per call also means a fresh requests
-    # Session per video, which is what makes a rotating proxy actually
-    # rotate (a shared session would pin one proxy IP).
-    try:
-        proxy_url = _transcript_proxy_url()
-        api = (
-            YouTubeTranscriptApi(
-                proxy_config=GenericProxyConfig(
-                    http_url=proxy_url, https_url=proxy_url)
-            )
-            if proxy_url else YouTubeTranscriptApi()
-        )
-        transcript_list = api.list(video_id)
+    # One fresh YouTubeTranscriptApi per attempt also means a fresh requests
+    # Session per attempt — which is what makes a rotating proxy actually
+    # rotate (a shared session would pin one proxy IP) and what a retry needs
+    # to land on a different residential IP after an IpBlocked attempt.
+    last_error: str | None = None
+    proxy_url = _transcript_proxy_url()
+    for attempt in range(1, TRANSCRIPT_ATTEMPTS + 1):
+        # Two independent IP pools get flagged independently: with a proxy
+        # configured, alternate pools across attempts (proxy first — direct is
+        # what datacenter CI cannot use), so a block falls over to the other
+        # pool on the next attempt. Without a proxy every attempt is direct.
+        attempt_proxy = proxy_url if (
+            proxy_url and attempt % 2 == 1) else None
         try:
-            transcript = transcript_list.find_transcript(TRANSCRIPT_LANGUAGES)
-        except CouldNotRetrieveTranscript:
-            # No preferred language: fall back to whatever YouTube lists, so
-            # a non-English channel is judged on its actual transcript.
-            transcript = next(iter(transcript_list), None)
-        if transcript is None:
-            return "", "Error: transcript unavailable: no transcripts listed"
-        fetched = transcript.fetch()
-    except CouldNotRetrieveTranscript as e:
-        return "", f"Error: transcript unavailable: {type(e).__name__}"
-    except Exception as e:                         # noqa: BLE001 — isolate-and-continue
-        return "", f"Error: transcript fetch failed: {type(e).__name__}: {e}"
+            api = (
+                YouTubeTranscriptApi(
+                    proxy_config=GenericProxyConfig(
+                        http_url=attempt_proxy, https_url=attempt_proxy)
+                )
+                if attempt_proxy else YouTubeTranscriptApi()
+            )
+            transcript_list = api.list(video_id)
+            try:
+                transcript = transcript_list.find_transcript(TRANSCRIPT_LANGUAGES)
+            except CouldNotRetrieveTranscript:
+                # No preferred language: fall back to whatever YouTube lists, so
+                # a non-English channel is judged on its actual transcript.
+                transcript = next(iter(transcript_list), None)
+            if transcript is None:
+                return "", "Error: transcript unavailable: no transcripts listed"
+            fetched = transcript.fetch()
+            last_error = None
+            break
+        except RequestBlocked as e:
+            # The current proxy IP (or datacenter IP) is flagged — a fresh
+            # instance may land on a different residential IP, so retry.
+            last_error = f"Error: transcript unavailable: {type(e).__name__}"
+        except CouldNotRetrieveTranscript as e:
+            # Deterministic (TranscriptsDisabled, NoTranscriptFound,
+            # VideoUnplayable): retrying cannot change the answer.
+            return "", f"Error: transcript unavailable: {type(e).__name__}"
+        except Exception as e:                     # noqa: BLE001 — isolate-and-continue
+            # Transient network-level failure (TLS EOF, reset, timeout):
+            # a fresh instance gets a fresh connection, so retry.
+            last_error = f"Error: transcript fetch failed: {type(e).__name__}: {e}"
+        if attempt < TRANSCRIPT_ATTEMPTS:
+            time.sleep(TRANSCRIPT_RETRY_BACKOFF_SECONDS * attempt)
+    if last_error is not None:
+        return "", last_error
 
     text = re.sub(r"\s+", " ", " ".join(s.text for s in fetched)).strip()
     if not text:

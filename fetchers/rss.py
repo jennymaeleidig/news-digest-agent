@@ -12,6 +12,7 @@ header sets that look stripped-down, even when the User-Agent is fine.
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 
@@ -83,6 +84,30 @@ def fetch(source: Source) -> FetchResult:
     if parsed.bozo and not parsed.entries:
         return FetchResult(source.name, False, error=f"feed parse error: {parsed.bozo_exception}")
 
+    # A well-formed channel that legitimately carries zero entries is a
+    # success-with-note, not a failure — and crucially, not the 200-but-empty
+    # bot-block signature the smoke tests exist to catch. arXiv is the
+    # motivating case: it declares <skipDays> (Sat/Sun and occasional
+    # holidays) and serves a valid, empty channel on those days (feedparser
+    # flattens <skipDays> to a 'skipdays'/'day' key pair on the channel).
+    # Anything else with zero entries keeps the plain zero-item result the
+    # smoke tests treat as a suspected block.
+    note = None
+    if not parsed.entries and ("skipdays" in parsed.feed or "day" in parsed.feed):
+        rebuilt = parsed.feed.get("lastbuilddate") or parsed.feed.get("updated") or ""
+        # feedparser flattens the repeated <skipDays><day> elements and keeps
+        # only the last one on `feed.day` — pull the full list from the raw
+        # XML so the note can say "Saturday, Sunday" instead of just "Sunday".
+        skip_days = re.findall(
+            r"<day>\s*([^<]+?)\s*</day>",
+            resp.content.decode(resp.encoding or "utf-8", errors="replace"),
+        )
+        days = f" (skipDays declares: {', '.join(skip_days)})" if skip_days else ""
+        note = (
+            "feed channel is valid but contains no entries — source declares "
+            f"skip days{days}; lastBuildDate {rebuilt or 'unknown'}"
+        )
+
     # The static allowlist is built from source homepages; an aggregator feed
     # (e.g. radarai.top) links out to external articles, which would otherwise
     # be unfetchable. When an item's link lands on a different host than the
@@ -114,4 +139,4 @@ def fetch(source: Source) -> FetchResult:
             linked_url=linked_url,
         ))
 
-    return FetchResult(source.name, True, items)
+    return FetchResult(source.name, True, items, note=note)

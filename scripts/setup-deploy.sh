@@ -183,7 +183,7 @@ finish() {
 # STAGES: author this section. One stage() per step the human takes.
 # ──────────────────────────────────────────────────────────────────────────
 
-TOTAL_STAGES=6
+TOTAL_STAGES=7
 
 banner "News digest — OpenRouter deployment"
 
@@ -215,7 +215,54 @@ ask_secret OPENROUTER_API_KEY "Paste the OpenRouter API key:"
 write_env OPENROUTER_API_KEY "$OPENROUTER_API_KEY"
 set_secret OPENROUTER_API_KEY "$OPENROUTER_API_KEY"
 
-# ── Stage 4: pinned curation model (optional) ─────────────────────────────
+# ── Stage 4: YouTube transcript proxy (DataImpulse) ─────────────────────────────
+stage "YouTube transcript proxy (DataImpulse)"
+say "Transcript fetches (video deep-reads) go through a DataImpulse"
+say "rotating-residential proxy: datacenter IPs are blocked by YouTube."
+say "Country codes go on the proxy login (__cr.us,gb,ca,au,de) to widen"
+say "the IP pool — lowercase ISO codes, comma-separated."
+PROXY_CURRENT=$(_existing "YT_TRANSCRIPT_PROXY_URL" || true)
+if [[ -z "$PROXY_CURRENT" ]]; then
+  warn "YT_TRANSCRIPT_PROXY_URL is not set in $ENV_FILE"
+  step "DataImpulse dashboard → Proxy Configuration shows your credentials;"
+  step "paste the full URL including login:password@gw.dataimpulse.com:823."
+  ask_secret YT_TRANSCRIPT_PROXY_URL "Paste the full proxy URL:"
+  PROXY_CURRENT="$YT_TRANSCRIPT_PROXY_URL"
+fi
+say "current (redacted): $(printf '%s' "$PROXY_CURRENT" | sed -E 's#//[^:@/]+@#//<redacted>@#')"
+ask PROXY_CODES "Country codes [Enter = us,gb,ca,au,de]:"
+PROXY_CODES="${PROXY_CODES:-us,gb,ca,au,de}"
+if ! [[ "$PROXY_CODES" =~ ^[a-z]{2}(,[a-z]{2})*$ ]]; then
+  warn "'$PROXY_CODES' doesn't look like a code list (expected e.g. us,gb,ca)"
+  SKIPPED+=("YouTube transcript proxy URL (invalid country codes)")
+else
+  # idempotent: strip any existing __cr.<codes>, then insert fresh
+  PROXY_STRIPPED=$(printf '%s' "$PROXY_CURRENT" | sed -E 's/__cr\.[a-z]{2}(,[a-z]{2})*//')
+  YT_TRANSCRIPT_PROXY_URL=$(printf '%s' "$PROXY_STRIPPED" | sed -E "s#(//[^:/@]+):#\1__cr.${PROXY_CODES}:#")
+  say "new (redacted):     $(printf '%s' "$YT_TRANSCRIPT_PROXY_URL" | sed -E 's#//[^:@/]+@#//<redacted>@#')"
+  if confirm "Write this to $ENV_FILE and the GitHub secret?"; then
+    write_env YT_TRANSCRIPT_PROXY_URL "$YT_TRANSCRIPT_PROXY_URL"
+    set_secret YT_TRANSCRIPT_PROXY_URL "$YT_TRANSCRIPT_PROXY_URL"
+    step "Quick egress check — expect distinct masked exit IPs:"
+    PROXY_IPS=()
+    for i in 1 2 3; do
+      PROXY_IP=$(curl -s --max-time 20 -x "$YT_TRANSCRIPT_PROXY_URL" https://api.ipify.org || true)
+      if [[ "$PROXY_IP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        PROXY_IPS+=("$PROXY_IP")
+        say "  request $i: $(printf '%s' "$PROXY_IP" | awk -F. '{print $1"."$2".x.x"}')"
+      else
+        warn "request $i failed"
+        PROXY_IPS+=("failed")
+      fi
+    done
+    if [[ "${PROXY_IPS[0]}" == "${PROXY_IPS[1]}" && "${PROXY_IPS[1]}" == "${PROXY_IPS[2]}" && "${PROXY_IPS[0]}" != "failed" ]]; then
+      warn "all 3 requests shared one exit IP — targeting may not have applied"
+    fi
+  else
+    SKIPPED+=("YouTube transcript proxy URL (kept current)")
+  fi
+fi
+
 stage "Curation model (optional)"
 say "The curation model is pinned. Leave it blank to keep the default"
 say "z-ai/glm-5.3-flash (config.OPENROUTER_MODEL)."
@@ -227,7 +274,7 @@ else
   note "kept default z-ai/glm-5.3-flash"
 fi
 
-# ── Stage 5: push the CI wiring ──────────────────────────────────────────
+# ── Stage 6: push the CI wiring ──────────────────────────────────────────
 stage "Deploy: push main"
 say "Secrets are in place. Next, push the digest changes to CI."
 step "This runs: git push origin main"
@@ -237,7 +284,7 @@ else
   SKIPPED+=("git push origin main")
 fi
 
-# ── Stage 6: trigger a manual run to verify ──────────────────────────────
+# ── Stage 7: trigger a manual run to verify ──────────────────────────────
 stage "Verify: trigger a manual run"
 say "Each category runs as its own workflow, staggered 30 minutes apart:"
 say "  digest-ai-ml.yml          08:00 UTC"
