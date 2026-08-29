@@ -80,13 +80,22 @@ git clone <repo>
 cd news-digest-agent
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # OPENROUTER_API_KEY, RESEND_API_KEY, RECIPIENT_EMAIL
+cp .env.example .env   # OPENROUTER_API_KEY, RESEND_API_KEY, RECIPIENT_EMAIL, (optional) YT_TRANSCRIPT_PROXY_URL
 python main.py
 ```
 
 Curation runs through OpenRouter with a bearer key (`OPENROUTER_API_KEY`).
 The model is pinned in `.env` as `OPENROUTER_MODEL` (default
 `z-ai/glm-5.3-flash`) — there is no per-run dynamic selection.
+
+YouTube transcript fetches are blocked from datacenter IPs, so an optional
+`YT_TRANSCRIPT_PROXY_URL` routes **only** the transcript calls through an
+outbound HTTP proxy (e.g. a DataImpulse rotating residential proxy —
+`http://<login>__cr.us:<password>@gw.dataimpulse.com:823`). Article fetches
+stay direct to keep proxy bandwidth (the billed cost) minimal. Unset →
+direct connection, and transcript failures degrade gracefully as before.
+Set it locally in `.env` and as the `YT_TRANSCRIPT_PROXY_URL` repo secret
+for the digest and smoke-test workflows.
 
 ## Example digest
 
@@ -112,10 +121,13 @@ The model is pinned in `.env` as `OPENROUTER_MODEL` (default
   test observes `RequestBlocked` (and occasionally `VideoUnplayable` for live
   entries) from GitHub Actions runners, so shortlisted videos there are
   judged on their snippet alone. Isolate-and-continue holds: the run never
-  fails on this, the item just loses its transcript deep-read. The fix is a
-  self-deployed proxy: route the `youtube-transcript-api` calls in
-  `prefetch.fetch_transcript_excerpt` through an outbound proxy we own
-  (residential or egress we control), per
-  [youtube-transcript-api · Using other proxy solutions](https://github.com/jdepoix/youtube-transcript-api#using-other-proxy-solutions).
-  Until then, transcript quality for the three YouTube sources is a
-  laptop-only property.
+  fails on this, the item just loses its transcript deep-read. The fix is in
+  place behind a proxy: setting `YT_TRANSCRIPT_PROXY_URL` (repo secret and
+  `.env`) routes the `youtube-transcript-api` calls in
+  `prefetch.fetch_transcript_excerpt` through an outbound HTTP proxy —
+  rotating residential recommended, per
+  [youtube-transcript-api · Using other proxy solutions](https://github.com/jdepoix/youtube-transcript-api#using-other-proxy-solutions)
+  (verified with `python -m scripts.smoke_test_fetchers`, which reports
+  `transcript proxy: configured/unset` and per-channel transcript results).
+  Until the secret is set, transcript quality for the three YouTube sources
+  remains a laptop-only property.

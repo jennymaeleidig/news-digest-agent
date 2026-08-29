@@ -43,11 +43,12 @@ bounded excerpt block — evenly-spaced windows of the transcript text capped
 at `TRANSCRIPT_MAX_CHARS`, with no model pass — so stage-2 remains the only
 summarizer and cost doesn't grow per video.
 
-Known gap: datacenter IPs (GitHub Actions runners) are blocked from the
-transcript endpoint (`RequestBlocked`); a self-deployed proxy per the
-youtube-transcript-api proxy docs is the planned fix (see README,
-Known gaps). Failures are isolated — the item stays judgable on its
-snippet alone.
+Datacenter IPs (GitHub Actions runners) are blocked from the transcript
+endpoint (`RequestBlocked`); when `YT_TRANSCRIPT_PROXY_URL` is set (an
+outbound HTTP proxy, e.g. a rotating residential one), transcript requests
+route through it — and *only* transcript requests: article deep-reads stay
+direct so proxy bandwidth stays minimal. Failures are isolated — the item
+stays judgable on its snippet alone.
 
 The caption origin
 (`is_generated`: auto-generated vs manual) is surfaced in the block's header
@@ -69,6 +70,7 @@ string in `PrefetchResult.errors`, and the run continues.
 
 from __future__ import annotations
 
+import os
 import re
 import sys
 from dataclasses import dataclass, field
@@ -90,6 +92,7 @@ from config import (
     USER_AGENT,
 )
 from fetchers.common import Item
+from youtube_transcript_api.proxies import GenericProxyConfig
 from youtube_transcript_api import (
     CouldNotRetrieveTranscript,
     NoTranscriptFound,
@@ -317,6 +320,18 @@ def reduce_transcript(text: str, cap: int = TRANSCRIPT_MAX_CHARS) -> str:
     return TRANSCRIPT_SEPARATOR.join(windows)
 
 
+def _transcript_proxy_url() -> str | None:
+    """Return the optional outbound proxy URL for transcript fetches.
+
+    Read from `YT_TRANSCRIPT_PROXY_URL` at call time (like OPENROUTER_API_KEY
+    and the other deployment secrets — this module imports no env at import
+    time). Example value for a DataImpulse rotating residential proxy:
+    `http://<login>__cr.us:<password>@gw.dataimpulse.com:823`. Unset →
+    transcript requests go direct, the pre-proxy behavior.
+    """
+    return os.environ.get("YT_TRANSCRIPT_PROXY_URL") or None
+
+
 def fetch_transcript_excerpt(video_id: str) -> tuple[str, str | None]:
     """Fetch one video's transcript and reduce it to a bounded excerpt block.
 
@@ -328,8 +343,21 @@ def fetch_transcript_excerpt(video_id: str) -> tuple[str, str | None]:
     exception maps to a per-item error string, so the item stays judgable on
     its snippet alone and the run continues.
     """
+    # The proxy applies here — and only here: this function is the whole
+    # transcript seam. Article deep-reads (fetch_full_article) never see it,
+    # so proxy bandwidth cost stays a few hundred KB per video at most.
+    # A fresh YouTubeTranscriptApi per call also means a fresh requests
+    # Session per video, which is what makes a rotating proxy actually
+    # rotate (a shared session would pin one proxy IP).
     try:
-        api = YouTubeTranscriptApi()
+        proxy_url = _transcript_proxy_url()
+        api = (
+            YouTubeTranscriptApi(
+                proxy_config=GenericProxyConfig(
+                    http_url=proxy_url, https_url=proxy_url)
+            )
+            if proxy_url else YouTubeTranscriptApi()
+        )
         transcript_list = api.list(video_id)
         try:
             transcript = transcript_list.find_transcript(TRANSCRIPT_LANGUAGES)

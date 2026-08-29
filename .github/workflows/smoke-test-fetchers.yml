@@ -47,4 +47,10 @@ jobs:
         # works locally fails here and blocks claiming the effort complete.
         # Run as a module (not `python scripts/…`) so the repo root lands on
         # sys.path and the top-level `categories` / `fetchers` imports resolve.
+        # Optional secret: routes only the transcript attempts through an
+        # outbound HTTP proxy (YouTube blocks transcript requests from this
+        # datacenter IP). Unset → transcript attempts stay direct and print
+        # the familiar RequestBlocked warning.
+        env:
+          YT_TRANSCRIPT_PROXY_URL: ${{ secrets.YT_TRANSCRIPT_PROXY_URL }}
         run: python -m scripts.smoke_test_fetchers

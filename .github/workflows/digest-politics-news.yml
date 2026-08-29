@@ -69,6 +69,11 @@ jobs:
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+          # Optional: routes ONLY youtube-transcript-api calls (prefetch
+          # transcript deep-reads) through an outbound HTTP proxy, since
+          # YouTube blocks transcript requests from datacenter IPs. Unset →
+          # direct connection; transcript failures stay non-fatal.
+          YT_TRANSCRIPT_PROXY_URL: ${{ secrets.YT_TRANSCRIPT_PROXY_URL }}
         run: python main.py --category politics-news
 
       # Always commit state changes, even if the digest run failed:

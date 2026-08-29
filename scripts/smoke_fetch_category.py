@@ -20,7 +20,10 @@ Usage:
 
 from __future__ import annotations
 
+import os
 import sys
+
+from dotenv import load_dotenv
 
 from categories import Category, load_category
 from fetchers.common import FetchResult
@@ -107,6 +110,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     arg = argv[0]
     path = arg if arg.endswith(".json") else f"categories/{arg}.json"
+    load_dotenv()
+    proxy = os.environ.get("YT_TRANSCRIPT_PROXY_URL")
+    print("transcript proxy: "
+          + ("configured" if proxy else "not set (direct connection)"))
     ok, failures = smoke_category(load_category(path))
     if not ok:
         print(f"smoke: FAILED — {len(failures)} problem(s)", file=sys.stderr)

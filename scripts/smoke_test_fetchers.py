@@ -20,7 +20,9 @@ For youtube sources it also attempts one transcript excerpt per channel (the
 first listed video with a watch URL). A transcript failure prints a warning
 but never fails the job — per isolate-and-continue the item stays judgable on
 its snippet alone — but the warning is the datacenter-IP signal (e.g.
-RequestBlocked) that a laptop run cannot provide.
+RequestBlocked) that a laptop run cannot provide. When the optional
+`YT_TRANSCRIPT_PROXY_URL` secret is set, the transcript attempts route
+through it (and only them); the header line reports configured/unset.
 
 There are no retry loops anywhere — each fetcher is dispatched exactly once —
 so this cannot hammer any host it exercises. It runs within a 10-minute
@@ -33,7 +35,10 @@ exits non-zero on any failure.
 
 from __future__ import annotations
 
+import os
 import sys
+
+from dotenv import load_dotenv
 
 from categories import Category
 from fetchers.registry import fetch_one
@@ -67,6 +72,10 @@ def run_all(
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_dotenv()
+    proxy = os.environ.get("YT_TRANSCRIPT_PROXY_URL")
+    print("transcript proxy: "
+          + ("configured" if proxy else "not set (direct connection)"))
     categories = discover_categories()
     if not categories:
         print("smoke test: no categories discovered", file=sys.stderr)
