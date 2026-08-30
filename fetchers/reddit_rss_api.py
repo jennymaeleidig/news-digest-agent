@@ -15,17 +15,37 @@ source's shared ``fetcher_config`` (item/title/link/date). The post body
 (``message``) becomes the snippet, which native Reddit RSS did not provide.
 
 Reliability note: this is a community-maintained third-party service (one
-public instance, no SLA). A proxy outage surfaces as an isolated per-source
-``FetchResult`` failure in the source-health footer — it never stops the run.
+public instance, no SLA). It intermittently serves bad gateways (502/503)
+and resets connections on scheduled runs — while a single smoke-test probe
+passes, because the blips are transient. Fetches therefore retry up to
+REDDIT_FETCH_ATTEMPTS times (fresh HTTP request per attempt, linear
+backoff) on transient causes only: 5xx, 429, and network-level exceptions.
+A 403/404 or invalid JSON fails immediately. An exhausted retry surfaces
+as an isolated per-source ``FetchResult`` failure in the source-health
+footer — it never stops the run.
 """
 
 from __future__ import annotations
 
+import time
+
 import requests
 
 from categories import Source
-from config import HTTP_TIMEOUT_SECONDS, SNIPPET_CHARS, USER_AGENT
+from config import (
+    HTTP_TIMEOUT_SECONDS,
+    REDDIT_FETCH_ATTEMPTS,
+    REDDIT_RETRY_BACKOFF_SECONDS,
+    SNIPPET_CHARS,
+    USER_AGENT,
+)
 from fetchers.common import FetchResult, Item
+
+# HTTP statuses worth retrying: rate limiting and gateway/server blips —
+# the shapes the community proxy actually exhibits under load. Anything
+# else (403 bot-block, 404 gone) is deterministic; retrying cannot change
+# the answer.
+_RETRYABLE_STATUSES = {429, 500, 502, 503, 504}
 
 # Browser-like header set, mirroring the RSS fetcher's hygiene so bot-sensitive
 # hosts respond with a full body rather than a stripped one.
@@ -76,6 +96,16 @@ def _map_entries(entries, config, source_name: str) -> list[Item]:
     return items
 
 
+def _fetch_once(url: str) -> requests.Response:
+    """One HTTP attempt; raises on network-level failure."""
+    return requests.get(
+        url,
+        headers=_REQUEST_HEADERS,
+        timeout=HTTP_TIMEOUT_SECONDS,
+        allow_redirects=True,
+    )
+
+
 def fetch(source: Source) -> FetchResult:
     if source.kind != "reddit_rss_api":
         return FetchResult(
@@ -90,18 +120,28 @@ def fetch(source: Source) -> FetchResult:
             error="reddit_rss_api source missing fetcher_config",
         )
 
-    try:
-        resp = requests.get(
-            config.url,
-            headers=_REQUEST_HEADERS,
-            timeout=HTTP_TIMEOUT_SECONDS,
-            allow_redirects=True,
-        )
-    except requests.RequestException as e:
-        return FetchResult(source.name, False, error=f"fetch failed: {e}")
+    # Bounded retry on transient causes: the community proxy intermittently
+    # serves 502/503 under load and occasionally resets connections mid-run.
+    # One fresh request per attempt (fresh TCP/TLS), linear backoff between
+    # attempts — the same shape as the transcript retry in prefetch.py.
+    last_error: str | None = None
+    resp: requests.Response | None = None
+    for attempt in range(1, REDDIT_FETCH_ATTEMPTS + 1):
+        try:
+            resp = _fetch_once(config.url)
+        except requests.RequestException as e:
+            last_error = f"fetch failed: {e}"
+        else:
+            last_error = f"HTTP {resp.status_code}" if resp.status_code >= 400 else None
+            # Non-retryable status (403 bot-block, 404 gone): the answer
+            # won't change — fail now instead of burning the backoff.
+            if resp.status_code < 400 or resp.status_code not in _RETRYABLE_STATUSES:
+                break
+        if attempt < REDDIT_FETCH_ATTEMPTS:
+            time.sleep(REDDIT_RETRY_BACKOFF_SECONDS * attempt)
 
-    if resp.status_code >= 400:
-        return FetchResult(source.name, False, error=f"HTTP {resp.status_code}")
+    if resp is None or resp.status_code >= 400:
+        return FetchResult(source.name, False, error=last_error)
 
     try:
         payload = resp.json()

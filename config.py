@@ -78,6 +78,15 @@ DEEP_READ_SNIPPET_CHARS = 500
 # MAX_RETURN_CHARS and far under the CURATION_PROMPT_MAX_BYTES budget.
 TRANSCRIPT_MAX_CHARS = 12_000
 
+# Reddit source (reddit-rss-api proxy) bounded retry. The community proxy
+# intermittently serves bad gateways (502/503) and resets connections on
+# scheduled runs while a single smoke-test probe passes. Policy: up to
+# REDDIT_FETCH_ATTEMPTS attempts, a fresh HTTP request per attempt, linear
+# backoff, retrying only transient causes (5xx, 429, RequestException);
+# deterministic statuses (403/404) fail immediately.
+REDDIT_FETCH_ATTEMPTS = 3
+REDDIT_RETRY_BACKOFF_SECONDS = 2.0
+
 # State management
 HEALTH_RUNS_KEPT = 14
 
