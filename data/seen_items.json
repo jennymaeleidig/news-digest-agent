@@ -1320,6 +1320,11 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/a-visual-dependence-aware-framework-for-multimodal-unsupervised-continua-01d61a5607": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/an-end-to-end-trained-vision-language-model-for-native-language-prostate-6c84f59a17": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": null,
@@ -1350,6 +1355,11 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/decoupling-candidate-dual-agn-from-chance-superpositions-in-the-gothic-s-c8a8739759": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/deep-learning-segmentation-of-diffusion-weighted-mri-acute-ischaemic-str-05f70c6d1c": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": null,
@@ -1362,6 +1372,11 @@
     },
     "https://developinglight.com/studies/driftad-visually-guided-text-drift-for-few-shot-industrial-anomaly-detec-4a89c48599": {
       "date": "2026-08-29T08:08:00.224731+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/dualopsd-adaptive-privileged-teachers-for-on-policy-self-distillation-fa9c8fb0f8": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1390,6 +1405,11 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/from-state-to-action-ooda-tool-for-reliable-multi-turn-tool-use-76418aba71": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/gap-prompt-gated-adaptive-prompting-for-efficient-continual-learning-0b8ce5d058": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": null,
@@ -1402,6 +1422,21 @@
     },
     "https://developinglight.com/studies/hypoforge-a-self-improving-multi-agent-framework-for-automated-hypothesi-66fa9393a7": {
       "date": "2026-08-28T22:22:51.192422+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/iapo-influence-aware-policy-optimization-for-credit-assignment-in-multi-5b77a557ae": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/insightsr-refining-symbolic-regression-search-spaces-via-parallel-semant-0b42e9eee3": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/interpretable-fundus-image-classification-via-ring-based-retinal-vascula-fe060bd2b8": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1420,6 +1455,11 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/luce-relightable-gaussians-for-3d-asset-generation-e1fd1b0cd5": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/lutseg-a-longitudinal-multi-expert-dataset-for-ulcer-tissue-segmentation-5ddafc63f8": {
       "date": "2026-08-28T22:22:51.192422+00:00",
       "section": null,
@@ -1435,6 +1475,16 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/metis-typed-runtime-mediation-for-tool-using-software-agents-8435b63e08": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/mnemodyn-learning-resting-state-dynamics-from-40k-fmri-sequences-5af61c5d83": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/moe-based-feature-adapter-for-prompt-free-binary-coronary-artery-segment-19b6c4e32c": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": null,
@@ -1445,8 +1495,28 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/myomechanix-biomechanically-grounded-compositional-skilled-activity-unde-3e3160778c": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/narcissus-program-synthesis-using-context-aware-llm-approximations-1a8316681b": {
       "date": "2026-08-29T08:08:00.224731+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/neural-network-and-reduced-order-modeling-workflows-for-ai-driven-cfd-fa-8d828e7ac2": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/not-all-attention-heads-contribute-to-critical-visual-token-selection-he-0f65a7d011": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/plansightrag-a-visual-first-multimodal-rag-for-automating-question-answe-fac04f128d": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1460,6 +1530,11 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/ragsentinel-certifiable-geometric-consensus-for-robust-retrieval-augment-294d5bdb3d": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/reflection-steering-disentangling-reflection-from-reasoning-in-activatio-cbb3e90bd0": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": null,
@@ -1467,6 +1542,11 @@
     },
     "https://developinglight.com/studies/reliablerag-combating-misinformation-in-retrieval-augmented-generation-v-0a3c17a22d": {
       "date": "2026-08-29T08:08:00.224731+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/rtlguard-a-lightweight-teacher-student-defense-for-poisoned-rtl-code-gen-9ce8e4214e": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1485,8 +1565,18 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/strategybench-evaluating-explicit-strategy-induction-in-large-language-m-2da1f1e51f": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/swarmworld-stigmergic-technological-evolution-in-societies-of-language-m-c804c356b6": {
       "date": "2026-08-28T22:22:51.192422+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/the-empire-long-divided-must-unite-architectural-convergence-in-three-ll-50e8995873": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1505,8 +1595,18 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://developinglight.com/studies/ultrapips-improving-model-perception-in-b-mode-ultrasound-with-foundatio-fe6bbd1148": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://developinglight.com/studies/unveiling-spectral-mechanisms-in-training-free-llm-text-detection-4306e2c84c": {
       "date": "2026-08-28T22:22:51.192422+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/vulnerable-code-search-transferable-attack-for-code-language-models-11ac8cb9c6": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1517,6 +1617,21 @@
     },
     "https://developinglight.com/studies/what-reaches-expert-review-representation-structural-screening-and-candi-5ce84a8902": {
       "date": "2026-08-29T08:08:00.224731+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/when-stale-constraints-go-unchecked-budgeted-verification-failures-in-in-0f4fc0dbd9": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://developinglight.com/studies/x-multi-vlm-based-imaging-factor-disentanglement-for-factor-aware-image-a8a10221d0": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://github.com/ggml-org/llama.cpp/releases/tag/b10687": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
       "section": null,
       "source": "radarai.top (AI)"
     },
@@ -1810,6 +1925,11 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://pastagi.com/guides/nlp-rag-llm-routing/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://pytorch.org/blog/vllm-sessions-at-pytorch-conference-north-america-2026/": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": "General news",
@@ -1818,6 +1938,11 @@
     "https://simonwillison.net/2026/Aug/27/breaking-claude-code-opus-5-auto-mode/": {
       "date": "2026-08-28T22:22:51.192422+00:00",
       "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://simonwillison.net/2026/Aug/29/hy4/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
       "source": "radarai.top (AI)"
     },
     "https://techcrunch.com/2026/08/27/anthropic-and-openai-are-joining-the-ai-stage-at-techcrunch-disrupt-2026/": {
@@ -1850,9 +1975,39 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://techcrunch.com/2026/08/29/nvidias-ai-advantage-is-moving-beyond-the-gpu/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://techcrunch.com/2026/08/29/were-not-doing-30-bets-a-year-vijay-pande-on-betting-small-after-running-4-billion-at-a16z/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://towardsdatascience.com/4-claude-skills-every-data-scientist-needs-in-2026/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://towardsdatascience.com/human-in-the-loop-without-killing-throughput/": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://towardsdatascience.com/rag-is-not-the-whole-toolkit-the-nlp-techniques-real-problems-still-need/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://towardsdatascience.com/when-to-use-claude-code-and-when-to-use-codex/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
       "source": "radarai.top (AI)"
     },
     "https://towardsdatascience.com/why-claude-code-time-estimates-are-poor/": {
@@ -1865,6 +2020,21 @@
       "section": null,
       "source": "radarai.top (AI)"
     },
+    "https://www.bestblogs.dev/en/article/7b88b6d2b1?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/article/d2d345e210?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/article/e21c18376d?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
     "https://www.bestblogs.dev/en/status/2093398502063698292?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": null,
@@ -1873,6 +2043,41 @@
     "https://www.bestblogs.dev/en/status/2093455057429889311?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093671249868165553?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093709611165458680?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093709613052944742?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093710246648881168?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093710478728208452?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093745620003811766?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.bestblogs.dev/en/status/2093799718832771461?utm_source=rss&utm_medium=feed&utm_campaign=resources&entry=rss_article_item": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
       "source": "radarai.top (AI)"
     },
     "https://www.kdnuggets.com/quantization-and-pruning-methods-to-make-your-llm-leaner": {
@@ -1914,6 +2119,21 @@
       "date": "2026-08-29T08:08:00.224731+00:00",
       "section": "General news",
       "source": "radarai.top (AI)"
+    },
+    "https://www.marktechpost.com/2026/08/29/anthropic-opens-a-research-preview-of-the-model-hardware-standard-mhs-a-shared-specification-for-ai-agents-to-safely-operate-physical-devices/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.marktechpost.com/2026/08/29/google-ai-releases-gemini-omni-1-1-flash-40-second-scene-extension-first-last-frame-control-and-4k-upscaling/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "radarai.top (AI)"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1vyzzxu/megathread_glm53flash_former_oxalpha/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
     },
     "https://www.reddit.com/r/LocalLLaMA/comments/1vzdfw9/ama_announcement_apodex_thursday_8am11am_pst/": {
       "date": "2026-08-28T22:22:51.192422+00:00",
@@ -2040,6 +2260,121 @@
       "section": "General news",
       "source": "Reddit r/LocalLLaMA"
     },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1cbb0/saved_my_fiances_phone_with_qwen_38_27b/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1fpxi/terminal_bench_40_just_dropped_glm53_is_at_the/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1gec7/i_always_wonder_how_much_more_speed_andor_context/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1je5d/if_your_ts_is_low_enough_you_can_see_speculative/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1kt83/an_official_1bit_quant_for_hy4/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1l3a2/how_important_is_it_for_chinese_llms_to_reach_the/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1lq7u/qwen_38_27b_at_50_toks_with_100k_context_on_a/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1nc1c/exo_labs_claiming_48_tbs_memory_bandwidth_through/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1o1ji/someone_tested_various_models_on_the_political/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1o324/tencent_compressed_hy4preview_from_15tb_to_about/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1tfkc/this_financemodel_benchmark_card_is_more_useful/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1uu6d/llamacpp_open_prs_list_cpuramdiskhybrid_related/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1uug2/6784_ts_deepseek_flash_v4_off_2x_gx10s/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w1vw3c/any_current_voice2voice_ai_model_that_runs/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w215qm/humaneval_benchmark_for_deepseek_v4_flash_0731_vs/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w21d86/nemotron35lightning_at_1177_gib_a_16_gb_option/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w2479z/what_would_you_do_with_4000/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w26y0w/ran_qwen38flashnext_79_gb_2bit_at_350k_ctx_for_35/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w27woy/flashmla_sm_120_kernel_build_with_23x_performance/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w28alw/an_unscientific_qwen_38_flash_next_and_glm_53/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w28x8u/its_official_192gb_framework/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w296bx/qwen38flashnext_optimised_for_macs/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
+      "source": "Reddit r/LocalLLaMA"
+    },
+    "https://www.reddit.com/r/LocalLLaMA/comments/1w29ukk/qwen38flashnext_nvfp4_day3_support_for_4xv100/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": null,
+      "source": "Reddit r/LocalLLaMA"
+    },
     "https://www.wired.com/story/a-judge-has-blocked-the-pentagons-attempt-to-blacklist-anthropic/": {
       "date": "2026-08-28T22:22:51.192422+00:00",
       "section": null,
@@ -2053,6 +2388,11 @@
     "https://www.wired.com/story/he-scraped-art-from-cara-for-ai-now-he-is-collaborating-on-a-tool-to-help-them/": {
       "date": "2026-08-28T22:22:51.192422+00:00",
       "section": null,
+      "source": "radarai.top (AI)"
+    },
+    "https://www.wired.com/story/security-news-this-week-the-cybersecurity-apocalypse-is-coming-in-months-ai-giants-warn/": {
+      "date": "2026-08-30T08:07:45.848523+00:00",
+      "section": "General news",
       "source": "radarai.top (AI)"
     }
   },
