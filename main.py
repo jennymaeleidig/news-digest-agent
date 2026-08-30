@@ -14,7 +14,7 @@ CLI argument contract (per-category dispatch, spec: expand categories):
 
 Per-category run order (inside run_category):
   1. Fetch from every source (failures isolated, run continues)
-  2. Filter items: time window, then dedup against that category's seen_items
+  2. Filter items: time window (last ITEM_AGE_LIMIT_DAYS), then topic relevance
   3. Curate via the OpenRouter API (timed), using the category's own prompt file
   4. Build digest body, append source-health footer
   5. Send email (always — quiet days look the same as broken agent days),
@@ -23,9 +23,6 @@ Per-category run order (inside run_category):
        - source_health.json   always
        - run_log.jsonl        always (duration/item counts/prompt size/model/
                               token counts/errors — OpenRouter reports usage)
-       - seen_items.json      only if email sent AND curate succeeded
-                              (a failed send must not lose items, and
-                              an error email must not mark them seen)
   7. Return a CategoryRunOutcome; exit 1 if any category's curation or email
      failed, else 0.
 """
@@ -51,11 +48,8 @@ from fetchers.common import FetchResult, Item
 from fetchers.registry import fetch_one
 from state import (
     append_run_log_row,
-    load_seen_items,
     load_source_health,
-    prune_expired,
     record_source_run,
-    save_seen_items,
     save_source_health,
 )
 
@@ -146,10 +140,6 @@ def filter_recent(items: list[Item], days: int | dict[str, int]) -> list[Item]:
     return out
 
 
-def filter_unseen(items: list[Item], seen: dict[str, str]) -> list[Item]:
-    return [it for it in items if it.url not in seen]
-
-
 def filter_relevant(items: list[Item], sources: list[Source]) -> list[Item]:
     """Drop items whose source declares a `topics` allow-list but whose
     title/abstract/snippet matches none of the terms.
@@ -190,9 +180,8 @@ class CategoryRunOutcome:
     """Structured per-category run outcome returned by ``run_category``.
 
     The composition seam (ticket 08 asserts against this). Carries the
-    category-scoped state deltas so the harness can verify namespacing and the
-    seen-items-only-on-successful-send guard without poking the real data/
-    files.
+    category-scoped state deltas so the harness can verify namespacing
+    without poking the real data/ files.
     """
     category_id: str
     items_input: int                       # items fed to the curator (after filters)
@@ -204,7 +193,6 @@ class CategoryRunOutcome:
     curate_error: str | None
     email_error: str | None
     email_sent: bool
-    marked_seen: tuple[str, ...] = ()      # state delta: urls marked seen this run
     health_records: int = 0                # state delta: source-health rows written
     run_log_row: dict = field(default_factory=dict)  # state delta: the logged row
 
@@ -224,12 +212,6 @@ class StateStore:
     """
     def __init__(self, category_id: str):
         self.category_id = category_id
-
-    def load_seen(self) -> dict[str, object]:
-        return prune_expired(load_seen_items(self.category_id))
-
-    def save_seen(self, seen: dict[str, object]) -> None:
-        save_seen_items(self.category_id, seen)
 
     def load_health(self) -> dict:
         return load_source_health(self.category_id)
@@ -274,13 +256,12 @@ def run_category(
       - emailer: ``(markdown, subject, recipient) -> message_id`` (default
         emailer.send_digest).
       - state: category-scoped state operator (default a StateStore bound to
-        category.id); carries load/save of seen + health and the run-log row.
+        category.id); carries load/save of health and the run-log row.
 
     Each stage's failures are captured (sanitized via sanitize_error) into the
     returned outcome rather than raised, so the caller can isolate-and-
-    continue to the next category. Account-identifier redaction and the seen-
-    items-only-on-successful-send guard hold inside this function per
-    category.
+    continue to the next category. Account-identifier redaction holds inside
+    this function per category.
     """
     if state is None:
         state = StateStore(category.id)
@@ -288,11 +269,10 @@ def run_category(
         today = datetime.now(timezone.utc).date().isoformat()
 
     sources = list(category.sources)
-    seen = state.load_seen()
     health = state.load_health()
 
-    # fetch -> filter (time window, then relevance, then dedup against seen)
-    # -> curate. The relevance filter drops items from a `topics`-scoped source
+    # fetch -> filter (time window, then relevance) -> curate. The relevance
+    # filter drops items from a `topics`-scoped source
     # that don't match, so a broad feed is narrowed before curation (and before
     # any dedup), keeping the prompt focused on what the reader asked for.
     # The time window is per-source: a source may override the global age limit
@@ -314,19 +294,18 @@ def run_category(
         for s in sources
     }
     fresh = filter_recent(raw, age_limit_by_source)
-    relevant = filter_relevant(fresh, sources)
-    unseen = filter_unseen(relevant, seen)
+    candidates = filter_relevant(fresh, sources)
     print(
-        f"[{category.id}] {len(unseen)} unseen items after filter",
+        f"[{category.id}] {len(candidates)} items after filter",
         file=sys.stderr, flush=True,
     )
 
     curate_error: str | None = None
     curate_started = time.monotonic()
-    if unseen:
-        print(f"[{category.id}] curating {len(unseen)} items…", file=sys.stderr, flush=True)
+    if candidates:
+        print(f"[{category.id}] curating {len(candidates)} items…", file=sys.stderr, flush=True)
         try:
-            result = curate_fn(unseen, category, today=today)
+            result = curate_fn(candidates, category, today=today)
         except Exception as e:
             curate_error = sanitize_error(e)
             result = empty_curate_result()
@@ -387,29 +366,6 @@ def run_category(
     }
     state.log_run(run_log_row)
 
-    # Mark items seen only when the digest email landed AND curation actually
-    # ran. An error email still sets message_id, but its items were never
-    # curated — leaving curate_error out here would silently burn them so the
-    # next (recovered) run never sees them again.
-    #
-    # The recorded section is the Section the item was *actually picked into*
-    # (the curator's picked_section_by_url map — ticket 08), never the
-    # source's first/mapped section: within a category the no-double-pick
-    # guard lands a picked item in exactly one Section, so the value stays a
-    # single string. An offered-but-never-picked item has no picked Section
-    # and records none.
-    marked_seen: list[str] = []
-    if message_id is not None and curate_error is None:
-        now_iso = datetime.now(timezone.utc).isoformat()
-        for it in unseen:
-            seen[it.url] = {
-                "date": now_iso,
-                "section": result.picked_section_by_url.get(it.url),
-                "source": it.source_name,
-            }
-            marked_seen.append(it.url)
-        state.save_seen(seen)
-
     return CategoryRunOutcome(
         category_id=category.id,
         items_input=result.items_input,
@@ -421,7 +377,6 @@ def run_category(
         curate_error=curate_error,
         email_error=email_error,
         email_sent=message_id is not None,
-        marked_seen=tuple(marked_seen),
         health_records=sum(len(s.get("recent_runs", [])) for s in health.get("sources", {}).values()),
         run_log_row=run_log_row,
     )

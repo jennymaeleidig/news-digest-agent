@@ -41,8 +41,8 @@ def _https_normalize(url: str) -> str:
 
     Some feeds (e.g. democracynow) publish ``http://`` permalinks even though
     the https origin serves the same page. Normalizing at fetch time keeps a
-    source's item URLs on one scheme so dedup (``seen_items`` keyed by URL)
-    matches across runs instead of carrying both spellings.
+    source's item URLs on one scheme so cross-run comparisons (run-log
+    debugging, per-source health) match instead of carrying both spellings.
     """
     if url.startswith("http://"):
         return "https://" + url[len("http://"):]

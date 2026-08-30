@@ -109,9 +109,8 @@ class CurateResult:
     completion_tokens: int = 0   # sum of usage.completion_tokens across section calls
     # The Section each URL was actually picked into (url -> section name),
     # accumulated from stage-1's selections in declaration order by the
-    # no-double-pick guard. URLs never picked are absent. Seen-items state
-    # records this map's value — the picking Section, not the source's
-    # first/mapped one — keyed per category (ticket 08).
+    # no-double-pick guard. URLs never picked are absent. Kept for
+    # observability/debugging of the no-double-pick guard (ticket 08).
     picked_section_by_url: dict[str, str] = field(default_factory=dict)
 
 
@@ -906,8 +905,7 @@ def curate(
     # The no-double-pick guard's state: URLs stage-1 has already selected in
     # the Sections processed so far (declared order). Once picked, an item is
     # excluded from every later Section's candidate set. The companion map
-    # records *where* each URL was picked, so seen_items can tag the picking
-    # Section (ticket 08) — the map and the set always agree.
+    # records *where* each URL was picked — the map and the set always agree.
     picked_urls: set[str] = set()
     picked_section_by_url: dict[str, str] = {}
 

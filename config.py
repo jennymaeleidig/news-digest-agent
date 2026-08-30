@@ -79,8 +79,12 @@ DEEP_READ_SNIPPET_CHARS = 500
 TRANSCRIPT_MAX_CHARS = 12_000
 
 # State management
-SEEN_TTL_DAYS = 14
 HEALTH_RUNS_KEPT = 14
 
 # main.py
-ITEM_AGE_LIMIT_DAYS = 7
+# The recency window IS the dedup: only items published within the last 24
+# hours are eligible for the digest, so nothing repeats run-to-run. There is
+# deliberately no seen-items store — temporal freshness alone decides what a
+# run considers. Per-source `age_limit_days` overrides in a category JSON
+# widen this for a specific slow-moving source.
+ITEM_AGE_LIMIT_DAYS = 1

@@ -1,15 +1,13 @@
-"""Clear dedup + observability state for a debugging re-run.
+"""Clear observability state for a debugging re-run.
 
-Resets data/seen_items.json (dedup) so the next run treats every recent item
-as unseen again, and data/run_log.jsonl (observability) so the next run starts
-a clean log. Optionally also data/source_health.json.
+Resets data/run_log.jsonl (observability) so the next run starts a clean log.
+Optionally also data/source_health.json.
 
 Usage:
     python -m scripts.clear_state [--health]
 
 This exists for debugging only: it deliberately erases history the pipeline
-otherwise keeps. Use it to reproduce a fresh, pathological first-run — the
-same state a brand-new checkout has before any digest has shipped.
+otherwise keeps.
 """
 
 from __future__ import annotations
@@ -17,12 +15,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from state import SEEN_ITEMS_PATH, RUN_LOG_PATH, SOURCE_HEALTH_PATH
-
-
-def _clear_seen() -> None:
-    SEEN_ITEMS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    SEEN_ITEMS_PATH.write_text("{}\n")
+from state import RUN_LOG_PATH, SOURCE_HEALTH_PATH
 
 
 def _clear_run_log() -> None:
@@ -44,8 +37,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    _clear_seen()
-    print(f"cleared {SEEN_ITEMS_PATH} (dedup state)")
     _clear_run_log()
     print(f"cleared {RUN_LOG_PATH} (run log)")
     if args.health:

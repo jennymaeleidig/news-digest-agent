@@ -1,18 +1,8 @@
 """State persistence helpers.
 
-Three files under data/, all keyed by category `id` so each category dedupes
-and reports health independently:
+Two files under data/, all keyed by category `id` so each category reports
+health independently:
 
-  seen_items.json       {<category id>: {url: {date, section}}}
-                        Each Seen URL maps to a record carrying the ISO
-                        timestamp it was seen plus the digest Section the
-                        item was actually picked into — a single string, from
-                        the curator's picked_section_by_url map, never the
-                        source's first/mapped Section (within a category the
-                        no-double-pick guard lands a picked item in exactly
-                        one Section). An offered-but-never-picked item
-                        records no Section. Pruned to last 14 days.
-                        Legacy entries are plain ISO-timestamp strings.
   source_health.json    {<category id>: {sources: {name: [recent run records]}}}
                         Per-source list of recent success + error records.
                         Last 14 entries kept per source, within each category.
@@ -21,9 +11,9 @@ and reports health independently:
                         prompt size, the model chosen, token counts, and errors.
                         (OpenRouter reports per-request token usage.)
 
-Dedup is strictly per category: a source shared across categories may resurface
-an item in each, with no cross-category suppression. This is safe because runs
-are serial (a single writer per run).
+Dedup is purely temporal: the filter stage keeps only items inside the
+recency window (config.ITEM_AGE_LIMIT_DAYS), so nothing is persisted for it.
+This is safe because runs are serial (a single writer per run).
 
 We deliberately don't catch JSONDecodeError on load: corrupted state is
 a bug worth surfacing as a failed run rather than silently resetting.
@@ -32,13 +22,12 @@ a bug worth surfacing as a failed run rather than silently resetting.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
-from config import HEALTH_RUNS_KEPT, SEEN_TTL_DAYS
+from config import HEALTH_RUNS_KEPT
 
 DATA_DIR = Path(__file__).parent / "data"
-SEEN_ITEMS_PATH = DATA_DIR / "seen_items.json"
 SOURCE_HEALTH_PATH = DATA_DIR / "source_health.json"
 RUN_LOG_PATH = DATA_DIR / "run_log.jsonl"
 
@@ -53,56 +42,6 @@ def _atomic_write_text(path: Path, text: str) -> None:
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(text)
     tmp.replace(path)
-
-
-def load_seen_items(category_id: str) -> dict[str, object]:
-    """Return the given category's seen map.
-
-    Each entry is either a record ``{"date": <ISO>, "section": <str|None>}``
-    or, for legacy data, a plain ISO-timestamp string. ``prune_expired``
-    accepts both.
-    """
-    if not SEEN_ITEMS_PATH.exists():
-        return {}
-    data = json.loads(SEEN_ITEMS_PATH.read_text())
-    return dict(data.get(category_id, {}))
-
-
-def prune_expired(seen: dict[str, object]) -> dict[str, object]:
-    cutoff = datetime.now(timezone.utc) - timedelta(days=SEEN_TTL_DAYS)
-    kept: dict[str, object] = {}
-    for url, rec in seen.items():
-        ts = (
-            rec if isinstance(rec, str)
-            else rec.get("date") if isinstance(rec, dict)
-            else None
-        )
-        if not ts:
-            continue
-        try:
-            t = datetime.fromisoformat(ts)
-        except (TypeError, ValueError):
-            continue
-        if t >= cutoff:
-            kept[url] = rec
-    return kept
-
-
-def save_seen_items(category_id: str, seen: dict[str, object]) -> None:
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    data = {}
-    if SEEN_ITEMS_PATH.exists():
-        try:
-            data = json.loads(SEEN_ITEMS_PATH.read_text())
-        except ValueError:
-            data = {}
-    if not isinstance(data, dict):
-        data = {}
-    data[category_id] = seen
-    _atomic_write_text(
-        SEEN_ITEMS_PATH,
-        json.dumps(data, indent=2, sort_keys=True),
-    )
 
 
 def load_source_health(category_id: str) -> dict:

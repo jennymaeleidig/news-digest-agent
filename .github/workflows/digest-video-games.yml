@@ -24,7 +24,7 @@ on:
   workflow_dispatch: {}
 
 # All four digest workflows read-modify-write the shared data/ state files
-# (seen_items.json, source_health.json, run_log.jsonl) and push to the same
+# (source_health.json, run_log.jsonl) and push to the same
 # branch, so they share one concurrency group with cancel-in-progress
 # disabled: an overlapping run (manual dispatch during a scheduled run) queues
 # rather than clobbering another workflow's state commit. The 30-minute
@@ -91,7 +91,7 @@ jobs:
 
           # Add only files that exist; on the very first run run_log.jsonl
           # may not yet exist if main.py crashed before its first append.
-          for f in data/seen_items.json data/source_health.json data/run_log.jsonl; do
+          for f in data/source_health.json data/run_log.jsonl; do
             if [ -f "$f" ]; then
               git add "$f"
             fi

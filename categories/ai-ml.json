@@ -183,7 +183,6 @@
       "kind": "airelease_tracker",
       "url": "https://aireleasetracker.com/models.json",
       "homepage": "https://aireleasetracker.com/latest",
-      "age_limit_days": 30,
       "fetcher_config": {
         "item": "models",
         "title": "name",

@@ -16,8 +16,10 @@ per category, staggered from 08:00 UTC (AI 08:00, Tech 08:30, Video games
 - **Fetch** — one module per source kind, dispatched through a `kind → fetcher`
   registry (`rss`, `youtube`, `huggingface_papers`, `reddit_rss_api`,
   `airelease_tracker`). Source failures are isolated, never fatal.
-- **Filter** — drop items outside the age window, off-topic items (per-source
-  allow-list), and already-seen items (14-day dedup).
+- **Filter** — drop items outside the 24-hour age window and off-topic items
+  (per-source allow-list). There is no seen-items dedup: the recency window
+  alone decides what a run considers, so nothing is ever burned by a skipped
+  or failed run.
 - **Curate** — the OpenRouter chat-completions API as a pure summarizer (no
   network tools), two stages per section: a cheap title-only pass picks which
   items earn a place, then a second pass summarizes and formats just those
@@ -59,17 +61,15 @@ failed, 2 for a usage error (unknown category id, conflicting flags).
 
 ## State
 
-Three committed files in `data/`, keyed by category `id`:
+Two committed files in `data/`, keyed by category `id`:
 
-- `seen_items.json` — dedup set (14-day expiry, written on successful send).
 - `source_health.json` — per-source success/failure, shown as a digest footer.
 - `run_log.jsonl` — per-run duration, item counts, prompt size, errors.
 
-To reset state before a debugging run (treat every recent item as unseen
-again and start a clean log):
+To reset state before a debugging run (start a clean log):
 
 ```
-python -m scripts.clear_state            # seen_items + run_log
+python -m scripts.clear_state            # run_log
 python -m scripts.clear_state --health   # + source_health
 ```
 
@@ -110,8 +110,8 @@ for the digest and smoke-test workflows.
   the same inbox, and one category failing fails only its own workflow.
   A workflow's cron and its category config's `schedule` field must stay
   in sync — the category JSON is the source of truth.
-- A failed email send does not write `seen_items.json`, so the next run retries
-  the same items — fix send failures promptly.
+- A failed email send loses nothing — the same items are simply eligible again
+  on the next run (there is no seen-items store to get out of sync).
 - `source_health.json` and `run_log.jsonl` are written even when the run fails.
 
 ## Known gaps / future work

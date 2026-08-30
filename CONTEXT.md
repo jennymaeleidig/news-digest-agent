@@ -57,11 +57,11 @@ The stage that pulls items from a category's sources; one source's failure never
 stops the run.
 
 **Filter**:
-The stage that narrows fetched items before curation — dropping items outside the
-age window, topic misses, and already-**seen** items.
+The stage that narrows fetched items before curation — dropping items outside
+the age window and topic misses.
 
 **Curation**:
-The stage that selects the day's best unseen items and writes their **shortlist**.
+The stage that selects the day's best items and writes their **shortlist**.
 A pure summarizer: works only from provided text, never the network.
 _Avoid_: summarization, selection
 
@@ -104,11 +104,6 @@ What is sent when Curation fails. An empty digest is a success; this is not.
 _Avoid_: error digest, failure email
 
 ### State
-
-**Seen**:
-An **item** already delivered, so excluded from future runs by dedup. Recorded
-only after a successful send, expiring after a window.
-_Avoid_: covered, consumed, read
 
 **Run**:
 One category's execution of the full pipeline — fetch → filter → curate → email.
