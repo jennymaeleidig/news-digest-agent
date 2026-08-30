@@ -5,7 +5,7 @@ and summarize the day's most relevant items, email the result. Ships configured
 for AI/ML news (LLMs and AI coding agents), but the engine is topic-agnostic —
 any subject is just another category. Runs on GitHub Actions — one workflow
 per category, staggered from 08:00 UTC (AI 08:00, Tech 08:30, Video games
-09:00, Politics & News 09:30).
+09:00, US 09:30, Global 10:00).
 
 > Fork of [al-strunova/ai-news-digest-agent](https://github.com/al-strunova/ai-news-digest-agent).
 
@@ -105,8 +105,8 @@ for the digest and smoke-test workflows.
 
 - Each category runs as its own GitHub Actions workflow
   (`.github/workflows/digest-<id>.yml`) on a staggered UTC schedule —
-  AI 08:00, Tech 08:30, Video games 09:00, Politics & News 09:30 (base
-  08:00, +30m each) — so the four digests arrive as separate messages in
+  AI 08:00, Tech 08:30, Video games 09:00, US 09:30, Global 10:00 (base
+  08:00, +30m each) — so the five digests arrive as separate messages in
   the same inbox, and one category failing fails only its own workflow.
   A workflow's cron and its category config's `schedule` field must stay
   in sync — the category JSON is the source of truth.

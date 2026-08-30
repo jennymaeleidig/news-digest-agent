@@ -1,20 +1,10 @@
 {
-  "id": "politics-news",
-  "name": "Politics & News",
+  "id": "us",
+  "name": "US News & Politics",
   "schedule": "30 9 * * *",
   "recipient": null,
-  "prompt": "prompts/politics-news.md",
+  "prompt": "prompts/us.md",
   "sections": [
-    {
-      "name": "Global News",
-      "max_items": 5,
-      "description": "Events and affairs outside the United States — wars, disasters, courts, institutions, and world news as it happens; the center is what occurred beyond the US, not the politics around it."
-    },
-    {
-      "name": "Global Politics",
-      "max_items": 5,
-      "description": "Governments, elections, and power outside the United States — foreign leaders, parties, elections, diplomacy, and geopolitics; the center is who holds or contests power abroad."
-    },
     {
       "name": "US News",
       "max_items": 10,
@@ -33,7 +23,7 @@
       "kind": "rss",
       "url": "https://www.democracynow.org/democracynow.rss",
       "homepage": "https://www.democracynow.org/",
-      "sections": ["Global News", "Global Politics", "US News", "US Politics"]
+      "sections": ["US News", "US Politics"]
     },
     {
       "name": "dropsite",
@@ -41,7 +31,7 @@
       "kind": "rss",
       "url": "https://www.dropsitenews.com/feed",
       "homepage": "https://www.dropsitenews.com/",
-      "sections": ["Global News", "Global Politics", "US News"]
+      "sections": ["US News"]
     },
     {
       "name": "propublica",
