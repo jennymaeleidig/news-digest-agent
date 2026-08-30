@@ -42,9 +42,9 @@ from config import (
 from fetchers.common import FetchResult, Item
 
 # HTTP statuses worth retrying: rate limiting and gateway/server blips —
-# the shapes the community proxy actually exhibits under load. Anything
-# else (403 bot-block, 404 gone) is deterministic; retrying cannot change
-# the answer.
+# the shapes the community proxy actually exhibits under load. Deliberately
+# not all 5xx: 501/505 are deterministic server answers, and retrying those
+# (or a 403 bot-block, 404 gone) cannot change the result.
 _RETRYABLE_STATUSES = {429, 500, 502, 503, 504}
 
 # Browser-like header set, mirroring the RSS fetcher's hygiene so bot-sensitive

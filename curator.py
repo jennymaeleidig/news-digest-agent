@@ -53,6 +53,7 @@ from config import (
     CURATION_MAX_ITEMS,
     CURATION_PROMPT_MAX_BYTES,
     CURATION_SELECT_MAX_ITEMS,
+    ITEM_AGE_LIMIT_DAYS,
     OPENROUTER_BASE_URL,
     OPENROUTER_MODEL,
     OPENROUTER_TIMEOUT_SECONDS,
@@ -203,7 +204,12 @@ def build_user_message(
     parts = [
         f"Today is {today}.",
         "",
-        f"There are {len(items)} items below from the last 24 hours, "
+        # Derived from the global window so the prompt can't drift from the
+        # filter's actual behavior. Per-source age_limit_days overrides can
+        # still widen one source's window beyond this figure — acceptable:
+        # the model only needs the right order of magnitude.
+        f"There are {len(items)} items below from the last "
+        f"{ITEM_AGE_LIMIT_DAYS * 24} hours, "
         "after URL-level dedup against items already assigned to an earlier "
         "section of this digest. Each item "
         "has a source (with its trust tier in parentheses and its assigned "
