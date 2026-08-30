@@ -203,8 +203,9 @@ def build_user_message(
     parts = [
         f"Today is {today}.",
         "",
-        f"There are {len(items)} items below from the last 24 to 48 hours, "
-        "after URL-level dedup against previously covered items. Each item "
+        f"There are {len(items)} items below from the last 24 hours, "
+        "after URL-level dedup against items already assigned to an earlier "
+        "section of this digest. Each item "
         "has a source (with its trust tier in parentheses and its assigned "
         "digest section), title, URL, publish date, and a content snippet "
         "(which may be empty for some sources). The full text of any deep-read "

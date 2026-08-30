@@ -13,7 +13,7 @@ header set so bot-sensitive hosts respond with a full body.
 
 The item's published date is taken from ``paper.submittedOnDailyAt`` — the
 Daily-Papers *feature day* — NOT ``paper.publishedAt`` (the arXiv date), so
-the time-window filter and seen-dedup reflect the day the paper was surfaced
+the time-window filter reflects the day the paper was surfaced
 on Daily Papers rather than when it first appeared on arXiv.
 
 Configuration comes through the shared fetcher-config schema (see

@@ -41,9 +41,9 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
         age_limit_days int|null  per-source recency-window override (optional).
                            When set, this source's items stay eligible for that
                            many days instead of the global ITEM_AGE_LIMIT_DAYS.
-                           For a slow-moving canonical feed — a release tracker's
-                           "latest" list spans weeks, so a 7-day window shows
-                           almost nothing — set a longer window (e.g. 30).
+                           For a slow-moving canonical feed whose "latest"
+                           list spans weeks, a 24-hour window shows almost
+                           nothing — set a longer window (e.g. 30).
                            Omitted/null => the global window applies.
         topics      [str]  optional relevance allow-list: an item from this
                            source is kept only if one of these terms appears in

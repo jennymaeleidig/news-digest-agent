@@ -272,12 +272,11 @@ def run_category(
     health = state.load_health()
 
     # fetch -> filter (time window, then relevance) -> curate. The relevance
-    # filter drops items from a `topics`-scoped source
-    # that don't match, so a broad feed is narrowed before curation (and before
-    # any dedup), keeping the prompt focused on what the reader asked for.
-    # The time window is per-source: a source may override the global age limit
-    # (a release tracker's "latest" list spans weeks, so it needs a longer
-    # window than a 7-day news feed).
+    # filter drops items from a `topics`-scoped source that don't match, so a
+    # broad feed is narrowed before curation, keeping the prompt focused on
+    # what the reader asked for. The time window is per-source: a source may
+    # override the global age limit (per-source `age_limit_days` in a category
+    # JSON widens the window for a specific slow-moving source).
     print(f"[{category.id}] fetching {len(sources)} sources…", file=sys.stderr, flush=True)
     results = []
     for s in sources:
