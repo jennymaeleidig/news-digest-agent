@@ -105,6 +105,28 @@ def collect_items(results: list[FetchResult]) -> list[Item]:
     return out
 
 
+def _parse_published(published: str) -> datetime | None:
+    """Parse an item's published timestamp into an aware UTC datetime.
+
+    Returns None when unparseable. Two normalizations so a stricter feed
+    format can't silently skew or crash the window comparison:
+    - a date without a time ("2026-08-29") means *some time that day*, so it
+      counts to the end of that day (a naive midnight reading would make the
+      item look up to a full day staler than it is, and comparing a naive
+      datetime against the aware cutoff would raise TypeError outright);
+    - a timestamp without an offset is read as UTC.
+    """
+    try:
+        t = datetime.fromisoformat(published)
+    except (TypeError, ValueError):
+        return None
+    if t.tzinfo is None:
+        if len(published) <= 10:                       # date-only
+            t = t.replace(hour=23, minute=59, second=59)
+        t = t.replace(tzinfo=timezone.utc)
+    return t
+
+
 def filter_recent(items: list[Item], days: int | dict[str, int]) -> list[Item]:
     """Keep only items whose published date is within the recency window.
 
@@ -128,9 +150,8 @@ def filter_recent(items: list[Item], days: int | dict[str, int]) -> list[Item]:
             print(f"warn: missing date, keeping item: {it.source_name} | {it.url}", file=sys.stderr)
             out.append(it)
             continue
-        try:
-            t = datetime.fromisoformat(it.published)
-        except ValueError:
+        t = _parse_published(it.published)
+        if t is None:
             print(f"warn: unparseable date {it.published!r}, keeping item: {it.source_name} | {it.url}", file=sys.stderr)
             out.append(it)
             continue
