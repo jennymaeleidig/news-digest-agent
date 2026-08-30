@@ -17,8 +17,8 @@ single source of truth for how its digest is divided).
 _Avoid_: feed, newsletter, publication
 
 **Source**:
-A curated feed whose items flow into a category's digest, scoped by trust tier
-and an optional topic allow-list. Every source feeds one or more declared
+A curated feed whose items flow into a category's digest, scoped by an
+optional topic allow-list. Every source feeds one or more declared
 **Sections**; the no-double-pick guard places each picked item in exactly one
 of them per digest.
 _Avoid_: channel, stream
@@ -40,10 +40,10 @@ and an optional linked URL (a link post's external target).
 _Avoid_: article, post, story
 
 **Trust tier**:
-A source's 1–4 standing, borrowed from Kagi — a selection weight and a framing
-caveat. Lower tiers are higher-priority primary signal; higher tiers are
-attributed rather than asserted.
-_Avoid_: priority, score
+A source's 1–4 standing, borrowed from Kagi — an attribution line on each
+digest entry (`*Source: <name> — tier <n>*`). Curation ignores it: items are
+judged solely on alignment to the section's scope, never on source standing.
+_Avoid_: priority, score, selection weight
 
 **Topics**:
 A source's optional relevance allow-list narrowing a broad feed to a domain — an

@@ -30,8 +30,8 @@ prompt/completion totals ride on CurateResult into the run log.
 Input is bounded so a day's items plus full-text enrichments fit a model
 context window and the owner's budget. The item count is capped to
 CURATION_MAX_ITEMS and the assembled prompt to CURATION_PROMPT_MAX_BYTES (UTF-8
-bytes), with full-text enrichments dropped before items and the most-relevant
-items (tier, then recency) kept first. See `_build_prompt`.
+bytes), with full-text enrichments dropped before items and the newest items
+kept first. See `_build_prompt`.
 
 This is a thin wrapper around an external dependency (real OpenRouter auth +
 model); per the spec's Testing Decisions, the HTTP call itself is accepted as
@@ -154,16 +154,15 @@ def _enrichment_for(it: Item, enrichments: dict[str, str]) -> str | None:
 
 def _item_lines(
     it: Item, index: int, enrichment: str | None,
-    tier: int | None = None, section: str | None = None,
+    section: str | None = None,
 ) -> list[str]:
     """Render one item's lines of the user message (shared by the banner
     builder and the budget fitter so both measure the same text). The source
-    carries its trust tier in parentheses and its assigned digest section when
-    known. The trailing empty string is the blank separator line between
-    items."""
+    name and the item's assigned digest section are included; deliberately no
+    trust tier — curation judges items on fit with the section's scope, and
+    tier in the prompt only invites source-prestige bias. The trailing empty
+    string is the blank separator line between items."""
     head = f"[{index}] {it.source_name}"
-    if tier is not None:
-        head += f" (tier {tier})"
     head += f" | {it.published or 'no date'}"
     lines = [head]
     if section:
@@ -187,19 +186,16 @@ def build_user_message(
     items: list[Item],
     today: str,
     enrichments: dict[str, str] | None = None,
-    tier_by_source: dict[str, int] | None = None,
     section_by_source: dict[str, str] | None = None,
 ) -> str:
     """Format the day's items into the user message pasted into the prompt.
 
-    Each item's snippet, source (tagged with its trust tier), and URL are
-    always included. When the pre-fetch stage has attached full article text
-    to an item (keyed by URL / linked URL), that plain text is pasted into the
-    prompt after the snippet, so the model's only textual context comes from the
-    pre-fetched plain text.
+    Each item's snippet, source, and URL are always included. When the
+    pre-fetch stage has attached full article text to an item (keyed by URL /
+    linked URL), that plain text is pasted into the prompt after the snippet,
+    so the model's only textual context comes from the pre-fetched plain text.
     """
     enrichments = enrichments or {}
-    tier_by_source = tier_by_source or {}
     section_by_source = section_by_source or {}
     parts = [
         f"Today is {today}.",
@@ -212,8 +208,8 @@ def build_user_message(
         f"{ITEM_AGE_LIMIT_DAYS * 24} hours, "
         "after URL-level dedup against items already assigned to an earlier "
         "section of this digest. Each item "
-        "has a source (with its trust tier in parentheses and its assigned "
-        "digest section), title, URL, publish date, and a content snippet "
+        "has a source (and its assigned digest section), title, URL, publish "
+        "date, and a content snippet "
         "(which may be empty for some sources). The full text of any deep-read "
         "item has already been attached to it; judge each item from the "
         "material given.",
@@ -222,10 +218,9 @@ def build_user_message(
         "",
     ]
     for i, it in enumerate(items, start=1):
-        tier = tier_by_source.get(it.source_name)
         section = section_by_source.get(it.source_name)
         parts.extend(
-            _item_lines(it, i, _enrichment_for(it, enrichments), tier, section)
+            _item_lines(it, i, _enrichment_for(it, enrichments), section)
         )
     return "\n".join(parts)
 
@@ -246,17 +241,14 @@ def _sections_by_source(category: Category) -> dict[str, tuple[str, ...]]:
 
 
 def _order_by_relevance(items: list[Item], category: Category) -> list[Item]:
-    """Order items most-relevant-first for a stable numbered selection list.
+    """Order items newest-first for a stable numbered selection list.
 
-    Relevance = Kagi trust tier first (lower tier number = stronger primary
-    signal; an item's source maps to its category tier), then recency within a
-    tier (newest first). Ordering no longer drops anything — stage-1 selection
+    Recency only, deliberately: curation judges items on alignment to the
+    section's scope, so source identity (trust tier) must not bias the list
+    order the model reads. Ordering never drops anything — stage-1 selection
     sees every item — it just gives the numbered list a sensible order.
     """
-    tier_by_source = _tier_by_source(category)
-
     def key(it: Item) -> tuple:
-        tier = tier_by_source.get(it.source_name, 4)
         try:
             pub = datetime.fromisoformat(it.published)
             if pub.tzinfo is None:
@@ -264,7 +256,7 @@ def _order_by_relevance(items: list[Item], category: Category) -> list[Item]:
             ts = pub.timestamp()
         except (TypeError, ValueError):
             ts = 0.0
-        return (tier, -ts)
+        return -ts
 
     return sorted(items, key=key)
 
@@ -344,18 +336,19 @@ def _section_prompt(prompt_text: str, section: Section) -> str:
 def _selection_prompt(
     section: Section,
     items: list[Item],
-    tier_by_source: dict[str, int],
     today: str,
     max_items: int,
 ) -> str:
     """Stage 1: ask the model to choose items by title alone.
 
-    Every candidate's title + source + tier is listed (numbered); the model
-    returns the numbers that earn a place, one per line. `max_items` is the
-    per-section ceiling (section.max_items, or the global default) named in the
-    instruction and hard-clipped by the caller after parsing. Titles-only keeps
-    this call cheap and lets every candidate be seen — deterministic per-source
-    cuts are gone, so a busy feed can no longer starve the others.
+    Every candidate's title + source is listed (numbered); the model returns
+    the numbers that earn a place, one per line. `max_items` is the per-section
+    ceiling (section.max_items, or the global default) named in the instruction
+    and hard-clipped by the caller after parsing. Titles-only keeps this call
+    cheap and lets every candidate be seen — deterministic per-source cuts are
+    gone, so a busy feed can no longer starve the others. Selection is judged
+    on alignment to the section's scope alone; no tier is shown, so source
+    prestige cannot leak into the ranking.
     """
     lines = [
         f"Today is {today}.",
@@ -363,7 +356,8 @@ def _selection_prompt(
         f"You are selecting the **{section.name}** section. Below are "
         f"{len(items)} items, numbered. Choose the items that genuinely earn "
         f"a place in **{section.name}** and return their numbers, one per "
-        f"line, in importance order. At most {max_items}. "
+        f"line, in importance order. At most {max_items}. Judge each item "
+        f"solely on how well it fits this section's scope. "
         f"Return bare numbers only — no prose, no title text, no explanation.",
         "",
         "# Sections",
@@ -374,9 +368,7 @@ def _selection_prompt(
         "",
     ]
     for i, it in enumerate(items, start=1):
-        tier = tier_by_source.get(it.source_name)
-        tier_text = f" (tier {tier})" if tier is not None else ""
-        lines.append(f"{i}. {it.title} — {it.source_name}{tier_text}")
+        lines.append(f"{i}. {it.title} — {it.source_name}")
     lines.append("")
     return "\n".join(lines)
 
@@ -405,7 +397,6 @@ def _build_prompt(
     items: list[Item],
     today: str,
     enrichments: dict[str, str] | None = None,
-    tier_by_source: dict[str, int] | None = None,
     section_by_source: dict[str, str] | None = None,
 ) -> tuple[str, int]:
     """Assemble the single user message the model receives, bounded to the budget.
@@ -429,7 +420,6 @@ def _build_prompt(
     report the true fed count in the run log.
     """
     enrichments = enrichments or {}
-    tier_by_source = tier_by_source or {}
     section_by_source = section_by_source or {}
     items = items[:CURATION_MAX_ITEMS]
 
@@ -439,10 +429,9 @@ def _build_prompt(
     index = 1
     for it in items:
         enr = _enrichment_for(it, enrichments)
-        tier = tier_by_source.get(it.source_name)
         section = section_by_source.get(it.source_name)
-        with_len = _prompt_bytes("\n".join(_item_lines(it, index, enr, tier, section)))
-        bare_len = _prompt_bytes("\n".join(_item_lines(it, index, None, tier, section)))
+        with_len = _prompt_bytes("\n".join(_item_lines(it, index, enr, section)))
+        bare_len = _prompt_bytes("\n".join(_item_lines(it, index, None, section)))
         if used + with_len <= budget:
             chosen.append((it, enr))
             used += with_len
@@ -470,7 +459,7 @@ def _build_prompt(
 
     return (
         prompt_text + "\n\n"
-        + build_user_message(kept, today, kept_enrich, tier_by_source, section_by_source)
+        + build_user_message(kept, today, kept_enrich, section_by_source)
     ).strip(), len(kept)
 
 
@@ -893,8 +882,10 @@ def curate(
     if not items:
         return _empty_result()
 
-    # Items are relevance-ordered (tier, then recency) for a stable numbered
-    # list, but that ordering never drops anything — stage 1 sees every item,
+    # Items are recency-ordered (newest first) for a stable numbered
+    # list — recency only, no tier: selection is judged on alignment to
+    # the section's scope, so source identity must not bias the order —
+    # but that ordering never drops anything — stage 1 sees every item,
     # so a busy feed cannot starve another source. The pre-fetch (deep-read)
     # runs between stage 1 and stage 2, over only the selected subset: stage 1
     # selects from titles and needs no enrichment, so deep-reading every
@@ -945,7 +936,7 @@ def curate(
             file=sys.stderr, flush=True,
         )
         select_prompt = _selection_prompt(
-            section, section_items, tier_by_source, today, max_items,
+            section, section_items, today, max_items,
         )
         select_raw, select_usage = _run_model(select_prompt, model)
         total_prompt_tokens += int(select_usage.get("prompt_tokens") or 0)
@@ -989,7 +980,7 @@ def curate(
         prompt, _ = _build_prompt(
             _section_prompt(prompt_text, section),
             selected, today, section_prefetch.enrichments,
-            tier_by_source, call_section_by_source,
+            call_section_by_source,
         )
         raw_md, usage = _run_model(prompt, model)
         total_prompt_tokens += int(usage.get("prompt_tokens") or 0)

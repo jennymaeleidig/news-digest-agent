@@ -29,12 +29,10 @@ engineering.
 
 Target 2–5 items (up to 6 on a heavy day: a release or a big paper).
 
-# Tiers
-
-A tier is a selection weight, never a gate. Tier 1: arXiv/peer-reviewed.
-Tier 3: corporate and lab blogs — attribute claims ("per OpenAI, ...",
-"DeepMind says ..."). Tier 4: commentary and newsletters — keep only a lesson
-to build on.
+Judge every item solely on how well it fits this section's scope. Attribute
+significant claims to the outlet that reported them ("per OpenAI, ...",
+"DeepMind says ..."); commentary and newsletters are framing, not settled
+fact.
 
 # Format
 

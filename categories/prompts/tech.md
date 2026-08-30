@@ -30,12 +30,10 @@ industry than about a single product.
 
 Target 2–5 items.
 
-# Tiers
-
-A tier is a selection weight, never a gate. This category's sources sit at
-tier 2 (independent editorial outlets) and tier 3 (industry and enthusiast
-press): attribute specific claims to the outlet ("per 404 Media's reporting",
-"Aftermath reports ...") and never state a tier-3 claim as settled fact.
+Judge every item solely on how well it fits this section's scope. Attribute
+specific claims to the outlet that reported them ("per 404 Media's
+reporting", "Aftermath reports ..."); enthusiast-press reporting is
+framing, never settled fact.
 
 # Format
 

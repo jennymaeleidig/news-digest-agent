@@ -30,13 +30,10 @@ one with the broader consequence for games as a medium.
 
 Target 2–5 items.
 
-# Tiers
-
-A tier is a selection weight, never a gate. This category's sources sit at
-tier 3 (industry and enthusiast press) and tier 4 (commentary and
-creators): attribute specific claims to their source ("per Aftermath's
-reporting", "the channel reports ...") and never state a tier-4 claim as
-settled fact.
+Judge every item solely on how well it fits this section's scope. Attribute
+specific claims to their source ("per Aftermath's reporting", "the channel
+reports ..."); commentary and creator videos are framing, never settled
+fact.
 
 # Format
 

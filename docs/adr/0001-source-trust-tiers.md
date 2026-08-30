@@ -1,5 +1,13 @@
 # Source trust tiers
 
+> **Partially superseded (2026-08-30):** tiers are no longer a selection
+> weight. Curation order is recency-only (`_order_by_relevance`), the
+> prompts carry no tier information, and items are judged solely on
+> alignment to the section's scope. The tier still exists in category
+> config and renders in each digest entry's source line as attribution —
+> the framing caveat below stands. Kept unrewritten as the record of the
+> original decision.
+
 Every source carries a 1–4 trust tier (borrowed from the Kagi trust ladder)
 that both orders items for curation (lower number = stronger primary signal,
 tied by recency) and sets how claims from that tier may be framed. Tiers are

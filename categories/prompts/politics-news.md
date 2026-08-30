@@ -34,14 +34,10 @@ readers.
 
 Target 2–5 items.
 
-# Tiers
-
-A tier is a selection weight, never a gate. This category's sources sit at
-tier 2 (independent institutional reporting), tier 3 (interested-party
-primary), and tier 4 (commentary and shows): attribute specific claims to
-their source ("per Democracy Now!'s reporting", "Ken Klippenstein reports
-...", "per True Anon", "the channel reports ...") and never state a tier-3
-or tier-4 claim as settled fact.
+Judge every item solely on how well it fits this section's scope. Attribute
+specific claims to their source ("per Democracy Now!'s reporting", "Ken
+Klippenstein reports ...", "per True Anon", "the channel reports ...");
+commentary and show segments are framing, never settled fact.
 
 # Format
 

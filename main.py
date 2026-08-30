@@ -190,7 +190,12 @@ def build_health_footer(results: list[FetchResult]) -> str:
     failures = [r for r in results if not r.success]
     if not failures:
         return ""
-    lines = ["", "---", "", "*Source health:*", ""]
+    # The footer may be appended to a body that does not end in a newline
+    # (curator output is stripped), so the separator needs its own blank
+    # lines: "text\n---" is a setext H2 heading in markdown — it would
+    # swallow the digest's last element into a heading in the rendered
+    # email. "\n\n---\n\n" renders as a clean thematic break.
+    lines = ["\n\n---\n\n", "*Source health:*", ""]
     for r in failures:
         lines.append(f"- {r.source_name}: {r.error}")
     return "\n".join(lines)
