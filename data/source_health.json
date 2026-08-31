@@ -97,6 +97,91 @@
       }
     }
   },
+  "us": {
+    "sources": {
+      "defector": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884194+00:00"
+          }
+        ]
+      },
+      "democracynow": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884167+00:00"
+          }
+        ]
+      },
+      "dropsite": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884186+00:00"
+          }
+        ]
+      },
+      "hasanabi": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884206+00:00"
+          }
+        ]
+      },
+      "kenklippenstein": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884197+00:00"
+          }
+        ]
+      },
+      "majority-report": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884203+00:00"
+          }
+        ]
+      },
+      "propublica": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884191+00:00"
+          }
+        ]
+      },
+      "true-anon": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884208+00:00"
+          }
+        ]
+      },
+      "usermag": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:45:38.884200+00:00"
+          }
+        ]
+      }
+    }
+  },
   "video-games": {
     "sources": {
       "aftermath": {
