@@ -96,5 +96,27 @@
         ]
       }
     }
+  },
+  "video-games": {
+    "sources": {
+      "aftermath": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:02:46.609493+00:00"
+          }
+        ]
+      },
+      "jason-schreier": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T09:02:46.609511+00:00"
+          }
+        ]
+      }
+    }
   }
 }
