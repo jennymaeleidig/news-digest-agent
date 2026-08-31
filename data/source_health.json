@@ -65,5 +65,36 @@
         ]
       }
     }
+  },
+  "tech": {
+    "sources": {
+      "404media": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T08:43:13.104907+00:00"
+          }
+        ]
+      },
+      "aftermath": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T08:43:13.104931+00:00"
+          }
+        ]
+      },
+      "usermag": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-08-31T08:43:13.104927+00:00"
+          }
+        ]
+      }
+    }
   }
 }
