@@ -28,7 +28,9 @@ an item carries something a reader would want to know that day, not a launch
 announcement. Between two borderline items, keep the one more about the
 industry than about a single product.
 
-Target 2–5 items.
+Target 3–7 items; include every candidate that clearly earns its place, and
+drop one only when it is out of scope or too thin to summarize — a bigger
+pool of eligible items means the shortlist should grow, not stay small.
 
 Judge every item solely on how well it fits this section's scope. Attribute
 specific claims to the outlet that reported them ("per 404 Media's

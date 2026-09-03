@@ -28,7 +28,10 @@ expectations; (3) culture and reporting — when an item carries something a
 reader would want to know that day. Between two borderline items, keep the
 one with the broader consequence for games as a medium.
 
-Target 2–5 items.
+Target 3–6 items per section; include every candidate that clearly earns its
+place, and drop one only when it is out of scope or too thin to summarize —
+a bigger pool of eligible items means the shortlist should grow, not stay
+small.
 
 Judge every item solely on how well it fits this section's scope. Attribute
 specific claims to their source ("per Aftermath's reporting", "the channel
