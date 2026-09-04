@@ -26,7 +26,6 @@ from fetchers.common import FetchResult, Item, strip_html
 # Advertise only encodings `requests` can decode without extra deps
 # (gzip, deflate). Brotli would need the `brotli` package.
 _REQUEST_HEADERS = {
-    "User-Agent": USER_AGENT,
     "Accept": (
         "application/rss+xml, application/atom+xml, "
         "application/xml;q=0.9, text/xml;q=0.8, */*;q=0.5"
@@ -67,9 +66,12 @@ def fetch(source: Source) -> FetchResult:
         return FetchResult(source.name, False, error=f"not an RSS source: kind={source.kind}")
 
     try:
+        # Per-source User-Agent override (e.g. PBS 202s-and-empties the shared
+        # browser-impersonation string); the shared config UA otherwise.
+        headers = {"User-Agent": source.user_agent or USER_AGENT, **_REQUEST_HEADERS}
         resp = requests.get(
             source.url,
-            headers=_REQUEST_HEADERS,
+            headers=headers,
             timeout=HTTP_TIMEOUT_SECONDS,
             allow_redirects=True,
         )

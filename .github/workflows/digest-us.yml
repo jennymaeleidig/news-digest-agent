@@ -2,10 +2,11 @@
 #
 # Each category runs as its own workflow, invoking the per-category dispatch
 # selector (`main.py --category <id>`) so one run touches exactly one
-# category. The five categories are staggered on the shared base 08:00 UTC,
+# category. The six categories are staggered on the shared base 08:00 UTC,
 # +30m each — AI 08:00, Tech 08:30, Video games 09:00, US 09:30, Global
-# 10:00 — so all five digests deliver into the same inbox as separate
-# messages, each scoped to its own subject, and the sends are spaced.
+# 10:00, Local 10:30 — so all six digests deliver into the same inbox as
+# separate messages, each scoped to its own subject, and the sends are
+# spaced.
 #
 # Isolate-and-continue holds across the schedule structurally: each category
 # is its own workflow and its own process, so this category failing (curation,

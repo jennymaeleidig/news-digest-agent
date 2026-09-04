@@ -1,0 +1,60 @@
+{
+  "id": "local",
+  "name": "Local News & Politics",
+  "schedule": "30 10 * * *",
+  "recipient": null,
+  "prompt": "prompts/local.md",
+  "sections": [
+    {
+      "name": "Local News",
+      "max_items": 8,
+      "description": "Events and affairs in the Richmond area and Virginia (with the Washington, DC region as a close second) — city hall, schools, courts, transit, housing, weather, and daily life as it happens; the center is what occurred locally, not the politics around it."
+    },
+    {
+      "name": "Local Politics",
+      "max_items": 8,
+      "description": "The contest for power and policy locally — Richmond city council and mayor, Virginia General Assembly and governor's office, DC government, local elections, zoning fights, and regional political movements; the center is the political fight itself."
+    }
+  ],
+  "sources": [
+    {
+      "name": "richmond-times-dispatch",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://richmond.com/search/?f=rss&t=article&l=50&s=start_time&sd=desc",
+      "homepage": "https://richmond.com/",
+      "sections": ["Local News", "Local Politics"]
+    },
+    {
+      "name": "the51st",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://51st.news/feed",
+      "homepage": "https://51st.news/",
+      "sections": ["Local News", "Local Politics"]
+    },
+    {
+      "name": "letsaddressvirginia",
+      "tier": 4,
+      "kind": "rss",
+      "url": "https://letsaddressvirginia.substack.com/feed",
+      "homepage": "https://letsaddressvirginia.substack.com/",
+      "sections": ["Local Politics"],
+      "age_limit_days": 7
+    },
+    {
+      "name": "Reddit r/rva",
+      "tier": 4,
+      "sections": ["Local News", "Local Politics"],
+      "kind": "reddit_rss_api",
+      "url": "https://reddit-rss-api.sametcn99.deno.net/r/rva",
+      "homepage": "https://www.reddit.com/r/rva/",
+      "fetcher_config": {
+        "item": "items",
+        "title": "title",
+        "link": "link",
+        "date": "isoDate"
+      }
+    }
+  ]
+}

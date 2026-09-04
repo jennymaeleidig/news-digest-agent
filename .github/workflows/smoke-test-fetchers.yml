@@ -14,14 +14,14 @@
 # never retries a host, so it cannot hammer any of the sites it exercises.
 #
 # Scheduled after the last digest of the staggered morning block (AI 08:00,
-# Tech 08:30, Video games 09:00, Politics & News 09:30 UTC); the non-round
-# minute avoids GitHub Actions queue contention at the top of the hour, which
-# can delay or skip scheduled runs entirely. Cron is always UTC.
+# Tech 08:30, Video games 09:00, US 09:30, Global 10:00, Local 10:30 UTC); the
+# non-round minute avoids GitHub Actions queue contention at the top of the
+# hour, which can delay or skip scheduled runs entirely. Cron is always UTC.
 name: Smoke-test fetchers
 
 on:
   schedule:
-    - cron: "17 10 * * *"
+    - cron: "47 10 * * *"
   workflow_dispatch: {}
 
 jobs:

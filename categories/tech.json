@@ -38,6 +38,29 @@
       "url": "https://aftermath.site/rss/",
       "homepage": "https://aftermath.site/",
       "sections": ["Industry news"]
+    },
+    {
+      "name": "wired",
+      "tier": 3,
+      "kind": "rss",
+      "url": "https://www.wired.com/feed/rss",
+      "homepage": "https://www.wired.com/",
+      "sections": ["Industry news"]
+    },
+    {
+      "name": "morningbrew",
+      "tier": 4,
+      "kind": "rss",
+      "url": "https://www.morningbrew.com/feed",
+      "homepage": "https://www.morningbrew.com/",
+      "sections": ["Industry news"]
+    },
+    {
+      "name": "jason-schreier",
+      "tier": 4,
+      "kind": "youtube",
+      "url": "UCQoOmu6mKZkXTnwZcpD8Ciw",
+      "sections": ["Industry news"]
     }
   ]
 }

@@ -1,4 +1,4 @@
-# Per-category digest workflow: AI (ai-ml).
+# Per-category digest workflow: Local News & Politics (local).
 #
 # Each category runs as its own workflow, invoking the per-category dispatch
 # selector (`main.py --category <id>`) so one run touches exactly one
@@ -14,17 +14,16 @@
 # others'. Within the run itself, per-source and per-stage failures are
 # isolated by main.py exactly as for a run-everything invocation.
 #
-# The cron below must stay in sync with categories/ai-ml.json's `schedule`
-# field; tests/test_workflow_schedule.py pins the two together and fails if
-# they drift. Cron is always UTC.
-name: Digest — AI
+# The cron below must stay in sync with categories/local.json's `schedule`
+# field. Cron is always UTC.
+name: Digest — Local News & Politics
 
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "30 10 * * *"
   workflow_dispatch: {}
 
-# All four digest workflows read-modify-write the shared data/ state files
+# All digest workflows read-modify-write the shared data/ state files
 # (source_health.json, run_log.jsonl) and push to the same
 # branch, so they share one concurrency group with cancel-in-progress
 # disabled: an overlapping run (manual dispatch during a scheduled run) queues
@@ -56,12 +55,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run AI digest
+      - name: Run Local News & Politics digest
         # The per-category dispatch selector: this workflow runs only the
-        # ai-ml category. Curation runs through the OpenRouter
+        # local category. Curation runs through the OpenRouter
         # chat-completions API; the curation model is pinned via the
         # OPENROUTER_MODEL env var (here from an optional repo variable,
-        # defaulting to config.OPENROUTER_MODEL when unset/empty). All four
+        # defaulting to config.OPENROUTER_MODEL when unset/empty). All
         # category workflows wire the same RECIPIENT_EMAIL secret, so each
         # digest lands in the same inbox as its own message. Local runs use
         # the same values via .env.
@@ -75,7 +74,7 @@ jobs:
           # YouTube blocks transcript requests from datacenter IPs. Unset →
           # direct connection; transcript failures stay non-fatal.
           YT_TRANSCRIPT_PROXY_URL: ${{ secrets.YT_TRANSCRIPT_PROXY_URL }}
-        run: python main.py --category ai-ml
+        run: python main.py --category local
 
       # Always commit state changes, even if the digest run failed:
       # source_health.json and run_log.jsonl are most useful when

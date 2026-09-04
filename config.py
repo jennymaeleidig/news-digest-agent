@@ -84,7 +84,14 @@ TRANSCRIPT_MAX_CHARS = 12_000
 # REDDIT_FETCH_ATTEMPTS attempts, a fresh HTTP request per attempt, linear
 # backoff, retrying only transient causes (5xx, 429, RequestException);
 # deterministic statuses (403/404) fail immediately.
-REDDIT_FETCH_ATTEMPTS = 3
+#
+# With two subreddits now riding the one proxy instance (r/LocalLLaMA,
+# r/rva), a blip that outlasts the retry window fails the CI smoke test
+# roughly twice as often as before — a Sept 2026 run watched r/rva 502
+# through all three of 3-attempt retries. 5 attempts over a ~20s linear
+# backoff (2+4+6+8) spans the observed blip length; transient-only retry
+# keeps the extra attempts free when the proxy is healthy.
+REDDIT_FETCH_ATTEMPTS = 5
 REDDIT_RETRY_BACKOFF_SECONDS = 2.0
 
 # State management

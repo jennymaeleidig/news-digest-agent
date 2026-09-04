@@ -45,6 +45,12 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
                            list spans weeks, a 24-hour window shows almost
                            nothing — set a longer window (e.g. 30).
                            Omitted/null => the global window applies.
+        user_agent   str|null  optional per-source User-Agent override for the
+                           RSS fetcher. For hosts that bot-block the shared
+                           browser-impersonation string (e.g. PBS returns
+                           "202 Accepted" with an empty body for it) but serve
+                           a plain client fine. Omitted/null => the shared
+                           config.USER_AGENT applies.
         topics      [str]  optional relevance allow-list: an item from this
                            source is kept only if one of these terms appears in
                            its title or abstract/snippet (case-insensitive).
@@ -106,6 +112,7 @@ class Source:
     topics: tuple[str, ...] = ()  # relevance allow-list (see module docstring)
     fetcher_config: FetcherConfig | None = None  # bespoke kinds only (see docstring)
     age_limit_days: int | None = None  # per-source recency override (see docstring)
+    user_agent: str | None = None  # per-source RSS User-Agent override (see docstring)
 
 
 @dataclass(frozen=True)
@@ -291,6 +298,10 @@ class Category:
                 if age_limit_days < 1:
                     raise err(f"{label} ({s_name!r}): 'age_limit_days' must be >= 1")
 
+            user_agent = src.get("user_agent")
+            if user_agent is not None and (not isinstance(user_agent, str) or not user_agent.strip()):
+                raise err(f"{label} ({s_name!r}): 'user_agent' must be a non-empty string or null")
+
             # Optional shared fetcher-config (bespoke feedless kinds). Pins
             # the config-shape contract; parsing is left to each consuming
             # kind. ``url`` is inherited from the source's top-level url so
@@ -328,6 +339,7 @@ class Category:
                 topics=topics,
                 fetcher_config=fetcher_config,
                 age_limit_days=age_limit_days,
+                user_agent=user_agent.strip() if user_agent else None,
             ))
 
         return cls(

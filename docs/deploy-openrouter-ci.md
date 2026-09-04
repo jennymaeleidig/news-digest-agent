@@ -40,15 +40,15 @@ Four edits landed in `run-digest`:
 
 ## 2. Auth
 
-| Thing | Value |
-|---|---|
-| Secret needed | `OPENROUTER_API_KEY` (bearer key from openrouter.ai) |
-| Billing | per-token, to the key owner's OpenRouter balance |
-| Prerequisite | an OpenRouter account with a credit balance |
-| Workflow env | `OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}` |
-| Model override | optional `OPENROUTER_MODEL` repo variable (`vars.OPENROUTER_MODEL`) |
-| Local env | same key in `.env` (`OPENROUTER_API_KEY=…`) |
-| GitHub permission | not required (no PAT, no `github.token`) |
+| Thing             | Value                                                               |
+| ----------------- | ------------------------------------------------------------------- |
+| Secret needed     | `OPENROUTER_API_KEY` (bearer key from openrouter.ai)                |
+| Billing           | per-token, to the key owner's OpenRouter balance                    |
+| Prerequisite      | an OpenRouter account with a credit balance                         |
+| Workflow env      | `OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}`             |
+| Model override    | optional `OPENROUTER_MODEL` repo variable (`vars.OPENROUTER_MODEL`) |
+| Local env         | same key in `.env` (`OPENROUTER_API_KEY=…`)                         |
+| GitHub permission | not required (no PAT, no `github.token`)                            |
 
 ## 3. Human prerequisites
 
@@ -70,9 +70,10 @@ Do these before the first real run:
 
 1. Changes are on `main`.
 2. Run a digest workflow once manually: **Actions → Digest — AI → Run
-   workflow** (any of the four per-category workflows).
+   workflow** (any of the six per-category workflows).
 3. Verify (below). Do not wait for the next scheduled run (AI 08:00 UTC;
-   Tech 08:30, Video games 09:00, Politics & News 09:30 follow, staggered).
+   Tech 08:30, Video games 09:00, US 09:30, Global 10:00, Local 10:30
+   follow, staggered).
 4. Confirm the schedule is still registered and not disabled.
 
 ## 5. Verification checklist

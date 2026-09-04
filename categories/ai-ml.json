@@ -177,6 +177,15 @@
       }
     },
     {
+      "name": "AI Hero Skills",
+      "tier": 4,
+      "sections": ["General news"],
+      "kind": "rss",
+      "url": "https://www.aihero.dev/skills/rss.xml",
+      "homepage": "https://www.aihero.dev/",
+      "age_limit_days": 30
+    },
+    {
       "name": "AI Release Tracker",
       "tier": 4,
       "sections": ["Releases"],

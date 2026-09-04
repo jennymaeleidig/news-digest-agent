@@ -1,13 +1,16 @@
 # News digest agent
 
 A category-driven daily news digest: fetch curated sources, have an LLM pick
-and summarize the day's most relevant items, email the result. Ships configured
-for AI/ML news (LLMs and AI coding agents), but the engine is topic-agnostic —
-any subject is just another category. Runs on GitHub Actions — one workflow
-per category, staggered from 08:00 UTC (AI 08:00, Tech 08:30, Video games
-09:00, US 09:30, Global 10:00).
+and summarize the day's most relevant items, email the result. It currently
+ships six categories (AI/ML, Tech, Video games, US, Global, Local), and the
+engine is topic-agnostic — any subject is just another category. Runs on
+GitHub Actions — one workflow per category, staggered from 08:00 UTC (AI
+08:00, Tech 08:30, Video games 09:00, US 09:30, Global 10:00, Local 10:30).
 
-> Fork of [al-strunova/ai-news-digest-agent](https://github.com/al-strunova/ai-news-digest-agent).
+> Citation: Al Strunova — ai-news-digest-agent (commit 3c81658) [MIT]
+> Source: https://github.com/al-strunova/ai-news-digest-agent
+> Accessed: 2026-09-04. Forked and adapted; see CITATION.cff for the
+> machine-readable record. The upstream MIT license is preserved in LICENSE.
 
 ## How it works
 
@@ -35,7 +38,7 @@ each with its own recipient, state, and digest email. A category is three files:
 
 - **`categories/<id>.json`** — the single source of truth for structure:
   `id`, `name`, an ordered `sections` list (name + what belongs there),
-  `sources` (tier, kind, url, sections — one or more digest sections, optional topics/age-window),
+  `sources` (tier, kind, url, sections — one or more digest sections, optional topics/age-window/User-Agent override),
   and its own `schedule` cron.
 - **`categories/prompts/<id>.md`** — the curation prompt. Section-agnostic:
   section names and descriptions are injected from the JSON at run time.
@@ -105,9 +108,10 @@ for the digest and smoke-test workflows.
 
 - Each category runs as its own GitHub Actions workflow
   (`.github/workflows/digest-<id>.yml`) on a staggered UTC schedule —
-  AI 08:00, Tech 08:30, Video games 09:00, US 09:30, Global 10:00 (base
-  08:00, +30m each) — so the five digests arrive as separate messages in
-  the same inbox, and one category failing fails only its own workflow.
+  AI 08:00, Tech 08:30, Video games 09:00, US 09:30, Global 10:00, Local
+  10:30 (base 08:00, +30m each) — so the six digests arrive as separate
+  messages in the same inbox, and one category failing fails only its own
+  workflow.
   A workflow's cron and its category config's `schedule` field must stay
   in sync — the category JSON is the source of truth.
 - A failed email send loses nothing — the same items are simply eligible again

@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: news-digest-agent
+authors:
+  - alias: jennymaeleidig
+version: 0.1.0
+date-released: "2026-09-04"
+license: MIT
+url: "https://github.com/jennymaeleidig/news-digest-agent"
+abstract: >-
+  Category-driven daily news digest: fetches curated sources
+  (RSS, YouTube, JSON APIs), has an LLM pick and summarize the
+  day's most relevant items, and emails the result. Forked from
+  the upstream project recorded under `references` and extended
+  with additional categories, a per-source User-Agent override,
+  and cross-category source mappings.
+references:
+  - type: repository
+    title: ai-news-digest-agent
+    authors:
+      - name: Al Strunova
+        alias: al-strunova
+    year: 2026
+    license: MIT
+    url: "https://github.com/al-strunova/ai-news-digest-agent"
+    version: 3c8165846ec382b71e718c4a84572214ca0176aa
+    notes: >-
+      Upstream of this fork, incorporated and adapted in full.
+      Cited by commit hash (no version tags published upstream)
+      at access date 2026-09-04. The upstream MIT license text is
+      preserved in this repository's LICENSE file.

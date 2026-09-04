@@ -2,9 +2,11 @@
 
 A topic-agnostic daily digest engine: fetch curated sources, have an LLM pick
 and summarize the day's most relevant items, email the result. Each output is
-one self-contained **digest** per category. It currently ships with an AI/ML
-news category, but the engine is not AI/ML-specific — future categories will
-add more general-subject digests.
+one self-contained **digest** per category. It currently ships with these
+categories: AI/ML, Tech, Video games, US News & Politics, Global News &
+Politics, and Local News & Politics (Richmond/VA with DC regional coverage).
+The engine is topic-agnostic — future categories will add more
+general-subject digests.
 
 ## Language
 

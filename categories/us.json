@@ -66,6 +66,48 @@
       "sections": ["US News", "US Politics"]
     },
     {
+      "name": "npr",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "homepage": "https://www.npr.org/",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "pbs-newshour",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.pbs.org/newshour/feeds/rss/headlines",
+      "homepage": "https://www.pbs.org/newshour/",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "letsaddressvirginia",
+      "tier": 4,
+      "kind": "rss",
+      "url": "https://letsaddressvirginia.substack.com/feed",
+      "homepage": "https://letsaddressvirginia.substack.com/",
+      "sections": ["US Politics"],
+      "age_limit_days": 7
+    },
+    {
+      "name": "404media",
+      "tier": 2,
+      "kind": "rss",
+      "url": "https://www.404media.co/rss/",
+      "homepage": "https://www.404media.co/",
+      "sections": ["US News", "US Politics"]
+    },
+    {
+      "name": "morningbrew",
+      "tier": 4,
+      "kind": "rss",
+      "url": "https://www.morningbrew.com/feed",
+      "homepage": "https://www.morningbrew.com/",
+      "sections": ["US News"]
+    },
+    {
       "name": "majority-report",
       "tier": 4,
       "kind": "youtube",
