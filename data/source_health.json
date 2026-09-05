@@ -322,6 +322,46 @@
       }
     }
   },
+  "local": {
+    "sources": {
+      "Reddit r/rva": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T10:47:23.021064+00:00"
+          }
+        ]
+      },
+      "letsaddressvirginia": {
+        "recent_runs": [
+          {
+            "error": "HTTP 403",
+            "success": false,
+            "timestamp": "2026-09-05T10:47:23.021061+00:00"
+          }
+        ]
+      },
+      "richmond-times-dispatch": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T10:47:23.021038+00:00"
+          }
+        ]
+      },
+      "the51st": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T10:47:23.021056+00:00"
+          }
+        ]
+      }
+    }
+  },
   "tech": {
     "sources": {
       "404media": {
