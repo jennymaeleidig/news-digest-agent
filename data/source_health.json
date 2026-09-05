@@ -1,6 +1,15 @@
 {
   "ai-ml": {
     "sources": {
+      "AI Hero Skills": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179887+00:00"
+          }
+        ]
+      },
       "AI Release Tracker": {
         "recent_runs": [
           {
@@ -27,6 +36,11 @@
             "error": "HTTP 429",
             "success": false,
             "timestamp": "2026-09-04T08:13:13.821782+00:00"
+          },
+          {
+            "error": "HTTP 429",
+            "success": false,
+            "timestamp": "2026-09-05T08:13:34.179890+00:00"
           }
         ]
       },
@@ -56,6 +70,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T08:13:13.821769+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179875+00:00"
           }
         ]
       },
@@ -85,6 +104,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T08:13:13.821773+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179878+00:00"
           }
         ]
       },
@@ -114,6 +138,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T08:13:13.821779+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179885+00:00"
           }
         ]
       },
@@ -143,6 +172,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T08:13:13.821764+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179869+00:00"
           }
         ]
       },
@@ -172,6 +206,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T08:13:13.821749+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179847+00:00"
           }
         ]
       },
@@ -201,6 +240,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T08:13:13.821776+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T08:13:34.179882+00:00"
           }
         ]
       }
