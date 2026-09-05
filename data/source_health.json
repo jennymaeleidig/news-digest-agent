@@ -447,6 +447,15 @@
   },
   "us": {
     "sources": {
+      "404media": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969117+00:00"
+          }
+        ]
+      },
       "defector": {
         "recent_runs": [
           {
@@ -473,6 +482,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233947+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969098+00:00"
           }
         ]
       },
@@ -502,6 +516,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233919+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969070+00:00"
           }
         ]
       },
@@ -531,6 +550,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233938+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969089+00:00"
           }
         ]
       },
@@ -560,6 +584,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233960+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969125+00:00"
           }
         ]
       },
@@ -589,6 +618,20 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233951+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969101+00:00"
+          }
+        ]
+      },
+      "letsaddressvirginia": {
+        "recent_runs": [
+          {
+            "error": "HTTP 403",
+            "success": false,
+            "timestamp": "2026-09-05T09:42:01.969114+00:00"
           }
         ]
       },
@@ -618,6 +661,38 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233958+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969122+00:00"
+          }
+        ]
+      },
+      "morningbrew": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969119+00:00"
+          }
+        ]
+      },
+      "npr": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969108+00:00"
+          }
+        ]
+      },
+      "pbs-newshour": {
+        "recent_runs": [
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969111+00:00"
           }
         ]
       },
@@ -647,6 +722,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233943+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969094+00:00"
           }
         ]
       },
@@ -676,6 +756,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233963+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969128+00:00"
           }
         ]
       },
@@ -705,6 +790,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-04T09:43:44.233954+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-05T09:42:01.969105+00:00"
           }
         ]
       }
