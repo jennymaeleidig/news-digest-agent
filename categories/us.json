@@ -103,14 +103,16 @@
       "tier": 4,
       "kind": "youtube",
       "url": "UC-3jIAlnQmbbVMV6gR7K8aQ",
-      "sections": ["US Politics"]
+      "sections": ["US Politics"],
+      "smoke_known_block": "YouTube disabled channel RSS feeds globally (Sept 2026 outage: feeds/videos.xml 404s for every channel); the gate unmutes automatically if YouTube restores them"
     },
     {
       "name": "hasanabi",
       "tier": 4,
       "kind": "youtube",
       "url": "UCtoaZpBnrd0lhycxYJ4MNOQ",
-      "sections": ["US Politics"]
+      "sections": ["US Politics"],
+      "smoke_known_block": "YouTube disabled channel RSS feeds globally (Sept 2026 outage: feeds/videos.xml 404s for every channel); the gate unmutes automatically if YouTube restores them"
     },
     {
       "name": "true-anon",

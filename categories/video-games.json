@@ -28,7 +28,8 @@
       "tier": 4,
       "kind": "youtube",
       "url": "UCQoOmu6mKZkXTnwZcpD8Ciw",
-      "sections": ["video game news"]
+      "sections": ["video game news"],
+      "smoke_known_block": "YouTube disabled channel RSS feeds globally (Sept 2026 outage: feeds/videos.xml 404s for every channel); the gate unmutes automatically if YouTube restores them"
     }
   ]
 }
