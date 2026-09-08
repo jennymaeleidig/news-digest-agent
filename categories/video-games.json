@@ -29,7 +29,7 @@
       "kind": "youtube",
       "url": "UCQoOmu6mKZkXTnwZcpD8Ciw",
       "sections": ["video game news"],
-      "smoke_known_block": "YouTube disabled channel RSS feeds globally (Sept 2026 outage: feeds/videos.xml 404s for every channel); the gate unmutes automatically if YouTube restores them"
+      "smoke_known_block": "YouTube's channel RSS feeds are a known intermittent bug (feeds/videos.xml 404s in stretches for every channel); failures come and go, and the gate unmutes automatically when the feed responds again"
     }
   ]
 }

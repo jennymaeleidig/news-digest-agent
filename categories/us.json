@@ -104,7 +104,7 @@
       "kind": "youtube",
       "url": "UC-3jIAlnQmbbVMV6gR7K8aQ",
       "sections": ["US Politics"],
-      "smoke_known_block": "YouTube disabled channel RSS feeds globally (Sept 2026 outage: feeds/videos.xml 404s for every channel); the gate unmutes automatically if YouTube restores them"
+      "smoke_known_block": "YouTube's channel RSS feeds are a known intermittent bug (feeds/videos.xml 404s in stretches for every channel); failures come and go, and the gate unmutes automatically when the feed responds again"
     },
     {
       "name": "hasanabi",
@@ -112,7 +112,7 @@
       "kind": "youtube",
       "url": "UCtoaZpBnrd0lhycxYJ4MNOQ",
       "sections": ["US Politics"],
-      "smoke_known_block": "YouTube disabled channel RSS feeds globally (Sept 2026 outage: feeds/videos.xml 404s for every channel); the gate unmutes automatically if YouTube restores them"
+      "smoke_known_block": "YouTube's channel RSS feeds are a known intermittent bug (feeds/videos.xml 404s in stretches for every channel); failures come and go, and the gate unmutes automatically when the feed responds again"
     },
     {
       "name": "true-anon",
