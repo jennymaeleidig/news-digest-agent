@@ -66,6 +66,16 @@ Schema (see spec decision 5 — locked via prototype-ai-ml-category.json):
                            each consuming kind does its own parsing. Only
                            present on feedless/bespoke kinds; omitted on
                            ``kind: rss`` sources.
+        smoke_known_block str|null  optional documented datacenter-IP block:
+                           a diagnosed, expected failure of this source's
+                           fetch from the CI smoke test's environment (e.g.
+                           a host that rate-limits cloud-provider IPs). When
+                           set (non-empty string stating the diagnosis), a
+                           smoke-test fetch failure is reported as a WARN
+                           instead of failing the gate — the gate stays red
+                           only for *new*, undiagnosed failures. Production
+                           fetch behavior is unchanged. Omitted/null => the
+                           source's smoke failure fails the gate as usual.
 
 The loader validates the shape and raises ValueError on any violation,
 with a path-qualified message that names the offending field.
@@ -113,6 +123,7 @@ class Source:
     fetcher_config: FetcherConfig | None = None  # bespoke kinds only (see docstring)
     age_limit_days: int | None = None  # per-source recency override (see docstring)
     user_agent: str | None = None  # per-source RSS User-Agent override (see docstring)
+    smoke_known_block: str | None = None  # documented smoke-gate block (see docstring)
 
 
 @dataclass(frozen=True)
@@ -302,6 +313,18 @@ class Category:
             if user_agent is not None and (not isinstance(user_agent, str) or not user_agent.strip()):
                 raise err(f"{label} ({s_name!r}): 'user_agent' must be a non-empty string or null")
 
+            # Documented smoke-gate block. A reason string is mandatory when
+            # present: the flag exists to record a *diagnosis*, and an empty
+            # reason would let a source be muted without one.
+            smoke_known_block = src.get("smoke_known_block")
+            if smoke_known_block is not None and (
+                not isinstance(smoke_known_block, str) or not smoke_known_block.strip()
+            ):
+                raise err(
+                    f"{label} ({s_name!r}): 'smoke_known_block' must be a "
+                    f"non-empty reason string or null"
+                )
+
             # Optional shared fetcher-config (bespoke feedless kinds). Pins
             # the config-shape contract; parsing is left to each consuming
             # kind. ``url`` is inherited from the source's top-level url so
@@ -340,6 +363,9 @@ class Category:
                 fetcher_config=fetcher_config,
                 age_limit_days=age_limit_days,
                 user_agent=user_agent.strip() if user_agent else None,
+                smoke_known_block=(
+                    smoke_known_block.strip() if smoke_known_block else None
+                ),
             ))
 
         return cls(

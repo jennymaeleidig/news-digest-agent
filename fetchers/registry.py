@@ -16,8 +16,8 @@ crashes the run (isolate-and-continue).
 
 Several kinds are registered at launch: ``rss`` (arXiv and other feeds) and
 ``youtube`` (keyless per-channel Atom listing, deliberately a separate kind —
-never the shared ``rss`` kind), plus the bespoke ``huggingface_papers``,
-``airelease_tracker``, and ``reddit_rss_api``. The registry supports further
+never the shared ``rss`` kind), plus the bespoke ``huggingface_papers``
+and ``reddit_rss_api``. The registry supports further
 kinds with no pipeline edits when a category ever declares one.
 """
 
@@ -64,12 +64,11 @@ def fetch_one(source: Source) -> FetchResult:
 
 # Launch registrations. ``rss`` is the shipped general feed kind;
 # ``youtube`` is deliberately separate (per-channel Atom, never routed
-# through ``rss``). huggingface_papers (JSON-API field mapping),
-# airelease_tracker (HTML-selector scraping), and reddit_rss_api are bespoke
-# kinds that stay **distinct** mechanisms while sharing one config-schema
-# contract. Each adds a source kind with no pipeline edit here or in main.py.
+# through ``rss``). huggingface_papers (JSON-API field mapping) and
+# reddit_rss_api are bespoke kinds that stay **distinct** mechanisms while
+# sharing one config-schema contract. Each adds a source kind with no
+# pipeline edit here or in main.py.
 from fetchers import (  # noqa: E402
-    airelease_tracker,
     huggingface_papers,
     reddit_rss_api,
     rss,
@@ -79,5 +78,4 @@ from fetchers import (  # noqa: E402
 register("rss", rss.fetch)
 register("youtube", youtube.fetch)
 register("huggingface_papers", huggingface_papers.fetch)
-register("airelease_tracker", airelease_tracker.fetch)
 register("reddit_rss_api", reddit_rss_api.fetch)

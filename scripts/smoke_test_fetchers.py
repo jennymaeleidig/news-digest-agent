@@ -27,9 +27,18 @@ RequestBlocked) that a laptop run cannot provide. When the optional
 `YT_TRANSCRIPT_PROXY_URL` secret is set, the transcript attempts route
 through it (and only them); the header line reports configured/unset.
 
-There are no retry loops anywhere — each fetcher is dispatched exactly once —
-so this cannot hammer any host it exercises. It runs within a 10-minute
-timeout and the same dependency set as the digest workflows.
+There are no retry loops in the smoke scripts themselves — each fetcher is
+dispatched exactly once — so the smoke run cannot hammer any host it
+exercises. Fetcher-internal bounded retries on transient causes (the reddit
+proxy's documented 5xx/429 policy, mirrored by the shared RSS fetcher) do
+apply, since the smoke test dispatches the real fetchers. It runs within a
+10-minute timeout and the same dependency set as the digest workflows.
+
+A source with ``smoke_known_block`` set in its category config carries a
+documented, diagnosed datacenter-IP block: the smoke test reports its fetch
+failure as a WARN with the diagnosis instead of failing the gate, so the
+gate stays red only for *new*, undiagnosed failures. Production fetch
+behavior is unchanged for flagged sources.
 
 The per-source logic is shared with scripts/smoke_fetch_category.py (the
 single-category operator tool); this script is the all-categories shell that

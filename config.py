@@ -94,6 +94,19 @@ TRANSCRIPT_MAX_CHARS = 12_000
 REDDIT_FETCH_ATTEMPTS = 5
 REDDIT_RETRY_BACKOFF_SECONDS = 2.0
 
+# Shared RSS fetcher bounded retry. Some hosts rate-limit by client IP
+# pool rather than per request: richmond.com (TownNews) intermittently
+# answers the /search RSS endpoint with HTTP 429 from GitHub Actions
+# runner IPs while serving the same feed fine moments later from another
+# runner (or a residential IP). Policy mirrors the reddit proxy above:
+# up to RSS_FETCH_ATTEMPTS fresh HTTP requests with linear backoff,
+# retrying only transient causes (429, 5xx blips, RequestException);
+# deterministic statuses (403/404) and parse failures fail immediately.
+# 3 attempts over a ~4s linear backoff (2+4) spans the observed
+# per-runner-IP blips without meaningfully slowing a genuinely-down feed.
+RSS_FETCH_ATTEMPTS = 3
+RSS_RETRY_BACKOFF_SECONDS = 2.0
+
 # State management
 HEALTH_RUNS_KEPT = 14
 

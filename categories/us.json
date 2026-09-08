@@ -83,15 +83,6 @@
       "sections": ["US News", "US Politics"]
     },
     {
-      "name": "letsaddressvirginia",
-      "tier": 4,
-      "kind": "rss",
-      "url": "https://letsaddressvirginia.substack.com/feed",
-      "homepage": "https://letsaddressvirginia.substack.com/",
-      "sections": ["US Politics"],
-      "age_limit_days": 7
-    },
-    {
       "name": "404media",
       "tier": 2,
       "kind": "rss",

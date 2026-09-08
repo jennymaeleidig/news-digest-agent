@@ -184,20 +184,6 @@
       "url": "https://www.aihero.dev/skills/rss.xml",
       "homepage": "https://www.aihero.dev/",
       "age_limit_days": 30
-    },
-    {
-      "name": "AI Release Tracker",
-      "tier": 4,
-      "sections": ["Releases"],
-      "kind": "airelease_tracker",
-      "url": "https://aireleasetracker.com/models.json",
-      "homepage": "https://aireleasetracker.com/latest",
-      "fetcher_config": {
-        "item": "models",
-        "title": "name",
-        "link": "slug",
-        "date": "releaseDate"
-      }
     }
   ]
 }

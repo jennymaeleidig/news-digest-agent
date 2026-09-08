@@ -17,8 +17,8 @@ GitHub Actions — one workflow per category, staggered from 08:00 UTC (AI
 `fetch → filter → curate → email`, one email per category.
 
 - **Fetch** — one module per source kind, dispatched through a `kind → fetcher`
-  registry (`rss`, `youtube`, `huggingface_papers`, `reddit_rss_api`,
-  `airelease_tracker`). Source failures are isolated, never fatal.
+  registry (`rss`, `youtube`, `huggingface_papers`, `reddit_rss_api`).
+  Source failures are isolated, never fatal.
 - **Filter** — drop items outside the 24-hour age window and off-topic items
   (per-source allow-list). There is no seen-items dedup: the recency window
   alone decides what a run considers, so nothing is ever burned by a skipped

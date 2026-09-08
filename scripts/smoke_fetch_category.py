@@ -17,6 +17,12 @@ documents the emptiness — `FetchResult.note`, e.g. arXiv's <skipDays> — and
 is reported as a WARN), 1 otherwise (transcript warnings alone never fail
 the run).
 
+A source with `smoke_known_block` set (a documented, diagnosed datacenter-IP
+block) that fails its fetch is reported as a WARN carrying the diagnosis and
+the live error — surfaced, but not gate-failing: the flag exists so the gate
+stays red only for *new*, undiagnosed failures. A success or a
+success-empty-with-note on a flagged source behaves exactly as unflagged.
+
 Usage:
     python -m scripts.smoke_fetch_category <category.json | category id>
 """
@@ -71,6 +77,11 @@ def smoke_category(
     item with an extractable video id (a live/Shorts-style entry can top a
     feed with a URL that is not a /watch link); a transcript failure is a
     printed warning, never a failure. Returns ``(ok, failures)``.
+
+    A fetch failure on a source with ``smoke_known_block`` set is printed as
+    a WARN carrying the live error and the documented diagnosis, and does
+    not count as a category failure — the gate stays red only for new,
+    undiagnosed problems (see the module docstring).
     """
     print(f"smoke: {category.id!r} — fetching {len(category.sources)} sources "
           "(one dispatch each, no retries, no state, no email)")
@@ -80,6 +91,15 @@ def smoke_category(
         problems = check_fetch(source, result)
         note = result.note if (result is not None and result.success) else None
         if problems and not note:
+            # A documented known-block mutes only the fetch-failure symptom
+            # itself. A 200-but-empty body (the bot-block signature) on a
+            # flagged source is a *new*, undiagnosed shape and still fails.
+            if (source.smoke_known_block and result is not None
+                    and not result.success):
+                print(f"  WARN  {source.name:<22} kind={source.kind:<8} "
+                      f"tier={source.tier}  -> {problems[0]} "
+                      f"[known-block: {source.smoke_known_block}]")
+                continue
             failures.extend(problems)
             print(f"  FAIL  {source.name:<22} kind={source.kind:<8} "
                   f"tier={source.tier}  -> {problems[0]}")

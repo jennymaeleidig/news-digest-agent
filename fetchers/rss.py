@@ -13,6 +13,7 @@ header sets that look stripped-down, even when the User-Agent is fine.
 from __future__ import annotations
 
 import re
+import time
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 
@@ -20,7 +21,13 @@ import feedparser
 import requests
 
 from categories import Source
-from config import HTTP_TIMEOUT_SECONDS, SNIPPET_CHARS, USER_AGENT
+from config import (
+    HTTP_TIMEOUT_SECONDS,
+    RSS_FETCH_ATTEMPTS,
+    RSS_RETRY_BACKOFF_SECONDS,
+    SNIPPET_CHARS,
+    USER_AGENT,
+)
 from fetchers.common import FetchResult, Item, strip_html
 
 # Advertise only encodings `requests` can decode without extra deps
@@ -61,25 +68,63 @@ def _entry_content(entry) -> str:
     return entry.get("summary") or entry.get("description") or ""
 
 
+# Bounded retry on transient causes — the same policy as the reddit
+# fetcher (fetchers/reddit_rss_api.py) and configured alongside it in
+# config.py. Some hosts rate-limit by client IP pool, so a 429 from one
+# runner can pass from the next request moments later; retrying only
+# 429/5xx-blips/network errors (never 403/404 — the answer won't change)
+# recovers those without hammering a genuinely-down host.
+_RETRYABLE_STATUSES = {429, 500, 502, 503, 504}
+
+
+def _fetch_response(url: str, headers: dict) -> requests.Response:
+    """GET ``url`` with bounded retry on transient causes.
+
+    Raises the last RequestException, or a requests.HTTPError carrying the
+    final status, only once the retry budget is exhausted. A deterministic
+    status (403/404 and other non-retryable 4xx) raises immediately.
+    """
+    last_exc: Exception | None = None
+    for attempt in range(1, RSS_FETCH_ATTEMPTS + 1):
+        try:
+            resp = requests.get(
+                url,
+                headers=headers,
+                timeout=HTTP_TIMEOUT_SECONDS,
+                allow_redirects=True,
+            )
+        except requests.RequestException as e:
+            last_exc = e
+        else:
+            if resp.status_code < 400:
+                return resp
+            if resp.status_code not in _RETRYABLE_STATUSES:
+                resp.raise_for_status()  # deterministic: fail now
+            last_exc = requests.HTTPError(f"HTTP {resp.status_code}", response=resp)
+        if attempt < RSS_FETCH_ATTEMPTS:
+            time.sleep(RSS_RETRY_BACKOFF_SECONDS * attempt)
+    raise last_exc  # type: ignore[misc]
+
+
 def fetch(source: Source) -> FetchResult:
     if source.kind != "rss":
         return FetchResult(source.name, False, error=f"not an RSS source: kind={source.kind}")
 
+    # Per-source User-Agent override (e.g. PBS 202s-and-empties the shared
+    # browser-impersonation string); the shared config UA otherwise.
+    headers = {"User-Agent": source.user_agent or USER_AGENT, **_REQUEST_HEADERS}
     try:
-        # Per-source User-Agent override (e.g. PBS 202s-and-empties the shared
-        # browser-impersonation string); the shared config UA otherwise.
-        headers = {"User-Agent": source.user_agent or USER_AGENT, **_REQUEST_HEADERS}
-        resp = requests.get(
-            source.url,
-            headers=headers,
-            timeout=HTTP_TIMEOUT_SECONDS,
-            allow_redirects=True,
+        resp = _fetch_response(source.url, headers)
+    except requests.HTTPError as e:
+        # Exhausted retry budget or a deterministic status; keep the terse
+        # "HTTP <code>" shape the smoke tests and source-health records show.
+        status = e.response.status_code if e.response is not None else None
+        return FetchResult(
+            source.name, False,
+            error=f"HTTP {status}" if status else f"fetch failed: {e}",
         )
     except requests.RequestException as e:
         return FetchResult(source.name, False, error=f"fetch failed: {e}")
-
-    if resp.status_code >= 400:
-        return FetchResult(source.name, False, error=f"HTTP {resp.status_code}")
 
     parsed = feedparser.parse(resp.content)
 

@@ -23,7 +23,8 @@
       "kind": "rss",
       "url": "https://richmond.com/search/?f=rss&t=article&l=50&s=start_time&sd=desc",
       "homepage": "https://richmond.com/",
-      "sections": ["Local News", "Local Politics"]
+      "sections": ["Local News", "Local Politics"],
+      "smoke_known_block": "richmond.com (TownNews) intermittently rate-limits the /search RSS endpoint from cloud-provider IPs (HTTP 429); production runs usually fetch it fine"
     },
     {
       "name": "the51st",
@@ -32,15 +33,6 @@
       "url": "https://51st.news/feed",
       "homepage": "https://51st.news/",
       "sections": ["Local News", "Local Politics"]
-    },
-    {
-      "name": "letsaddressvirginia",
-      "tier": 4,
-      "kind": "rss",
-      "url": "https://letsaddressvirginia.substack.com/feed",
-      "homepage": "https://letsaddressvirginia.substack.com/",
-      "sections": ["Local Politics"],
-      "age_limit_days": 7
     },
     {
       "name": "Reddit r/rva",
@@ -54,7 +46,8 @@
         "title": "title",
         "link": "link",
         "date": "isoDate"
-      }
+      },
+      "smoke_known_block": "community reddit-RSS proxy (deno deploy, no SLA) intermittently 502s in stretches that outlast its internal retry budget; production fetches usually recover"
     }
   ]
 }
