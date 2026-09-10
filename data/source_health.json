@@ -541,6 +541,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-09T10:42:26.631381+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-10T10:43:39.551323+00:00"
           }
         ]
       },
@@ -589,6 +594,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-09T10:42:26.631354+00:00"
+          },
+          {
+            "error": "HTTP 429",
+            "success": false,
+            "timestamp": "2026-09-10T10:43:39.551294+00:00"
           }
         ]
       },
@@ -618,6 +628,11 @@
             "error": null,
             "success": true,
             "timestamp": "2026-09-09T10:42:26.631376+00:00"
+          },
+          {
+            "error": null,
+            "success": true,
+            "timestamp": "2026-09-10T10:43:39.551317+00:00"
           }
         ]
       }
